@@ -21,6 +21,7 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  flutter_spinkit: ^4.1.2
   flutter:
     sdk: flutter
 
@@ -45,8 +46,39 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/H.jpg
+    - assets/H_of_Hostelite.jpg
+    - assets/ostellite.png
+    - assets/Your Hostel Companion.png
+    - assets/Group 33653.png
+    - assets/Rectangle 368.png
+    - assets/h_of_hostel/Rectangle 208.png
+    - assets/h_of_hostel/Rectangle 209.png
+    - assets/h_of_hostel/Rectangle 210.png
+    - assets/h_of_hostel/Rectangle 211.png
+    - assets/h_of_hostel/Rectangle 213.png
+    - assets/h_of_hostel/Rectangle 214.png
+    - assets/h_of_hostel/Rectangle 215.png
+    - assets/h_of_hostel/Rectangle 216.png
+    - assets/h_of_hostel/Rectangle 217.png
+    - assets/h_of_hostel/Rectangle 218.png
+    - assets/second_page/Contact to authorities whenever you have any complaints..png
+    - assets/second_page/Group 33655.png
+    - assets/second_page/Group 33694.png
+    - assets/second_page/Solve your Issues.png
+    - assets/third_page/Fast & Easy!.png
+    - assets/third_page/Group 33656.png
+    - assets/third_page/Now you can mark your entry and exit in just a tap..png
+    - assets/third_page/undraw_fast_loading_0lbh 2.png
+    - assets/fourth_page/get_started/Get Started.png
+    - assets/fourth_page/get_started/Rectangle 425.png
+    - assets/fourth_page/Group 33657.png
+    - assets/fourth_page/Keep Track!.png
+    - assets/fourth_page/Now keep track of hostelites with our enhanced location tracker ..png
+    - assets/fourth_page/undraw_Account_re_o7id 1.png
+
+   #  - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
