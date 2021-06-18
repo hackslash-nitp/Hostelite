@@ -11,61 +11,60 @@ class _KeepTrackState extends State<KeepTrack> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.fromLTRB(50, 40, 50, 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            
-            Center(
-              child: Image(
-                image: AssetImage('assets/fourth_page/undraw_Account_re_o7id 1.png'),
-                width: 300,
-                height: 300,
-              ),
-            ),
-            SizedBox(height: 0),
-            Center(
-              child: Image(
-                image: AssetImage('assets/fourth_page/Keep Track!.png'),
-                width: 300,
-                height: 80,
-              ),
-            ),
-            Center(
-              child: Image(
-                image: AssetImage('assets/fourth_page/Now keep track of hostelites with our enhanced location tracker ..png'),
-                width: 300,
-                height: 50,
-              ),
-            ),
-            SizedBox(height: 0),
-            Center(
-              child: Image(
-                image: AssetImage('assets/fourth_page/Group 33657.png'),
-                width: 50,
-                height: 10,
-              ),
-            ),
-            SizedBox(height: 80),
-            Center(
-              // ignore: deprecated_member_use
-              child: FlatButton(
-                splashColor: Colors.deepPurpleAccent,
-                focusColor: Colors.cyanAccent,
-                highlightColor: Colors.amberAccent,
-                child: Image(
-                  image: AssetImage('assets/fourth_page/get_started/Rectangle 425.png'),
-                  width: 130,
-                  height: 70,
-
+      body:
+        Padding(
+          padding: const EdgeInsets.only(top: 70.0),
+          child: Center(
+            child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Image(
+                  image: AssetImage('assets/fourth_page/undraw_Account_re_o7id 1.png'),
+                  width: 300,
+                  height: 300,
                 ),
-                onPressed: () {},
-              ),
-            )
-          ],
-        ),
+
+
+               Image(
+                  image: AssetImage('assets/fourth_page/Keep Track!.png'),
+                  width: 300,
+                  height: 80,
+                ),
+
+               Image(
+                  image: AssetImage('assets/fourth_page/Now keep track of hostelites with our enhanced location tracker ..png'),
+                  width: 300,
+                  height: 50,
+                ),
+
+              SizedBox(height: 70),
+              Image(
+                  image: AssetImage('assets/fourth_page/Group 33657.png'),
+                  width: 50,
+                  height: 10,
+                ),
+
+              SizedBox(height: 80),
+               Container(
+                 width: 150.0,
+                 height: 40.0,
+                 child: MaterialButton(
+                    child: Text('Get Started',style: TextStyle(color: Colors.white,fontSize: 17.0),),
+                    color: Colors.purple,
+                     minWidth: 100.0,
+
+                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+
+          onPressed: () {},),
+               ),
+
+
+
+
+            ],
+          ),
       ),
+        ),
 
     );
   }
