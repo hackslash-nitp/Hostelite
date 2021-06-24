@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hostelite/createAccountStudent.dart';
 import 'package:hostelite/starting_pages/fast_and_easy.dart';
 
 
@@ -26,6 +27,14 @@ class _SolveYourIssuesState extends State<SolveYourIssues> {
                      style: TextStyle(color: Colors.grey),
                      softWrap: true,),
                 onPressed: (){
+                     Navigator.push(
+                       context,
+                       MaterialPageRoute(
+                           builder: (context){
+                             return CreateAccountStudent();
+                           }),
+                     );
+
 
                 },
 
@@ -50,7 +59,7 @@ class _SolveYourIssuesState extends State<SolveYourIssues> {
               width: 300,
               height: 50,
             ),
-            SizedBox(height: 70),
+            SizedBox(height: 35),
             Image(
               image: AssetImage('assets/second_page/Group 33655.png'),
               width: 50,

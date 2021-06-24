@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hostelite/createAccountStudent.dart';
 import 'package:hostelite/starting_pages/keep_track.dart';
 
 class FastAndEasy extends StatefulWidget {
@@ -18,25 +19,33 @@ class _FastAndEasyState extends State<FastAndEasy> {
           Padding(
             padding: const EdgeInsets.only(top:50.0,left:290.0),
             child: FlatButton(
-                autofocus: true,
-                splashColor: Colors.deepPurpleAccent,
-                onPressed: () {},
-                child: FlatButton(
-                  child: Text('Skip',
-                    textAlign: TextAlign.end,
-                    softWrap: true,
-                  ),
-                )
+              child: Text('Skip',
+                textAlign: TextAlign.end,
+                style: TextStyle(color: Colors.grey),
+                softWrap: true,
+              ),
+              onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context){
+                          return CreateAccountStudent();
+                             }),
+                            );
 
+
+                       },
 
             ),
+
           ),
-          SizedBox(height: 60),
+          SizedBox(height: 50),
           Center(
             child: Image(
               image: AssetImage('assets/third_page/undraw_fast_loading_0lbh 2.png'),
               width: 250,
               height: 250,
+              fit: BoxFit.fill,
             )
           ),
           SizedBox(height: 0),
@@ -55,7 +64,7 @@ class _FastAndEasyState extends State<FastAndEasy> {
               height: 50,
             ),
           ),
-          SizedBox(height: 70),
+          SizedBox(height: 40),
           Center(
             child: Image(
               image: AssetImage('assets/third_page/Group 33656.png'),

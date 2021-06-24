@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hostelite/createAccountStudent.dart';
 
 class KeepTrack extends StatefulWidget {
   const KeepTrack({Key key}) : super(key: key);
@@ -55,7 +56,16 @@ class _KeepTrackState extends State<KeepTrack> {
 
                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
 
-          onPressed: () {},),
+          onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context){
+                            return CreateAccountStudent();
+                          }
+                        )
+                      );
+          },),
                ),
 
 
