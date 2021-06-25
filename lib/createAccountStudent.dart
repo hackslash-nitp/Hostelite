@@ -20,8 +20,8 @@ Dialog leadDialog = Dialog(
         Center(
           child: Image(
             image: AssetImage('assets/create_account_page/Vector.png'),
-            height: 250,
-            width: 250,
+            height: 150,
+            width: 150,
           ),
         ),
         Text('Registered',
@@ -41,7 +41,7 @@ Dialog leadDialog = Dialog(
           height: 40.0,
           child: MaterialButton(
             child: Text('Done',style: TextStyle(color: Colors.white,fontSize: 17.0),),
-            color: Colors.purple,
+            color: Colors.pinkAccent[100],
             minWidth: 100.0,
 
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
@@ -71,7 +71,7 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(30,30,30,0),
+        padding: const EdgeInsets.fromLTRB(30,60,30,0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
@@ -82,7 +82,7 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Text('Create Account',
-                  style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 30),
+                  style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 25),
                   ),
                   SizedBox(height: 0),
                   Text('Get your home here!',
@@ -92,50 +92,79 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
               ),
             ),
             SizedBox(height: 30),
-            TextFormField(
-              decoration: textInputDecoration.copyWith(hintText: 'Username'),
-
-            ),
-            SizedBox(height: 5),
-            TextFormField(
-              decoration: textInputDecoration.copyWith(hintText: 'Roll No.'),
-            ),
-
-            SizedBox(height: 5),
-            TextFormField(
-              decoration: textInputDecoration.copyWith(hintText: 'E-Mail',prefixIcon: const Icon(Icons.email, color: Colors.grey)),
-            ),
-
-            SizedBox(height: 5),
-            TextFormField(
-
-              decoration: textInputDecoration.copyWith(hintText: 'Room No.'),
-            ),
-
-            SizedBox(height: 5),
-            TextFormField(
-              decoration: textInputDecoration.copyWith(hintText: 'Mobile No.'),
-            ),
-
-            SizedBox(height: 5),
-            TextFormField(
-              decoration: textInputDecoration.copyWith(hintText: 'Create Password',prefixIcon: const Icon(Icons.lock, color: Colors.grey)),
-            ),
-
-            SizedBox(height: 5),
-            TextFormField(
-              decoration: textInputDecoration.copyWith(hintText: 'Confirm Password',prefixIcon: const Icon(Icons.lock, color: Colors.grey)),
-            ),
             Container(
-              height: 50,
-              width: 10,
+              height: 45,
+              width: 280,
+              child: TextFormField(
+                decoration: textInputDecoration.copyWith(hintText: 'Username', prefixIcon: const Icon(Icons.person, color: Colors.grey)),
+
+              ),
+            ),
+            SizedBox(height: 15),
+            Container(
+              height: 45,
+              width: 280,
+              child: TextFormField(
+                decoration: textInputDecoration.copyWith(hintText: 'Roll No.'),
+              ),
+            ),
+
+            SizedBox(height: 15),
+            Container(
+              height: 45,
+              width: 280,
+              child: TextFormField(
+                decoration: textInputDecoration.copyWith(hintText: 'E-Mail',prefixIcon: const Icon(Icons.email, color: Colors.grey)),
+              ),
+            ),
+
+            SizedBox(height: 15),
+            Container(
+              height: 45,
+              width: 280,
+              child: TextFormField(
+
+                decoration: textInputDecoration.copyWith(hintText: 'Room No.'),
+              ),
+            ),
+
+            SizedBox(height: 15),
+            Container(
+              height: 45,
+              width: 280,
+              child: TextFormField(
+                decoration: textInputDecoration.copyWith(hintText: 'Mobile No.', prefixIcon: const Icon(Icons.local_phone, color: Colors.grey)),
+              ),
+            ),
+
+            SizedBox(height: 15),
+            Container(
+              height: 45,
+              width: 280,
+              child: TextFormField(
+                decoration: textInputDecoration.copyWith(hintText: 'Create Password',prefixIcon: const Icon(Icons.lock, color: Colors.grey)),
+              ),
+            ),
+
+            SizedBox(height: 15),
+            Container(
+              height: 45,
+              width: 280,
+              child: TextFormField(
+                decoration: textInputDecoration.copyWith(hintText: 'Confirm Password',prefixIcon: const Icon(Icons.lock, color: Colors.grey)),
+              ),
+            ),
+            SizedBox(height: 40),
+            Container(
+              height: 40,
+              width: 150,
               child: MaterialButton(
                 child: Text('Register',
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.white, fontSize: 17),
                 ),
                 color: Colors.purple,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
                 onPressed: () {
                   showDialog(
                     context: context,
@@ -145,9 +174,10 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
                 
               ),
             ),
+            SizedBox(height: 30),
             Row(
               children: <Widget>[
-                Text('Already have an Account ?',
+                Text('     Already have an Account ?',
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.black87),
                 ),

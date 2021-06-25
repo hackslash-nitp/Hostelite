@@ -105,8 +105,8 @@ class _LoginStudentState extends State<LoginStudent> {
               ],
             ),
             Container(
-              width: 60,
-              height: 20,
+              width: 130,
+              height: 50,
               child: MaterialButton(
                 child: Text('Login',
                 style: TextStyle(color: Colors.white, fontSize: 15),
@@ -114,6 +114,7 @@ class _LoginStudentState extends State<LoginStudent> {
                 color: Colors.purple,
                 minWidth: 100,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                onPressed: () {},
 
               ),
             ),
@@ -121,8 +122,8 @@ class _LoginStudentState extends State<LoginStudent> {
             style: TextStyle(color: Colors.black, fontSize: 15),
             ),
             Container(
-              width: 70,
-              height: 20,
+              width: 190,
+              height: 50,
               child: MaterialButton(
                 child: Text('Sign-In as Admin',
                 style: TextStyle(color: Colors.purple, fontSize: 15),
@@ -130,13 +131,14 @@ class _LoginStudentState extends State<LoginStudent> {
                 color: Colors.white,
                 minWidth: 100,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                onPressed: () {},
 
               ),
             ),
             SizedBox(height: 20),
             Row(
               children: <Widget>[
-                Text("Don't have an account?",
+                Text("  Don't have an account?",
                 style: TextStyle(color: Colors.black, fontSize: 15),
                 ),
                 TextButton(
