@@ -22,13 +22,19 @@ environment:
 
 dependencies:
   flutter_spinkit: ^4.1.2
+  add_2_calendar: ^2.1.0
+  table_calendar: ^2.1.0
   flutter:
     sdk: flutter
+
 
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.3
+  #firebase_auth: ^0.14.0+5
+  #cloud_firestore: ^0.12.9+4
+  #provider: ^3.1.0
 
 dev_dependencies:
   flutter_test:
@@ -39,7 +45,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -53,6 +58,10 @@ flutter:
     - assets/Your Hostel Companion.png
     - assets/Group 33653.png
     - assets/Rectangle 368.png
+    - assets/home_Screen_Student/2720490 1.png
+    - assets/home_Screen_Student/bermuda-747 1.png
+    - assets/home_Screen_Student/Group 33636.png
+    - assets/home_Screen_Student/sign-in-4 1.png
     - assets/create_account_page/Arrow - Left.png
     - assets/create_account_page/Create Account.png
     - assets/create_account_page/Get your home here!.png
