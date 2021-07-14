@@ -3,11 +3,11 @@ import "package:flutter/material.dart";
 import 'package:hostelite/home_screen_Student.dart';
 import 'package:hostelite/shared_files/decoration.dart';
 
-class MarkingEntry extends StatefulWidget {
-  const MarkingEntry({Key key}) : super(key: key);
+class MarkingExit extends StatefulWidget {
+  const MarkingExit({Key key}) : super(key: key);
 
   @override
-  _MarkingEntryState createState() => _MarkingEntryState();
+  _MarkingExitState createState() => _MarkingExitState();
 }
 
 Dialog leadDialog = Dialog(
@@ -23,7 +23,7 @@ Dialog leadDialog = Dialog(
             width: 150,
           ),
         ),
-        Text('Entry Marked',
+        Text('Exit Marked',
           style: TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.bold,
@@ -63,8 +63,8 @@ Dialog leadDialog = Dialog(
   ),
 );
 
-class _MarkingEntryState extends State<MarkingEntry> {
- /* String _myActivity;
+class _MarkingExitState extends State<MarkingExit> {
+  /*String _myActivity;
   String _myActivityResult;
   final formKey = new GlobalKey<FormState>();
 
@@ -88,14 +88,14 @@ class _MarkingEntryState extends State<MarkingEntry> {
     return Scaffold(
       appBar: AppBar(
         leading: new IconButton(
-            icon: new Icon(Icons.arrow_back_rounded),
-            onPressed: () => Navigator.of(context).pop(),
+          icon: new Icon(Icons.arrow_back_rounded),
+          onPressed: () => Navigator.of(context).pop(),
         ),
-        title: Text('Mark Entry',
-        style: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-        ),),
+        title: Text('Mark Exit',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),),
         elevation: 10,
         backgroundColor: Colors.pinkAccent[100],
       ),
@@ -104,10 +104,10 @@ class _MarkingEntryState extends State<MarkingEntry> {
         child: Container(
           constraints: BoxConstraints.expand(),
           decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/second_page/Group 33694.png'),
-              fit: BoxFit.contain
-            )
+              image: DecorationImage(
+                  image: AssetImage('assets/second_page/Group 33694.png'),
+                  fit: BoxFit.contain
+              )
           ),
           child: Column(
             children: <Widget>[
@@ -121,15 +121,15 @@ class _MarkingEntryState extends State<MarkingEntry> {
                   decoration: textInputDecoration.copyWith(hintText: 'Roll No.'),
                 ),
               ),
-              Card(
+              /*Card(
                 child: TextFormField(
                   decoration: textInputDecoration.copyWith(hintText: 'Purposse of Entry'),
                 ),
-              ),
+              ),*/
               Card(
                 child: DropdownButtonFormField(
                   decoration: textInputDecoration.copyWith(hintText: 'Hostel Name'),
-                  /*value: _myActivity,
+                 /* value: _myActivity,
                   onSaved: (value) {
                     setState(() {
                       _myActivity = value;
@@ -144,12 +144,12 @@ class _MarkingEntryState extends State<MarkingEntry> {
                 ],
                 ),
               ),
-              SizedBox(height: 80),
+              SizedBox(height: 50),
               Container(
                 width: 130,
                 height: 50,
                 child: MaterialButton(
-                  child: Text('Mark Entry',
+                  child: Text('Mark Exit',
                     style: TextStyle(color: Colors.black87, fontSize: 15),
                   ),
                   color: Colors.pinkAccent,
@@ -157,14 +157,16 @@ class _MarkingEntryState extends State<MarkingEntry> {
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
                   onPressed: () async {
                     showDialog(
-                      context: context,
-                      // ignore: non_constant_identifier_names
-                      builder: (BuildContext) => leadDialog
+                        context: context,
+                        // ignore: non_constant_identifier_names
+                        builder: (BuildContext) => leadDialog
                     );
-
                   },
                 ),
               ),
+              Container(
+
+              )
             ],
           ),
         ),
