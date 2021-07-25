@@ -3,6 +3,7 @@ import 'package:hostelite/createAccountStudent.dart';
 //import 'package:hostelite/firebase/register_sign_in.dart';
 import 'package:hostelite/home_screen_Student.dart';
 import 'package:hostelite/shared_files/decoration.dart';
+import 'package:hostelite/loginAdmin.dart';
 
 class LoginStudent extends StatefulWidget {
   const LoginStudent({Key key}) : super(key: key);
@@ -144,7 +145,16 @@ class _LoginStudentState extends State<LoginStudent> {
                 color: Colors.white,
                 minWidth: 100,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-                onPressed: () {},
+                  onPressed: () async {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) {
+                              return LoginAdmin();
+                            }
+                        )
+                    );
+                  },
 
               ),
             ),
