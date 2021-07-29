@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:hostelite/alerts_admin.dart';
+import 'package:hostelite/complaintAdmin.dart';
+import 'package:hostelite/edit_profile_Admin.dart';
 import 'package:hostelite/home_screen_Admin.dart';
 import 'package:hostelite/pendingcomplaints_admin.dart';
-import 'package:hostelite/rejected_complaints.dart';
 
-import 'edit_profile_Admin.dart';
-
-class ViewComplaintsAdmin extends StatefulWidget {
-  const ViewComplaintsAdmin({Key key}) : super(key: key);
+class RejectedComplaints extends StatefulWidget {
+  const RejectedComplaints({Key key}) : super(key: key);
 
   @override
-  _ViewComplaintsAdminState createState() => _ViewComplaintsAdminState();
+  _RejectedComplaintsState createState() => _RejectedComplaintsState();
 }
 
-class _ViewComplaintsAdminState extends State<ViewComplaintsAdmin> {
+class _RejectedComplaintsState extends State<RejectedComplaints> {
 
   String dropdownvalue = "Category";
   var items = ['Category','Infrastructure','Sanitation','Water','Electricity','Wifi','Others'];
@@ -30,9 +29,9 @@ class _ViewComplaintsAdminState extends State<ViewComplaintsAdmin> {
               color: Colors.black
           ),
           title: Text('View Complaints',
-          style: TextStyle(
-            color: Color(0xff4E4E4E),
-          ),),
+            style: TextStyle(
+              color: Color(0xff4E4E4E),
+            ),),
 
 
           backgroundColor: Color(0xffFE96FA),
@@ -50,25 +49,33 @@ class _ViewComplaintsAdminState extends State<ViewComplaintsAdmin> {
                     child: Row(
                       children: [
                         Text('Status : ',
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600
-                        ),),
+                          style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600
+                          ),),
                         Spacer(),
                         TextButton(
                           style: TextButton.styleFrom(
                             textStyle: const TextStyle(
                                 fontSize: 15,
-                            fontWeight: FontWeight.w700,
-                            color: Color(0xff4BB227)),
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xff4BB227)),
                           ),
-                          onPressed: null,
+                          onPressed: (){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) {
+                                    return ViewComplaintsAdmin();
+                                  }
+                              ),
+                            );
+                          },
                           child: const Text('Sorted',
-                          style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              decorationThickness: 4,
-                              color: Color(0xff4BB227)
-                          ),),
+                            style: TextStyle(
+
+                                color: Color(0xff4BB227)
+                            ),),
                         ),
                         Spacer(),
                         VerticalDivider(
@@ -80,9 +87,9 @@ class _ViewComplaintsAdminState extends State<ViewComplaintsAdmin> {
                           style: TextButton.styleFrom(
                             primary:  Colors.red,
                             textStyle: const TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w700,
-                                ),
+                              fontSize: 15,
+                              fontWeight: FontWeight.w700,
+                            ),
 
                           ),
                           onPressed: () {
@@ -97,7 +104,9 @@ class _ViewComplaintsAdminState extends State<ViewComplaintsAdmin> {
 
                           },
                           child: const Text('Pending',
+
                             style: TextStyle(
+
                                 color: Color(0xffFBC02D)
                             ),
                           ),
@@ -111,25 +120,17 @@ class _ViewComplaintsAdminState extends State<ViewComplaintsAdmin> {
                         TextButton(
                           style: TextButton.styleFrom(
                             textStyle: const TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w700,
-                                ),
+                              fontSize: 15,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) {
-                                    return RejectedComplaints( );
-                                  }
-                              ),
-                            );
-
-                          },
+                          onPressed: null,
                           child: const Text('Rejected',
-                          style: TextStyle(
-                            color: Color(0xffFF4646)
-                          ),),
+                            style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                decorationThickness: 4,
+                                color: Color(0xffFF4646)
+                            ),),
                         ),
                         Spacer(),
                       ],
@@ -139,7 +140,7 @@ class _ViewComplaintsAdminState extends State<ViewComplaintsAdmin> {
               ),
 
 
-              ),
+            ),
             Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
@@ -232,11 +233,11 @@ class _ViewComplaintsAdminState extends State<ViewComplaintsAdmin> {
                         SizedBox(height: 5,),
                         Text('Title of Issue',
 
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xff1A1919),
-                        ),
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xff1A1919),
+                          ),
                         ),
                         SizedBox(height: 5,),
                         Text('Sir I went to purchase a book , but while returning it satrted raining . So there was                              no any options left for me then waiting at  the store until the rain stopped.'),
@@ -331,61 +332,7 @@ class _ViewComplaintsAdminState extends State<ViewComplaintsAdmin> {
               ),
             ),
             SizedBox(height: 20,),
-            Container(
 
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(15,0,15,0),
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.all(15),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            CircleAvatar(),
-                            SizedBox(width: 10,),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('Ramesh Kumar',
-                                  style: TextStyle(
-                                      color: Color(0xff565656),
-                                      fontSize: 15
-                                  ),),
-                                Text('Room No. 087'),
-                              ],
-                            ),
-                            Spacer(),
-                            Text(DateTime.now().day.toString()+'.'+DateTime.now().month.toString()+'.'+DateTime.now().year                     .toString(),
-                              style: TextStyle(
-                                  color: Color(0xff9F9F9F)
-                              ),)
-                          ],
-                        ),
-                        Divider(),
-                        SizedBox(height: 5,),
-                        Text('Sir I went to purchase a book , but while returning it satrted raining . So there was                              no any options left for me then waiting at  the store until the rain stopped.'),
-                        SizedBox(height: 10,),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
-                              DateTime.now().toString(),
-                              style: TextStyle(
-                                  color: Color(0xff9F9F9F)
-                              ),)
-                          ],
-                        )
-
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
 
 
           ],

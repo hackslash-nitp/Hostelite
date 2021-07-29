@@ -14,6 +14,7 @@ import 'package:hostelite/starting_pages/solve_your_issues.dart';
 void main() => runApp(MaterialApp(
   initialRoute: '/home',
 
+
   routes: {
     '/': (context) => Home(),
     '/solveyourissues': (context) => SolveYourIssues(),
