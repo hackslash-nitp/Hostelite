@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "788002385980",
+    "project_id": "hostelite-9b7f0",
+    "storage_bucket": "hostelite-9b7f0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:788002385980:android:411023e786a7c62b6d9339",
+        "android_client_info": {
+          "package_name": "com.hackslash.hostelite"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "788002385980-o7a09sql3fi6rkvclu4aeoq7730p7sc4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjzHIhsPk8Gi0BE7EadOc-xl3pidkFOl0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "788002385980-o7a09sql3fi6rkvclu4aeoq7730p7sc4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hostelite/createAccountStudent.dart';
+import 'package:hostelite/loginStudent.dart';
 import 'package:hostelite/starting_pages/keep_track.dart';
 
 class FastAndEasy extends StatefulWidget {
@@ -29,7 +30,7 @@ class _FastAndEasyState extends State<FastAndEasy> {
                       context,
                       MaterialPageRoute(
                         builder: (context){
-                          return CreateAccountStudent();
+                          return LoginStudent();
                              }),
                             );
 

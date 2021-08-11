@@ -1,4 +1,5 @@
 
+
 import 'package:flutter/material.dart';
 import 'package:hostelite/loginStudent.dart';
 import 'package:hostelite/shared_files/decoration.dart';
@@ -67,6 +68,8 @@ Dialog leadDialog = Dialog(
 
 
 class _CreateAccountStudentState extends State<CreateAccountStudent> {
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,7 +99,13 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
               height: 45,
               width: 280,
               child: TextFormField(
-                decoration: textInputDecoration.copyWith(hintText: 'Username', prefixIcon: const Icon(Icons.person, color: Colors.grey)),
+                decoration: textInputDecoration.copyWith(
+                    hintText: 'Username',
+                    prefixIcon: const Icon(
+                        Icons.person,
+                        color: Colors.grey)
+                ),
+
 
               ),
             ),
@@ -105,7 +114,10 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
               height: 45,
               width: 280,
               child: TextFormField(
-                decoration: textInputDecoration.copyWith(hintText: 'Roll No.'),
+                decoration: textInputDecoration.copyWith(
+                    hintText: 'Roll No.'),
+
+
               ),
             ),
 
@@ -114,7 +126,13 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
               height: 45,
               width: 280,
               child: TextFormField(
-                decoration: textInputDecoration.copyWith(hintText: 'E-Mail',prefixIcon: const Icon(Icons.email, color: Colors.grey)),
+                decoration: textInputDecoration.copyWith(
+                    hintText: 'E-Mail',
+                    prefixIcon: const Icon(
+                        Icons.email,
+                        color: Colors.grey)
+                ),
+
               ),
             ),
 
@@ -124,7 +142,9 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
               width: 280,
               child: TextFormField(
 
-                decoration: textInputDecoration.copyWith(hintText: 'Room No.'),
+                decoration: textInputDecoration.copyWith(
+                    hintText: 'Room No.'),
+
               ),
             ),
 
@@ -133,7 +153,13 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
               height: 45,
               width: 280,
               child: TextFormField(
-                decoration: textInputDecoration.copyWith(hintText: 'Mobile No.', prefixIcon: const Icon(Icons.local_phone, color: Colors.grey)),
+                decoration: textInputDecoration.copyWith(
+                    hintText: 'Mobile No.',
+                    prefixIcon: const Icon(
+                        Icons.local_phone,
+                        color: Colors.grey)
+                ),
+
               ),
             ),
 
@@ -142,7 +168,12 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
               height: 45,
               width: 280,
               child: TextFormField(
-                decoration: textInputDecoration.copyWith(hintText: 'Create Password',prefixIcon: const Icon(Icons.lock, color: Colors.grey)),
+                decoration: textInputDecoration.copyWith(
+                    hintText: 'Create Password',
+                    prefixIcon: const Icon(
+                        Icons.lock, color: Colors.grey)
+                ),
+
               ),
             ),
 
@@ -151,7 +182,12 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
               height: 45,
               width: 280,
               child: TextFormField(
-                decoration: textInputDecoration.copyWith(hintText: 'Confirm Password',prefixIcon: const Icon(Icons.lock, color: Colors.grey)),
+                decoration: textInputDecoration.copyWith(
+                    hintText: 'Confirm Password',
+                    prefixIcon: const Icon(
+                        Icons.lock, color: Colors.grey)
+                ),
+
               ),
             ),
             SizedBox(height: 40),
@@ -165,7 +201,8 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
                 ),
                 color: Colors.purple,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-                onPressed: () {
+                onPressed: ()  {
+
                   showDialog(
                     context: context,
                     // ignore: non_constant_identifier_names
@@ -187,6 +224,7 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
                   style: TextStyle(color: Colors.red),
                   ),
                   onPressed: () {
+
                     Navigator.push(
                         context,
                         MaterialPageRoute(
