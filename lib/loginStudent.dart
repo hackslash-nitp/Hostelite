@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:hostelite/createAccountStudent.dart';
 //import 'package:hostelite/firebase/register_sign_in.dart';
@@ -13,6 +14,8 @@ class LoginStudent extends StatefulWidget {
 }
 
 class _LoginStudentState extends State<LoginStudent> {
+
+
 
   //final AuthService _auth = AuthService();
   @override
@@ -120,19 +123,19 @@ class _LoginStudentState extends State<LoginStudent> {
                 minWidth: 100,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
                 onPressed: () async {
-                  Navigator.push(
+                    Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) {
-                        return HomeScreenStudent();
-                      }
-                    )
+                    builder: (context) {
+                    return HomeScreenStudent();
+                       },
+                    ),
                   );
-                },
+                }
 
               ),
             ),
-            Text('Or',
+               Text('Or',
             style: TextStyle(color: Colors.black, fontSize: 15),
             ),
             Container(

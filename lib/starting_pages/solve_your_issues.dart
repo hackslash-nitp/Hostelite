@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hostelite/createAccountStudent.dart';
+import 'package:hostelite/loginStudent.dart';
 import 'package:hostelite/starting_pages/fast_and_easy.dart';
 
 
@@ -31,7 +32,7 @@ class _SolveYourIssuesState extends State<SolveYourIssues> {
                        context,
                        MaterialPageRoute(
                            builder: (context){
-                             return CreateAccountStudent();
+                             return LoginStudent();
                            }),
                      );
 

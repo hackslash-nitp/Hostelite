@@ -39,9 +39,10 @@ class _EntryListAdminState extends State<EntryListAdmin> {
         ),
       ),
       body: SingleChildScrollView(
-        child: Container(
-          child: Column(
-            children:[ Container(
+        child: Column(
+          children: [
+            SizedBox(height: 10,),
+            Container(
 
               alignment: AlignmentDirectional.topEnd,
               child: Padding(
@@ -66,188 +67,44 @@ class _EntryListAdminState extends State<EntryListAdmin> {
                 ),
               ),
             ),
-              SizedBox(height: 5,),
-
-
-              Container(
-
-                child: Card(
-
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Color(0xff8D8D8D)
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.all(10),
-                      child: Row(
-                        children: [
-                          Text('Entry',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16
-                          ),),
-                          SizedBox(width: 75,),
-                          Text('Exit',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16
-                            ),),
-                          SizedBox(width: 75,),
-                          Text('Time',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16
-                            ),),
-                          SizedBox(width: 75,),
-                          Text('Roll no',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16
-                            ),),
-                          SizedBox(width: 75,),
-                          Text('Hostel',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16
-                            ),),
-                          SizedBox(width: 75,),
-
-
-                        ],
-                      ),
-                    ),
+            SizedBox(height: 10.0,),
+            Table(
+              border: TableBorder.all(width: 1.0,color: Colors.white),
+              children: [
+                TableRow(
+                  decoration: BoxDecoration(
+                    color: Color(0xff8D8D8D)
                   ),
-                ),
-              ),
-              Container(
-
-                child: Card(
-
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Color(0xffC8F2FF),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.all(10),
-                      child: Row(
-                        children: [
-                          Text('Entry',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16
-                            ),),
-                          SizedBox(width: 75,),
-                          Text('Exit',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16
-                            ),),
-                          SizedBox(width: 75,),
-                          Text('Time',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16
-                            ),),
-                          SizedBox(width: 75,),
-                          Text('Roll no',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16
-                            ),),
-                          SizedBox(width: 75,),
-                          Text('Hostel',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16
-                            ),),
-                          SizedBox(width: 75,),
-
-
-                        ],
-                      ),
-                    ),
+                  children: [
+                    Center(child: Text('Entry',style: TextStyle(color: Colors.white),)),
+                    Center(child: Text('Exit',style: TextStyle(color: Colors.white,fontSize: 20),)),
+                    Center(child: Text('Roll No',style: TextStyle(color: Colors.white),)),
+                    Center(child: Text('Hostel',style: TextStyle(color: Colors.white,fontSize: 40),)),
+                  ]
+                ),TableRow(
+                  decoration: BoxDecoration(
+                    color: Color(0xffC8F2FF)
                   ),
-                ),
-              ),
-              Container(
-
-                child: Card(
-
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Color(0xff89E3FF),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.all(10),
-                      child: Row(
-                        children: [
-                          Text('Entry',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16
-                            ),),
-                          SizedBox(width: 75,),
-                          Text('Exit',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16
-                            ),),
-                          SizedBox(width: 75,),
-                          Text('Time',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16
-                            ),),
-                          SizedBox(width: 75,),
-                          Text('Roll no',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16
-                            ),),
-                          SizedBox(width: 75,),
-                          Text('Hostel',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16
-                            ),),
-                          SizedBox(width: 75,),
-
-
-                        ],
-                      ),
-                    ),
+                  children: [
+                    Text('Entry'),
+                    Text('Exit'),
+                    Text('Roll No'),
+                    Text('Hostel'),
+                  ]
+                ),TableRow(
+                  decoration: BoxDecoration(
+                    color: Color(0xff89E3FF),
                   ),
-                ),
-              ),
-              // ListView(
-              //   children: [
-              //     DataTable(columns:
-              //     [
-              //       DataColumn(
-              //           label:Text('Entry')
-              //       ),
-              //       DataColumn(
-              //           label:Text('Exit')
-              //       ),
-              //       DataColumn(
-              //           label:Text('Roll No.')
-              //       )
-              //     ],
-              //         rows: [
-              //           DataRow(
-              //               cells: [
-              //                 DataCell(Text('1')),
-              //                 DataCell(Text('1')),
-              //                 DataCell(Text('1')),]
-              //           )
-              //         ],
-              //     )
-              //
-              //   ],
-              // )
+                  children: [
+                    Text('Entry'),
+                    Text('Exit'),
+                    Text('Roll No'),
+                    Text('Hostel'),
+                  ]
+                )
+              ],
+            )
           ],
-
-          ),
         ),
       ),
       bottomNavigationBar:  Container(

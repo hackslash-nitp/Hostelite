@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hostelite/edit_profile_Admin.dart';
+import 'package:hostelite/loginAdmin.dart';
 
 class NavDrawerAdmin extends StatelessWidget {
-  const NavDrawerAdmin({Key key}) : super(key: key);
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +125,17 @@ class NavDrawerAdmin extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              onTap: () => {},
+              onTap: () async {
+                _auth.signOut();
+                print('signed out');
+                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoginAdmin() ));
+              },
+              // onTap: () => {
+              //   // print('signed out')
+              //   _auth.signOut()
+              //
+              // },
+
             ),
             SizedBox(height: 50,
               child: ColoredBox(

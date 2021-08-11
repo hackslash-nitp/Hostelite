@@ -1,12 +1,15 @@
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hostelite/loginStudent.dart';
 
 class NavDrawer extends StatelessWidget {
-  const NavDrawer({Key key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
+
     return Drawer(
       child: ListView(
         padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
@@ -63,7 +66,7 @@ class NavDrawer extends StatelessWidget {
               fontSize: 18,
             ),
             ),
-            onTap: () => {},
+            onTap: ()  {},
           ),
           ListTile(
             tileColor: Colors.pinkAccent[100],

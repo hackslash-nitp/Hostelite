@@ -1,11 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:hostelite/createAccountAdmin.dart';
+import 'package:hostelite/loading.dart';
+import 'package:hostelite/main.dart';
 import 'package:flutter/material.dart';
 import 'package:hostelite/createAccountStudent.dart';
 import 'package:hostelite/home_screen_Admin.dart';
-//import 'package:hostelite/firebase/register_sign_in.dart';
+// import 'package:hostelite/firebase/register_sign_in.dart';
 import 'package:hostelite/home_screen_Student.dart';
 import 'package:hostelite/shared_files/decoration.dart';
 import 'package:hostelite/loginStudent.dart';
+import 'package:hostelite/starting_pages/home.dart';
 
 class LoginAdmin extends StatefulWidget {
   const LoginAdmin({Key key}) : super(key: key);
@@ -15,6 +20,10 @@ class LoginAdmin extends StatefulWidget {
 }
 
 class _LoginAdminState extends State<LoginAdmin> {
+
+  String _email,_password;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,14 +82,12 @@ class _LoginAdminState extends State<LoginAdmin> {
                   SizedBox(height: 20),
                   TextFormField(
                     decoration: InputDecoration(
-
                       labelText: 'Email',
                       fillColor: Colors.white,
                       filled: true,
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12.0),
                           borderSide: BorderSide(
-
                               color: Colors.grey,
                               width: 1.0
                           )
@@ -96,6 +103,11 @@ class _LoginAdminState extends State<LoginAdmin> {
                           )
                       ),
                     ),
+                    onChanged: (value) {
+                      setState(() {
+                        _email = value.trim();
+                      });
+                    },
                   ),
                   SizedBox(height: 10),
                   TextFormField(
@@ -122,6 +134,11 @@ class _LoginAdminState extends State<LoginAdmin> {
                           )
                       ),
                     ),
+                    onChanged: (value) {
+                      setState(() {
+                        _password = value.trim();
+                      });
+                    },
                   ),
                   Row(
 
@@ -153,14 +170,10 @@ class _LoginAdminState extends State<LoginAdmin> {
                       minWidth: 100,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
                       onPressed: () async {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) {
-                                  return HomeScreenAdmin();
-                                }
-                            )
-                        );
+                         await  _auth.signInWithEmailAndPassword(email: _email, password: _password);
+                         print(_auth);
+                          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomeScreenAdmin() ));
+
                       },
 
                     ),
@@ -209,7 +222,7 @@ class _LoginAdminState extends State<LoginAdmin> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) {
-                                  return CreateAccountStudent();
+                                  return CreateAccountAdmin();
                                 }),
                           );
                         },
