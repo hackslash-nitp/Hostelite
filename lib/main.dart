@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hostelite/complaintStudent.dart';
 import 'package:hostelite/createAccountStudent.dart';
 import 'package:hostelite/exit_entryStudent.dart';
 import 'package:hostelite/home_screen_Student.dart';
@@ -25,6 +26,7 @@ void main() => runApp(MaterialApp(
     '/homescreenstudent' : (context) => HomeScreenStudent(),
     '/studententry' : (context) => MarkingEntry(),
     '/studentexit' : (context) => MarkingExit(),
+    '/complaintstudent' : (context) => StudentComplaint(),
   },
 ));
 

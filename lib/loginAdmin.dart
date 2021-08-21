@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:hostelite/createAccountStudent.dart';
 import 'package:hostelite/home_screen_Admin.dart';
 //import 'package:hostelite/firebase/register_sign_in.dart';
-import 'package:hostelite/home_screen_Student.dart';
-import 'package:hostelite/shared_files/decoration.dart';
+//import 'package:hostelite/home_screen_Student.dart';
+//import 'package:hostelite/shared_files/decoration.dart';
 import 'package:hostelite/loginStudent.dart';
 
 class LoginAdmin extends StatefulWidget {
@@ -23,7 +23,7 @@ class _LoginAdminState extends State<LoginAdmin> {
 
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(30,80,30,0),
+              padding: const EdgeInsets.fromLTRB(30,0,30,0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
