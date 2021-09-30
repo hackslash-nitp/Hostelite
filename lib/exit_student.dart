@@ -7,11 +7,11 @@ import 'package:hostelite/home_screen_Student.dart';
 import 'package:hostelite/models/user_model.dart';
 import 'package:hostelite/shared_files/decoration.dart';
 
-class MarkingEntry extends StatefulWidget {
-  const MarkingEntry({Key key}) : super(key: key);
+class MarkingExit extends StatefulWidget {
+  const MarkingExit({Key key}) : super(key: key);
 
   @override
-  _MarkingEntryState createState() => _MarkingEntryState();
+  _MarkingExitState createState() => _MarkingExitState();
 }
 
 Dialog leadDialog = Dialog(
@@ -67,69 +67,56 @@ Dialog leadDialog = Dialog(
   ),
 );
 
-class _MarkingEntryState extends State<MarkingEntry> {
- /* String _myActivity;
-  String _myActivityResult;
-  final formKey = new GlobalKey<FormState>();
-
-  void initState(){
-    super .initState();
-    _myActivity = '';
-    _myActivityResult = '';
-  }
-
-  _saveForm(){
-    var form = formKey.currentState;
-    if (form.validate()){
-      form.save();
-      setState(() {
-        _myActivityResult = _myActivity;
-      });
-    }
-  }*/
-
-
+class _MarkingExitState extends State<MarkingExit> {
 
   String roomNumber;
   String rollNumber;
-  // String hostelName;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xff33004A),
-        elevation: 0,
+        leading: new IconButton(
+          icon: new Icon(Icons.arrow_back_rounded),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        title: Text('Mark Entry',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),),
+        elevation: 10,
+        backgroundColor: Color(0xffFE96FA)
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(20, 30, 20, 0),
         child: Container(
           constraints: BoxConstraints.expand(),
           decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/second_page/Group 33694.png'),
-              fit: BoxFit.contain
-            )
+              image: DecorationImage(
+                  image: AssetImage('assets/second_page/Group 33694.png'),
+                  fit: BoxFit.contain
+              )
           ),
           child: Column(
             children: <Widget>[
               Card(
                 child: TextFormField(
-                  decoration: textInputDecoration.copyWith(hintText: 'Room No.'),
-                  onChanged: (value) {
-                    setState(() {
-                      rollNumber = value.trim();
-                    });
-                  }),
+                    decoration: textInputDecoration.copyWith(hintText: 'Room No.'),
+                    onChanged: (value) {
+                      setState(() {
+                        rollNumber = value.trim();
+                      });
+                    }),
               ),
               Card(
                 child: TextFormField(
 
-                  decoration: textInputDecoration.copyWith(hintText: 'Roll No.'),
-                  onChanged: (value){
-                  setState(() {
-                  roomNumber = value.trim();
-                  });}
+                    decoration: textInputDecoration.copyWith(hintText: 'Roll No.'),
+                    onChanged: (value){
+                      setState(() {
+                        roomNumber = value.trim();
+                      });}
                 ),
               ),
               // Card(
@@ -139,7 +126,7 @@ class _MarkingEntryState extends State<MarkingEntry> {
               //       setState(() {
               //         hostelName = value.trim();
               //       });}
-                  /*value: _myActivity,
+              /*value: _myActivity,
                   onSaved: (value) {
                     setState(() {
                       _myActivity = value;
@@ -161,7 +148,7 @@ class _MarkingEntryState extends State<MarkingEntry> {
 
                     style: TextStyle(color: Colors.black87, fontSize: 15),
                   ),
-                  color: Color(0xffFE96FA),
+                  color: Colors.pinkAccent,
                   minWidth: 100,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
                   onPressed: () async {
@@ -169,7 +156,7 @@ class _MarkingEntryState extends State<MarkingEntry> {
                     FirebaseFirestore.instance.
                     collection("studentUsers").
                     doc(FirebaseAuth.instance.currentUser.uid).
-                    collection("entry").
+                    collection("exit").
                     doc(FirebaseAuth.instance.currentUser.uid).
                     set({
                       // "hostelName" : hostelName,
@@ -180,9 +167,9 @@ class _MarkingEntryState extends State<MarkingEntry> {
                     });
 
                     showDialog(
-                      context: context,
-                      // ignore: non_constant_identifier_names
-                      builder: (BuildContext) => leadDialog
+                        context: context,
+                        // ignore: non_constant_identifier_names
+                        builder: (BuildContext) => leadDialog
                     );
 
                   },
@@ -192,6 +179,6 @@ class _MarkingEntryState extends State<MarkingEntry> {
           ),
         ),
       ),
-    );
+    );;
   }
 }

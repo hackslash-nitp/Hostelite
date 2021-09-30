@@ -1,55 +1,51 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hostelite/home_screen_Admin.dart';
-import 'package:hostelite/models/user_model.dart';
+import 'package:hostelite/home_screen_Student.dart';
 
-class EditProfileAdmin extends StatefulWidget {
-  const EditProfileAdmin({Key key}) : super(key: key);
+class EditProfileStudent extends StatefulWidget {
+  const EditProfileStudent({Key key}) : super(key: key);
 
   @override
-  _EditProfileAdminState createState() => _EditProfileAdminState();
+  _EditProfileStudentState createState() => _EditProfileStudentState();
 }
 
-class _EditProfileAdminState extends State<EditProfileAdmin> {
-
+class _EditProfileStudentState extends State<EditProfileStudent> {
 
   final TextEditingController username = TextEditingController();
   final TextEditingController mobileNumber = TextEditingController();
   final TextEditingController email = TextEditingController();
-  Future buildUpdateProfile() async {
-    FirebaseFirestore.instance
-        .collection("users")
-        .doc(FirebaseAuth.instance.currentUser.uid)
-        .update({
-      "username" : username.text,
-      "mobileNumber" : mobileNumber.text,
-      "emailAddress" : email.text,
-    });
-  }
+  // Future buildUpdateProfile() async {
+  //   FirebaseFirestore.instance
+  //       .collection("users")
+  //       .doc(FirebaseAuth.instance.currentUser.uid)
+  //       .update({
+  //     "username" : username.text,
+  //     "mobileNumber" : mobileNumber.text,
+  //     "emailAddress" : email.text,
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-
-      body: SafeArea(
+    return SafeArea(
         child: SingleChildScrollView(
           child: Container(
             child: Padding(
               padding: EdgeInsets.fromLTRB(30, 50, 15, 15),
               child: Column(children: [
                 Row(children: [IconButton(
-                    icon: Icon( Icons.arrow_back),
+                  icon: Icon( Icons.arrow_back),
                   onPressed: () => Navigator.of(context).pop(),),
-                     SizedBox(width: 50,),
-                     Text(
-                         'Edit Profile',
-                           style:TextStyle(
-                             fontSize: 24,
-                             color: Color(0xff747475)
-                           )
-                     ),
-                  
+                  SizedBox(width: 50,),
+                  Text(
+                      'Edit Profile',
+                      style:TextStyle(
+                          fontSize: 24,
+                          color: Color(0xff747475)
+                      )
+                  ),
+
 
 
                 ]
@@ -64,7 +60,7 @@ class _EditProfileAdminState extends State<EditProfileAdmin> {
                   controller: username,
                   decoration: InputDecoration(
 
-                    hintText: userModel.username,
+                    hintText: 'username',
                     labelText: 'Name',
                     fillColor: Colors.white,
                     filled: true,
@@ -90,7 +86,7 @@ class _EditProfileAdminState extends State<EditProfileAdmin> {
                 TextFormField(
                   controller: email,
                   decoration: InputDecoration(
-                    hintText: userModel.email,
+                    hintText: 'username',
                     labelText: 'Email',
                     fillColor: Colors.white,
                     filled: true,
@@ -117,7 +113,7 @@ class _EditProfileAdminState extends State<EditProfileAdmin> {
                 TextFormField(
                   controller: mobileNumber,
                   decoration: InputDecoration(
-                    hintText: userModel.mobileNumber,
+                    hintText: 'username',
                     labelText: 'Mobile number',
                     fillColor: Colors.white,
                     filled: true,
@@ -139,7 +135,7 @@ class _EditProfileAdminState extends State<EditProfileAdmin> {
                   ),
                 ),
                 SizedBox(height:50),
-                
+
                 Container(
                   width: 130,
                   height: 50,
@@ -151,21 +147,20 @@ class _EditProfileAdminState extends State<EditProfileAdmin> {
                     minWidth: 100,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
                     onPressed: () {
-                      buildUpdateProfile();
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomeScreenAdmin() ));
+                      // buildUpdateProfile();
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomeScreenStudent() ));
                     },
 
                   ),
                 ),
 
-                
+
 
 
               ]),
             ),
           ),
         )
-      ),
     );
   }
 }

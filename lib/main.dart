@@ -23,7 +23,7 @@ void main() async {
 
 
     routes: {
-      '/': (context) => Home(),
+      '/': (context) => HomeScreenStudent(),
       '/solveyourissues': (context) => SolveYourIssues(),
       '/fastandeasy': (context) => FastAndEasy(),
       '/keeptrack': (context) => KeepTrack(),

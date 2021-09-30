@@ -1,8 +1,8 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hostelite/loginAdmin.dart';
-import 'package:hostelite/loginStudent.dart';
 import 'package:hostelite/shared_files/decoration.dart';
 
 
@@ -59,7 +59,15 @@ Dialog leadDialog = Dialog(
 
 class _CreateAccountAdminState extends State<CreateAccountAdmin> {
 
-  String _email,_password;
+  UserCredential userCredential;
+
+
+
+  String username;
+  String email;
+  String mobileNumber;
+  String confirmPassword;
+   String password;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
@@ -91,8 +99,14 @@ class _CreateAccountAdminState extends State<CreateAccountAdmin> {
               height: 45,
               width: 280,
               child: TextFormField(
-                decoration: textInputDecoration.copyWith(hintText: 'Username', prefixIcon: const Icon(Icons.person, color: Colors.grey)),
-
+                decoration: textInputDecoration.copyWith(
+                    hintText: 'Username',
+                    prefixIcon: const Icon(Icons.person, color: Colors.grey)),
+                  onChanged: (value) {
+                    setState(() {
+                      username = value.trim();
+                    });
+                  }
               ),
             ),
 
@@ -109,7 +123,7 @@ class _CreateAccountAdminState extends State<CreateAccountAdmin> {
                 ),
                 onChanged: (value) {
                   setState(() {
-                    _email = value.trim();
+                    email = value.trim();
                   });
                 },
               ),
@@ -122,7 +136,14 @@ class _CreateAccountAdminState extends State<CreateAccountAdmin> {
               height: 45,
               width: 280,
               child: TextFormField(
-                decoration: textInputDecoration.copyWith(hintText: 'Mobile No.', prefixIcon: const Icon(Icons.local_phone, color: Colors.grey)),
+                decoration: textInputDecoration.copyWith(
+                    hintText: 'Mobile No.',
+                    prefixIcon: const Icon(Icons.local_phone, color: Colors.grey)),
+                  onChanged: (value) {
+                    setState(() {
+                   mobileNumber = value.trim();
+                    });
+                  }
               ),
             ),
 
@@ -138,7 +159,7 @@ class _CreateAccountAdminState extends State<CreateAccountAdmin> {
                 ),
                 onChanged: (value) {
                   setState(() {
-                    _password = value.trim();
+                    password = value.trim();
                   });
                 },
               ),
@@ -150,7 +171,14 @@ class _CreateAccountAdminState extends State<CreateAccountAdmin> {
               height: 45,
               width: 280,
               child: TextFormField(
-                decoration: textInputDecoration.copyWith(hintText: 'Confirm Password',prefixIcon: const Icon(Icons.lock, color: Colors.grey)),
+                decoration: textInputDecoration.copyWith(
+                    hintText: 'Confirm Password',
+                    prefixIcon: const Icon(Icons.lock, color: Colors.grey)),
+                  onChanged: (value) {
+                    setState(() {
+                   confirmPassword = value.trim();
+                    });
+                  }
               ),
             ),
             SizedBox(height: 40),
@@ -166,7 +194,21 @@ class _CreateAccountAdminState extends State<CreateAccountAdmin> {
                   color: Colors.purple,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
                   onPressed: () async {
-                   await  _auth.createUserWithEmailAndPassword(email: _email, password: _password);
+                   userCredential = await  _auth.createUserWithEmailAndPassword(email: email, password: password);
+
+                   //Sending user data
+                   FirebaseFirestore.instance.
+                   collection("adminUsers").
+                   doc(userCredential.user.uid).collection("profile").
+                   doc(userCredential.user.uid).
+                   set({
+                     "username" : username,
+                     "mobileNumber" : mobileNumber,
+                     "emailAddress" : email,
+                     "userUid" : userCredential.user.uid
+
+
+                   });
                     // print (_auth.toString());
                     showDialog(
                         context: context,

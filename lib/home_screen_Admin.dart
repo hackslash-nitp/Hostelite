@@ -1,14 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import'package:flutter/material.dart';
 import 'package:hostelite/complaintAdmin.dart';
-import 'package:hostelite/drawer.dart';
 import 'package:hostelite/drawer_admin.dart';
 import 'package:hostelite/edit_profile_Admin.dart';
 import 'package:hostelite/exit-entryAdmin.dart';
-import 'package:hostelite/mark_exit.dart';
-import 'package:hostelite/exit_entryStudent.dart';
-import 'package:table_calendar/table_calendar.dart';
 import 'package:hostelite/alerts_admin.dart';
+import 'package:hostelite/models/user_model.dart';
+
+UserModel userModel;
 
 class HomeScreenAdmin extends StatefulWidget {
   const HomeScreenAdmin({Key key}) : super(key: key);
@@ -18,8 +19,24 @@ class HomeScreenAdmin extends StatefulWidget {
 }
 
 class _HomeScreenAdminState extends State<HomeScreenAdmin> {
+
+  Future getCurrentUserDataFunction()  async {
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser.uid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot){
+      if (documentSnapshot.exists){
+        userModel = UserModel.fromDocument(documentSnapshot);
+      }else{
+        print("Sorry");
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    getCurrentUserDataFunction();
     return SafeArea(
       child: Scaffold(
           drawer: NavDrawerAdmin(),
@@ -102,7 +119,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                 Container(
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
-                    child: Text('Hello, User',
+                    child: Text('Hello, '+ userModel.username,
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         fontSize: 20,

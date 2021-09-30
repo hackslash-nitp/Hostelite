@@ -1,10 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hostelite/edit_profile_Admin.dart';
+import 'package:hostelite/home_screen_Admin.dart';
 import 'package:hostelite/loginAdmin.dart';
 
 class NavDrawerAdmin extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -28,17 +33,26 @@ class NavDrawerAdmin extends StatelessWidget {
               ),
             ),
 
-            ListTile(
-              title: Text('Kachra Seth',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 24,
+            StreamBuilder<Object>(
+              stream: FirebaseFirestore.instance.collection(
+                  "users").doc(
+                  FirebaseAuth.instance.currentUser.uid)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                return ListTile(
 
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xff636363),
-                ),
-              ),
-              tileColor: Color(0xffFE96FA),
+                  title: Text(userModel.username,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 24,
+
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xff636363),
+                    ),
+                  ),
+                  tileColor: Color(0xffFE96FA),
+                );
+              }
             ),
             ListTile(
               tileColor: Color(0xffFE96FA),

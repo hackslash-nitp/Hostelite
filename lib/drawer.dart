@@ -3,8 +3,11 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hostelite/loginStudent.dart';
+import 'package:hostelite/models/user_model.dart';
 
 class NavDrawer extends StatelessWidget {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  UserModel userModel;
 
 
   @override
@@ -16,7 +19,7 @@ class NavDrawer extends StatelessWidget {
         children: <Widget>[
           DrawerHeader(
             decoration: BoxDecoration(
-              color: Colors.pinkAccent[100],
+              color: Color(0xffFE96FA),
             ),
             child: CircleAvatar(
               backgroundImage: AssetImage(''),
@@ -32,10 +35,10 @@ class NavDrawer extends StatelessWidget {
               color: Colors.black87,
             ),
             ),
-            tileColor: Colors.pinkAccent[100],
+            tileColor: Color(0xffFE96FA),
           ),
           ListTile(
-            tileColor: Colors.pinkAccent[100],
+            tileColor: Color(0xffFE96FA),
             title: Text('Room No.',
             textAlign: TextAlign.center,
             style: TextStyle(
@@ -44,10 +47,10 @@ class NavDrawer extends StatelessWidget {
             ),
           ),
           ColoredBox(
-            color: Colors.pinkAccent[100],
+            color: Color(0xffFE96FA),
           ),
           ListTile(
-            tileColor: Colors.pinkAccent[100],
+            tileColor:Color(0xffFE96FA),
             leading: Icon(Icons.edit),
             title: Text('Edit Profile',
             style: TextStyle(
@@ -58,7 +61,7 @@ class NavDrawer extends StatelessWidget {
             onTap: () => {},
           ),
           ListTile(
-            tileColor: Colors.pinkAccent[100],
+            tileColor: Color(0xffFE96FA),
             leading: Icon(Icons.notifications),
             title: Text('Notification',
             style: TextStyle(
@@ -69,7 +72,7 @@ class NavDrawer extends StatelessWidget {
             onTap: ()  {},
           ),
           ListTile(
-            tileColor: Colors.pinkAccent[100],
+            tileColor: Color(0xffFE96FA),
             leading: Icon(Icons.report_problem),
             title: Text('Report Issue',
             style: TextStyle(
@@ -80,7 +83,7 @@ class NavDrawer extends StatelessWidget {
             onTap: () => {},
           ),
           ListTile(
-            tileColor: Colors.pinkAccent[100],
+            tileColor: Color(0xffFE96FA),
             leading: Icon(Icons.system_update_alt_outlined),
             title: Text('App Updates',
             style: TextStyle(
@@ -91,7 +94,7 @@ class NavDrawer extends StatelessWidget {
             onTap: () => {},
           ),
           ListTile(
-            tileColor: Colors.pinkAccent[100],
+            tileColor: Color(0xffFE96FA),
             leading: Icon(Icons.quick_contacts_dialer_outlined),
             title: Text('Contact Us',
             style: TextStyle(
@@ -102,7 +105,7 @@ class NavDrawer extends StatelessWidget {
             onTap: () => {},
           ),
           ListTile(
-            tileColor: Colors.pinkAccent[100],
+            tileColor: Color(0xffFE96FA),
             leading: Icon(Icons.logout),
             title: Text('Log Out',
             style: TextStyle(
@@ -110,11 +113,14 @@ class NavDrawer extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
             ),
-            onTap: () => {},
+            onTap: () async {
+              _auth.signOut();
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoginStudent() ));
+            },
           ),
           SizedBox(height: 50,
           child: ColoredBox(
-            color: Colors.pinkAccent[100],
+            color: Color(0xffFE96FA),
           ),
           ),
           ListTile(
@@ -123,7 +129,7 @@ class NavDrawer extends StatelessWidget {
             style: TextStyle(
               fontSize: 10,
             ),),
-            tileColor: Colors.pinkAccent[100],
+            tileColor: Color(0xffFE96FA),
           )
         ],
       ),

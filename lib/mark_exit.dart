@@ -1,6 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
+import 'package:hostelite/home_screen_Admin.dart';
 import 'package:hostelite/home_screen_Student.dart';
+import 'package:hostelite/models/user_model.dart';
 import 'package:hostelite/shared_files/decoration.dart';
 
 class MarkingExit extends StatefulWidget {
@@ -23,7 +27,7 @@ Dialog leadDialog = Dialog(
             width: 150,
           ),
         ),
-        Text('Exit Marked',
+        Text('Entry Marked',
           style: TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.bold,
@@ -64,25 +68,11 @@ Dialog leadDialog = Dialog(
 );
 
 class _MarkingExitState extends State<MarkingExit> {
-  /*String _myActivity;
-  String _myActivityResult;
-  final formKey = new GlobalKey<FormState>();
 
-  void initState(){
-    super .initState();
-    _myActivity = '';
-    _myActivityResult = '';
-  }
+  String roomNumber;
+  String rollNumber;
+  String purpose;
 
-  _saveForm(){
-    var form = formKey.currentState;
-    if (form.validate()){
-      form.save();
-      setState(() {
-        _myActivityResult = _myActivity;
-      });
-    }
-  }*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,10 +87,10 @@ class _MarkingExitState extends State<MarkingExit> {
             fontWeight: FontWeight.bold,
           ),),
         elevation: 10,
-        backgroundColor: Colors.pinkAccent[100],
+          backgroundColor: Color(0xffFE96FA),
       ),
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 30, 20, 0),
+        padding: const EdgeInsets.all(20),
         child: Container(
           constraints: BoxConstraints.expand(),
           decoration: BoxDecoration(
@@ -111,25 +101,110 @@ class _MarkingExitState extends State<MarkingExit> {
           ),
           child: Column(
             children: <Widget>[
-              Card(
+
+              Container(
+
                 child: TextFormField(
-                  decoration: textInputDecoration.copyWith(hintText: 'Room No.'),
+                    decoration: InputDecoration(
+                      hintText: 'Roll No.',
+                      filled: true,
+                      fillColor: Color(0xffFFFFFF),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                        borderSide: BorderSide(
+                            color: Colors.grey,
+                            width: 1.0
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.cyan,
+                              width: 1.0
+                          )
+                      ),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        rollNumber = value.trim();
+                      });
+                    }
+
                 ),
               ),
-              Card(
+
+              SizedBox(height: 30,),
+
+              Container(
+
                 child: TextFormField(
-                  decoration: textInputDecoration.copyWith(hintText: 'Roll No.'),
+                    decoration: InputDecoration(
+                      hintText: 'Room No.',
+                      filled: true,
+                      fillColor: Color(0xffFFFFFF),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                        borderSide: BorderSide(
+                            color: Colors.grey,
+                            width: 1.0
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.cyan,
+                              width: 1.0
+                          )
+                      ),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        roomNumber = value.trim();
+                      });
+                    }
+
                 ),
               ),
-              /*Card(
-                child: TextFormField(
-                  decoration: textInputDecoration.copyWith(hintText: 'Purposse of Entry'),
+
+              SizedBox(height: 30,),
+
+              Container(
+
+                child: TextField(
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    decoration: InputDecoration(
+                      hintText: 'Purpose of Exit',
+                      filled: true,
+                      fillColor: Color(0xffFFFFFF),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                        borderSide: BorderSide(
+                            color: Colors.grey,
+                            width: 1.0
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.cyan,
+                              width: 1.0
+                          )
+                      ),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        purpose = value.trim();
+                      });
+                    }
+
                 ),
-              ),*/
-              Card(
-                child: DropdownButtonFormField(
-                  decoration: textInputDecoration.copyWith(hintText: 'Hostel Name'),
-                 /* value: _myActivity,
+              ),
+              // Card(
+              //   child: TextFormField(
+              //     decoration: textInputDecoration.copyWith(hintText: 'Hostel Name'),
+              //     onChanged: (value){
+              //       setState(() {
+              //         hostelName = value.trim();
+              //       });}
+              /*value: _myActivity,
                   onSaved: (value) {
                     setState(() {
                       _myActivity = value;
@@ -139,38 +214,50 @@ class _MarkingExitState extends State<MarkingExit> {
                     setState(() {
                       _myActivity = value;
                     });
-                  },*/ items: [
-
-                ],
-                ),
-              ),
-              SizedBox(height: 50),
+                  },*/
+              //   )
+              // ),
+              SizedBox(height: 80),
               Container(
                 width: 130,
                 height: 50,
                 child: MaterialButton(
-                  child: Text('Mark Exit',
-                    style: TextStyle(color: Colors.black87, fontSize: 15),
+                  child: Text('Mark Entry',
+
+                    style: TextStyle(color: Color(0xff33004A), fontSize: 15),
                   ),
-                  color: Colors.pinkAccent,
+                  color: Color(0xffFE96FA),
                   minWidth: 100,
+                  elevation: 10,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
                   onPressed: () async {
+
+                    FirebaseFirestore.instance.
+                    collection("studentUsers").
+                    doc(FirebaseAuth.instance.currentUser.uid).
+                    collection("exit").
+                    doc(FirebaseAuth.instance.currentUser.uid).
+                    set({
+                      // "hostelName" : hostelName,
+                      "rollNumber" :rollNumber,
+                      "roomNumber" : roomNumber,
+                      "userUid" : FirebaseAuth.instance.currentUser.uid,
+                      "time" : DateTime.now().toString()
+                    });
+
                     showDialog(
                         context: context,
                         // ignore: non_constant_identifier_names
                         builder: (BuildContext) => leadDialog
                     );
+
                   },
                 ),
               ),
-              Container(
-
-              )
             ],
           ),
         ),
       ),
-    );
+    );;
   }
 }

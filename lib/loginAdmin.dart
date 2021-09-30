@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hostelite/createAccountAdmin.dart';
@@ -12,6 +13,9 @@ import 'package:hostelite/shared_files/decoration.dart';
 import 'package:hostelite/loginStudent.dart';
 import 'package:hostelite/starting_pages/home.dart';
 
+
+
+
 class LoginAdmin extends StatefulWidget {
   const LoginAdmin({Key key}) : super(key: key);
 
@@ -20,6 +24,8 @@ class LoginAdmin extends StatefulWidget {
 }
 
 class _LoginAdminState extends State<LoginAdmin> {
+
+
 
   String _email,_password;
   final FirebaseAuth _auth = FirebaseAuth.instance;
