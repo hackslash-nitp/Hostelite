@@ -114,6 +114,7 @@ class _StudentComplaintState extends State<StudentComplaint> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text('Your Complaints'),
         backgroundColor: Color(0xffFE96FA),
         elevation: 0,
       ),
