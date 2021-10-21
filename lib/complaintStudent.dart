@@ -16,9 +16,9 @@ class StudentComplaint extends StatefulWidget {
 
 firebase_storage.FirebaseStorage storage =
     firebase_storage.FirebaseStorage.instance;
-
+var imgcounter = 0;
 firebase_storage.Reference ref =
-    storage.ref().child('images/defaultProfile.png');
+    storage.ref().child('images/photo$imgcounter.png');
 
 Dialog leadDialog = Dialog(
   child: Container(
@@ -86,29 +86,19 @@ class _StudentComplaintState extends State<StudentComplaint> {
     }
   }
 
-  Future uploadImageToFirebase(BuildContext context) async {
-    // String fileName = basename(img);
-    // StorageReference firebaseStorageRef =
-    // FirebaseStorage.instance.ref().child('uploads/$fileName');
-    // StorageUploadTask uploadTask = firebaseStorageRef.putFile(img);
-    // StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
-    // taskSnapshot.ref.getDownloadURL().then(
-    //         (value) => print("Done: $value"),
-  }
-
   String roomNumber;
   String issue;
   String explanation;
   String status = "pending";
   int counter = 0;
-  Map<String, dynamic> allComplaints = {
-    "issue": '',
-    "roomNumber": '',
-    "explanation": '',
-    "userUid": FirebaseAuth.instance.currentUser.uid,
-    "imageUrl": '',
-    "status": "Pending"
-  };
+  // Map<String, dynamic> allComplaints = {
+  //   "issue": '',
+  //   "roomNumber": '',
+  //   "explanation": '',
+  //   "userUid": FirebaseAuth.instance.currentUser.uid,
+  //   "imageUrl": '',
+  //   "status": "Pending"
+  // };
 
   @override
   Widget build(BuildContext context) {
@@ -230,32 +220,33 @@ class _StudentComplaintState extends State<StudentComplaint> {
                         url = value;
                       });
 
-                      allComplaints = {
-                        "issue": issue,
-                        "roomNumber": roomNumber,
-                        "explanation": explanation,
-                        "userUid": FirebaseAuth.instance.currentUser.uid,
-                        "imageUrl": url,
-                        "status": status
-                      };
+                      // allComplaints = {
+                      //   "issue": issue,
+                      //   "roomNumber": roomNumber,
+                      //   "explanation": explanation,
+                      //   "userUid": FirebaseAuth.instance.currentUser.uid,
+                      //   "imageUrl": url,
+                      //   "status": status
+                      // };
 
                       await FirebaseFirestore.instance
                           .collection("studentUsers")
                           .doc(FirebaseAuth.instance.currentUser.uid)
                           .collection("complaints")
                           .doc(FirebaseAuth.instance.currentUser.uid)
+                          .collection('complaints$counter')
+                          .doc(FirebaseAuth.instance.currentUser.uid)
                           .set({
-                        "complain $counter": allComplaints,
-
-                        // "issue": issue,
-                        // "roomNumber": roomNumber,
-                        // "explanation": explanation,
-                        // "userUid": FirebaseAuth.instance.currentUser.uid,
-                        // "imageUrl": url,
-                        // "status": "Pending"
+                        "issue": issue,
+                        "roomNumber": roomNumber,
+                        "explanation": explanation,
+                        "userUid": FirebaseAuth.instance.currentUser.uid,
+                        "imageUrl": url,
+                        "status": "Pending"
                       });
 
                       counter++;
+                      imgcounter++;
 
                       // showDialog(
                       // context: context,
