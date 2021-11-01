@@ -256,7 +256,8 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
               "emailAddress" : email,
                   "rollNumber" :rollNumber,
                   "roomNumber" : roomNumber,
-              "userUid" : userCredential.user.uid
+              "userUid" : userCredential.user.uid,
+                  "dpUrl":""
                 });
 
 

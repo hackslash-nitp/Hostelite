@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:hostelite/home_screen_Student.dart';
 import 'package:hostelite/students_complaint_list.dart';
+import 'package:image_picker/image_picker.dart';
 
 class EditProfileStudent extends StatefulWidget {
   const EditProfileStudent({Key key}) : super(key: key);
@@ -12,6 +16,12 @@ class EditProfileStudent extends StatefulWidget {
 }
 
 class _EditProfileStudentState extends State<EditProfileStudent> {
+
+  File _pickedImage;
+
+  var db = FirebaseFirestore.instance.collection('studentUsers').doc(FirebaseAuth.
+  instance.currentUser.uid).collection('profile');
+
   final TextEditingController username = TextEditingController();
   final TextEditingController mobileNumber = TextEditingController();
   final TextEditingController email = TextEditingController();
@@ -55,9 +65,31 @@ class _EditProfileStudentState extends State<EditProfileStudent> {
               SizedBox(
                 height: 35,
               ),
-              CircleAvatar(
-                radius: 85,
-                backgroundColor: Colors.orange[100],
+              GestureDetector(
+                onTap: (){
+                  ImagePicker().pickImage(source: ImageSource.gallery).then((value){
+                    _pickedImage = File(value.path);
+                    Reference reference = FirebaseStorage.instance.ref().child('images').child('dps').child(DateTime.now().microsecondsSinceEpoch.toString()+'.jpg');
+                    UploadTask task = reference.putFile(_pickedImage);
+                    task.whenComplete((){
+                    reference.getDownloadURL().then((url){
+                      db.get().then((value) {
+                        debugPrint(value.docs[0].data().toString());
+                        debugPrint(value.docs[0].data()["dpUrl"]+'ab');
+                        value.docs[0].data()["dpUrl"].update({
+                          "dpUrl":url
+                        });
+                      });
+
+                    });
+                    });
+                  });
+                },
+                child: CircleAvatar(
+                  radius: 85,
+                  backgroundColor: Colors.orange[100],
+                  // child: Image.network(db.doc()['dpUrl']),
+                ),
               ),
               SizedBox(
                 height: 35,

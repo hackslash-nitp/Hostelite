@@ -165,26 +165,7 @@ class _MarkingEntryState extends State<MarkingEntry> {
                   ),
                 ),
               ),
-              // Card(
-              //   child: TextFormField(
-              //     decoration: textInputDecoration.copyWith(hintText: 'Hostel Name'),
-              //     onChanged: (value){
-              //       setState(() {
-              //         hostelName = value.trim();
-              //       });}
-              /*value: _myActivity,
-                  onSaved: (value) {
-                    setState(() {
-                      _myActivity = value;
-                    });
-                  },
-                  onChanged: (value) {
-                    setState(() {
-                      _myActivity = value;
-                    });
-                  },*/
-              //   )
-              // ),
+
               SizedBox(height: 80),
 
               MaterialButton(
@@ -219,8 +200,8 @@ class _MarkingEntryState extends State<MarkingEntry> {
                         .collection("studentUsers")
                         .doc(FirebaseAuth.instance.currentUser.uid)
                         .collection("entry")
-                        .doc(FirebaseAuth.instance.currentUser.uid)
-                        .set({
+
+                        .add({
                       // "hostelName" : hostelName,
                       "rollNumber": rollNumber,
                       "roomNumber": roomNumber,

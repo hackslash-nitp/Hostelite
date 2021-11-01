@@ -16,9 +16,8 @@ class StudentComplaint extends StatefulWidget {
 
 firebase_storage.FirebaseStorage storage =
     firebase_storage.FirebaseStorage.instance;
-var imgcounter = 0;
-firebase_storage.Reference ref =
-    storage.ref().child('images/photo$imgcounter.png');
+
+firebase_storage.Reference ref = storage.ref().child('images').child('photos');
 
 Dialog leadDialog = Dialog(
   child: Container(
@@ -210,8 +209,11 @@ class _StudentComplaintState extends State<StudentComplaint> {
                 children: [
                   MaterialButton(
                     onPressed: () async {
-                      firebase_storage.UploadTask uploadedImg =
-                          ref.putFile(img);
+                      firebase_storage.UploadTask uploadedImg = ref
+                          .child(
+                              DateTime.now().microsecondsSinceEpoch.toString() +
+                                  '.png')
+                          .putFile(img);
                       await uploadedImg.whenComplete(() => null);
 
                       String url = "";
@@ -233,10 +235,10 @@ class _StudentComplaintState extends State<StudentComplaint> {
                           .collection("studentUsers")
                           .doc(FirebaseAuth.instance.currentUser.uid)
                           .collection("complaints")
-                          .doc(FirebaseAuth.instance.currentUser.uid)
-                          .collection('complaints$counter')
-                          .doc(FirebaseAuth.instance.currentUser.uid)
-                          .set({
+                          // .doc(FirebaseAuth.instance.currentUser.uid)
+                          // .collection('complaints$counter')
+                          // .doc(FirebaseAuth.instance.currentUser.uid)
+                          .add({
                         "issue": issue,
                         "roomNumber": roomNumber,
                         "explanation": explanation,
@@ -246,7 +248,6 @@ class _StudentComplaintState extends State<StudentComplaint> {
                       });
 
                       counter++;
-                      imgcounter++;
 
                       // showDialog(
                       // context: context,

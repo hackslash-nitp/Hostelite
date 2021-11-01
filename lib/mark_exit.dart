@@ -197,32 +197,13 @@ class _MarkingExitState extends State<MarkingExit> {
 
                 ),
               ),
-              // Card(
-              //   child: TextFormField(
-              //     decoration: textInputDecoration.copyWith(hintText: 'Hostel Name'),
-              //     onChanged: (value){
-              //       setState(() {
-              //         hostelName = value.trim();
-              //       });}
-              /*value: _myActivity,
-                  onSaved: (value) {
-                    setState(() {
-                      _myActivity = value;
-                    });
-                  },
-                  onChanged: (value) {
-                    setState(() {
-                      _myActivity = value;
-                    });
-                  },*/
-              //   )
-              // ),
+
               SizedBox(height: 80),
               Container(
                 width: 130,
                 height: 50,
                 child: MaterialButton(
-                  child: Text('Mark Entry',
+                  child: Text('Mark Exit',
 
                     style: TextStyle(color: Color(0xff33004A), fontSize: 15),
                   ),
@@ -236,8 +217,8 @@ class _MarkingExitState extends State<MarkingExit> {
                     collection("studentUsers").
                     doc(FirebaseAuth.instance.currentUser.uid).
                     collection("exit").
-                    doc(FirebaseAuth.instance.currentUser.uid).
-                    set({
+
+                    add({
                       // "hostelName" : hostelName,
                       "rollNumber" :rollNumber,
                       "roomNumber" : roomNumber,
