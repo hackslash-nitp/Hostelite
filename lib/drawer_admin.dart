@@ -7,6 +7,9 @@ import 'package:hostelite/loginAdmin.dart';
 
 class NavDrawerAdmin extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  final db = FirebaseFirestore.instance.collection("adminUsers")
+  .doc(FirebaseAuth.instance.currentUser.uid).collection("profile").snapshots();
   
 
 
@@ -35,13 +38,14 @@ class NavDrawerAdmin extends StatelessWidget {
 
             StreamBuilder<Object>(
               stream: FirebaseFirestore.instance.collection(
-                  "users").doc(
-                  FirebaseAuth.instance.currentUser.uid)
+                  "adminUsers").doc(
+                  FirebaseAuth.instance.currentUser.uid).
+                      collection("profile")
                   .snapshots(),
-              builder: (context, snapshot) {
+              builder: (context,  snapshot) {
                 return ListTile(
 
-                  title: Text(userModel.username,
+                  title:Text(_auth.currentUser.email,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 24,

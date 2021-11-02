@@ -72,6 +72,7 @@ class _MarkingExitState extends State<MarkingExit> {
   String roomNumber;
   String rollNumber;
   String purpose;
+  String hostelName;
 
   @override
   Widget build(BuildContext context) {
@@ -219,11 +220,23 @@ class _MarkingExitState extends State<MarkingExit> {
                     collection("exit").
 
                     add({
-                      // "hostelName" : hostelName,
+                      "hostelName" : hostelName,
                       "rollNumber" :rollNumber,
                       "roomNumber" : roomNumber,
+                      "purpose": purpose,
                       "userUid" : FirebaseAuth.instance.currentUser.uid,
-                      "time" : DateTime.now().toString()
+                      "time" : DateTime.now().toLocal()
+                    });
+
+                    FirebaseFirestore.instance
+                        .collection('Exits').
+                    add({
+                      "hostelName" : hostelName,
+                      "rollNumber" :rollNumber,
+                      "roomNumber" : roomNumber,
+                      "purpose": purpose,
+                      "userUid" : FirebaseAuth.instance.currentUser.uid,
+                      "time" : DateTime.now().toLocal()
                     });
 
                     showDialog(

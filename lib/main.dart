@@ -1,6 +1,9 @@
+// import 'dart:js';
+
 import 'package:flutter/material.dart';
 import 'package:hostelite/createAccountAdmin.dart';
 import 'package:hostelite/createAccountStudent.dart';
+import 'package:hostelite/entry-recordsAdmin.dart';
 import 'package:hostelite/exit_entryStudent.dart';
 import 'package:hostelite/home_screen_Admin.dart';
 import 'package:hostelite/home_screen_Student.dart';
@@ -19,7 +22,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MaterialApp(
-    initialRoute: '/home',
+    initialRoute: '/loginadmin',
 
 
     routes: {
@@ -35,6 +38,7 @@ void main() async {
       '/homescreenadmin': (context) => HomeScreenAdmin(),
       '/studententry': (context) => MarkingEntry(),
       '/studentexit': (context) => MarkingExit(),
+
     },
   ));
 }

@@ -184,16 +184,13 @@ class _ViewComplaintsAdminState extends State<ViewComplaintsAdmin> {
                   .collection("complaints")
                   .snapshots(),
               builder: (context, snapshots) {
-                print(snapshots);
-                return ListView(
-                    children: snapshots.data.docs
-                        .map<Widget>((DocumentSnapshot snap) {
-                  List data = snap.data();
-                  return Column(
-                      children: data
-                          .map((result) => Text(result.toString()))
-                          .toList());
-                }).toList());
+                debugPrint('o/p'+snapshots.toString());
+
+                return ListView.builder(
+                    itemCount: 1,
+                    itemBuilder: (context, index){
+                      return Text('abc');
+                    });
               },
             ),
             Container(

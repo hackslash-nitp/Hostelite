@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:hostelite/complaintAdmin.dart';
 import 'package:hostelite/drawer_admin.dart';
 import 'package:hostelite/edit_profile_Admin.dart';
-import 'package:hostelite/exit-entryAdmin.dart';
+import 'package:hostelite/entry-recordsAdmin.dart';
 import 'package:hostelite/alerts_admin.dart';
 import 'package:hostelite/models/user_model.dart';
 

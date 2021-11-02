@@ -3,7 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:hostelite/edit_profile_Student.dart';
+import 'package:hostelite/home_screen_Student.dart';
 import 'package:hostelite/models/user_model.dart';
+import 'package:hostelite/studentexitrecords.dart';
 
 class StudentComplaintList extends StatefulWidget {
   const StudentComplaintList({Key key}) : super(key: key);
@@ -108,6 +111,81 @@ class _StudentComplaintListState extends State<StudentComplaintList> {
           );
         },
       ),
+
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          border: Border.all(
+            color: Colors.grey[300],
+          ),
+        ),
+        height: 45,
+        width: 380,
+        child: Row(
+          children: <Widget>[
+            Spacer(),
+            MaterialButton(
+              onPressed: () {
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                        builder: (context) => HomeScreenStudent()));
+              },
+              child: Icon(
+                Icons.home_filled,
+
+              ),
+            ),
+            Spacer(),
+            //SizedBox(width: 10),
+            MaterialButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) {
+                    return StudentExitRecordList();
+                  }),
+                );
+              },
+              child: Icon(
+                Icons.add_chart_outlined,
+
+              ),
+            ),
+            Spacer(),
+            //SizedBox(width: 10),
+            MaterialButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) {
+                    return StudentComplaintList();
+                  }),
+                );
+              },
+              child: Icon(
+                Icons.av_timer_outlined,
+                color:Color(0xffF989E7),
+              ),
+            ),
+            Spacer(),
+            //SizedBox(width: 10),
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) {
+                    return EditProfileStudent();
+                  }),
+                );
+              },
+              icon: Icon(
+                Icons.person,
+              ),
+            ),
+            Spacer(),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -174,16 +252,8 @@ class Cardcomplaint extends StatelessWidget {
               ],
             ),
           )),
-      //   );
-      // })
-      // .toList(),
-      // child: Text(
-      //   'complaints'
-      // FirebaseFirestore.instance.
-      // collection("studentUsers").
-      // doc(FirebaseAuth.instance.currentUser.uid).
-      // collection("complaints").
-      // doc(FirebaseAuth.instance.currentUser.uid).snapshots().toString()
+
+
     );
   }
 }

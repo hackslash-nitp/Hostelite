@@ -200,8 +200,9 @@ class _CreateAccountAdminState extends State<CreateAccountAdmin> {
                    FirebaseFirestore.instance.
                    collection("adminUsers").
                    doc(FirebaseAuth.instance.currentUser.uid).collection("profile").
+                   doc(FirebaseAuth.instance.currentUser.uid)
 
-                   add({
+                   .set({
                      "username" : username,
                      "mobileNumber" : mobileNumber,
                      "emailAddress" : email,

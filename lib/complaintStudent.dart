@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -89,15 +90,7 @@ class _StudentComplaintState extends State<StudentComplaint> {
   String issue;
   String explanation;
   String status = "pending";
-  int counter = 0;
-  // Map<String, dynamic> allComplaints = {
-  //   "issue": '',
-  //   "roomNumber": '',
-  //   "explanation": '',
-  //   "userUid": FirebaseAuth.instance.currentUser.uid,
-  //   "imageUrl": '',
-  //   "status": "Pending"
-  // };
+
 
   @override
   Widget build(BuildContext context) {
@@ -209,10 +202,14 @@ class _StudentComplaintState extends State<StudentComplaint> {
                 children: [
                   MaterialButton(
                     onPressed: () async {
+
+                      log('123');
+
                       firebase_storage.UploadTask uploadedImg = ref
-                          .child(
-                              DateTime.now().microsecondsSinceEpoch.toString() +
-                                  '.png')
+                          .child(FirebaseAuth.instance.currentUser.uid
+                                  .toString() +
+                              // DateTime.now().microsecondsSinceEpoch.toString() +
+                              '.png')
                           .putFile(img);
                       await uploadedImg.whenComplete(() => null);
 
@@ -222,22 +219,24 @@ class _StudentComplaintState extends State<StudentComplaint> {
                         url = value;
                       });
 
-                      // allComplaints = {
-                      //   "issue": issue,
-                      //   "roomNumber": roomNumber,
-                      //   "explanation": explanation,
-                      //   "userUid": FirebaseAuth.instance.currentUser.uid,
-                      //   "imageUrl": url,
-                      //   "status": status
-                      // };
-
-                      await FirebaseFirestore.instance
+                      FirebaseFirestore.instance
                           .collection("studentUsers")
                           .doc(FirebaseAuth.instance.currentUser.uid)
                           .collection("complaints")
-                          // .doc(FirebaseAuth.instance.currentUser.uid)
-                          // .collection('complaints$counter')
-                          // .doc(FirebaseAuth.instance.currentUser.uid)
+                          .add({
+                            "issue": issue,
+                            "roomNumber": roomNumber,
+                            "explanation": explanation,
+                            "userUid": FirebaseAuth.instance.currentUser.uid,
+                            "imageUrl": url,
+                            "status": "Pending"
+                          })
+                          .then((value) => log(value.toString() + 'o/p'))
+                          .catchError(
+                              (err) => log(err.toString() + 'err'));
+
+                      FirebaseFirestore.instance
+                          .collection('allComplaints')
                           .add({
                         "issue": issue,
                         "roomNumber": roomNumber,
@@ -247,7 +246,7 @@ class _StudentComplaintState extends State<StudentComplaint> {
                         "status": "Pending"
                       });
 
-                      counter++;
+                      
 
                       // showDialog(
                       // context: context,
@@ -265,9 +264,9 @@ class _StudentComplaintState extends State<StudentComplaint> {
                         borderRadius: BorderRadius.circular(10),
                         side: BorderSide(color: Color(0xff1C48E7))),
                   ),
-                  Container(
-                    child: Text(imageUrl),
-                  )
+                  // Container(
+                  //   child: Text(imageUrl),
+                  // )
                 ],
               )
             ],

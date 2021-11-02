@@ -4,7 +4,9 @@ import 'package:hostelite/drawer.dart';
 import 'package:hostelite/edit_profile_Student.dart';
 import 'package:hostelite/mark_exit.dart';
 import 'package:hostelite/exit_entryStudent.dart';
+import 'package:hostelite/studentexitrecords.dart';
 import 'package:hostelite/students_complaint_list.dart';
+import 'package:hostelite/studentsentryrecords.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class HomeScreenStudent extends StatefulWidget {
@@ -335,14 +337,7 @@ class _HomeScreenStudentState extends State<HomeScreenStudent> {
               Spacer(),
               MaterialButton(
                 onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //       builder: (context) {
-                  //         return HomeScreenAdmin( );
-                  //       }
-                  //   ),
-                  // );
+
                 },
                 child: Icon(
                   Icons.home_filled,
@@ -352,7 +347,14 @@ class _HomeScreenStudentState extends State<HomeScreenStudent> {
               Spacer(),
               //SizedBox(width: 10),
               MaterialButton(
-                onPressed: () {},
+                onPressed: () {
+                      Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) {
+                      return StudentExitRecordList();
+                          }),
+                        );
+                      },
                 child: Icon(
                   Icons.add_chart_outlined,
                 ),

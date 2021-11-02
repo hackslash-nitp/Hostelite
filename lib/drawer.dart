@@ -9,7 +9,9 @@ class NavDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+
       child: ListView(
+
         padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
         children: <Widget>[
           DrawerHeader(
@@ -20,6 +22,9 @@ class NavDrawer extends StatelessWidget {
               backgroundImage: AssetImage(''),
               radius: 30,
             ),
+          ),
+          ColoredBox(
+            color: Color(0xffFE96FA),
           ),
           ListTile(
             title: Text(
@@ -33,16 +38,7 @@ class NavDrawer extends StatelessWidget {
             ),
             tileColor: Color(0xffFE96FA),
           ),
-          ListTile(
-            tileColor: Color(0xffFE96FA),
-            title: Text(
-              'Room No.',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 15,
-              ),
-            ),
-          ),
+
           ColoredBox(
             color: Color(0xffFE96FA),
           ),
@@ -147,3 +143,4 @@ class NavDrawer extends StatelessWidget {
     );
   }
 }
+

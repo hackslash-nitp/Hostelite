@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hostelite/home_screen_Admin.dart';
-import 'package:hostelite/models/user_model.dart';
+// import 'package:hostelite/models/user_model.dart';
 
 class EditProfileAdmin extends StatefulWidget {
   const EditProfileAdmin({Key key}) : super(key: key);
@@ -13,13 +13,16 @@ class EditProfileAdmin extends StatefulWidget {
 
 class _EditProfileAdminState extends State<EditProfileAdmin> {
 
+FirebaseAuth _auth = FirebaseAuth.instance;
 
   final TextEditingController username = TextEditingController();
   final TextEditingController mobileNumber = TextEditingController();
   final TextEditingController email = TextEditingController();
   Future buildUpdateProfile() async {
     FirebaseFirestore.instance
-        .collection("users")
+        .collection("adminUsers")
+        .doc(FirebaseAuth.instance.currentUser.uid)
+    .collection("profile")
         .doc(FirebaseAuth.instance.currentUser.uid)
         .update({
       "username" : username.text,
@@ -64,7 +67,7 @@ class _EditProfileAdminState extends State<EditProfileAdmin> {
                   controller: username,
                   decoration: InputDecoration(
 
-                    hintText: userModel.username,
+                    hintText: _auth.currentUser.displayName,
                     labelText: 'Name',
                     fillColor: Colors.white,
                     filled: true,
@@ -90,7 +93,7 @@ class _EditProfileAdminState extends State<EditProfileAdmin> {
                 TextFormField(
                   controller: email,
                   decoration: InputDecoration(
-                    hintText: userModel.email,
+                    hintText: _auth.currentUser.email,
                     labelText: 'Email',
                     fillColor: Colors.white,
                     filled: true,
@@ -117,7 +120,7 @@ class _EditProfileAdminState extends State<EditProfileAdmin> {
                 TextFormField(
                   controller: mobileNumber,
                   decoration: InputDecoration(
-                    hintText: userModel.mobileNumber,
+                    hintText: _auth.currentUser.displayName,
                     labelText: 'Mobile number',
                     fillColor: Colors.white,
                     filled: true,
@@ -152,6 +155,16 @@ class _EditProfileAdminState extends State<EditProfileAdmin> {
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
                     onPressed: () {
                       buildUpdateProfile();
+                      var message;
+                      User firebaseUser = FirebaseAuth.instance
+                          .currentUser;
+                      firebaseUser
+                          .updateEmail(email.text)
+                          .then(
+                            (value) => message = 'Success',
+                      )
+                          .catchError((onError) => message = 'error');
+                      debugPrint(message);
                       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomeScreenAdmin() ));
                     },
 
