@@ -114,14 +114,20 @@ class _StudentEntryRecordListState extends State<StudentExitRecordList> {
 
                     columns: [
 
+                      DataColumn(label: Text('Date')),
                       DataColumn(label: Text('Time')),
                       DataColumn(label: Text('Purpose of exit')),
+                      DataColumn(label: Text('Hostel')),
+                      DataColumn(label: Text('Room No.')),
                     ],
                     rows:
                     my_exits.map((element) => DataRow(
                       cells: <DataCell>[
-                        DataCell(Text(element["time"])), //Extracting from Map element the value
+                        DataCell(Text(element["time"].toDate().toString().substring(0,11))), //Extracting from Map element the value
+                        DataCell(Text(element["time"].toDate().toString().substring(11,19))), //Extracting from Map element the value
                         DataCell(Text(element["purpose"])),
+                        DataCell(Text(element["hostelName"])),
+                        DataCell(Text(element["roomNumber"])),
 
                       ],
                     )

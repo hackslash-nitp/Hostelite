@@ -25,12 +25,18 @@ class _EditProfileStudentState extends State<EditProfileStudent> {
       .collection('profile')
       .doc(FirebaseAuth.instance.currentUser.uid);
 
+  FirebaseAuth _auth = FirebaseAuth.instance;
+
   String dpurl = FirebaseFirestore.instance
       .collection('studentUsers')
       .doc(FirebaseAuth.instance.currentUser.uid)
       .collection('profile').get().then((value) {
     value.docs[0].data()["dpUrl"];
   }).toString();
+
+  var picsdb = FirebaseFirestore.instance
+      .collection('displayPics')
+      .doc(FirebaseAuth.instance.currentUser.uid);
 
   final TextEditingController username = TextEditingController();
   final TextEditingController mobileNumber = TextEditingController();
@@ -77,53 +83,45 @@ class _EditProfileStudentState extends State<EditProfileStudent> {
                     SizedBox(
                       height: 35,
                     ),
-                    // GestureDetector(
-                    //   onTap: () {
-                    //     ImagePicker()
-                    //         .pickImage(source: ImageSource.gallery)
-                    //         .then((value) {
-                    //       _pickedImage = File(value.path);
-                    //       Reference reference = FirebaseStorage.instance
-                    //           .ref()
-                    //           .child('images')
-                    //           .child('dps')
-                    //           .child(
-                    //               DateTime.now().microsecondsSinceEpoch.toString() +
-                    //                   '.jpg');
-                    //       UploadTask task = reference.putFile(_pickedImage);
-                    //       task.whenComplete(() {
-                    //         reference.getDownloadURL().then((url) {
-                    //           // db.get().then((value) {
-                    //           //   debugPrint(value.docs[0].data().toString());
-                    //           //   debugPrint(value.docs[0].data()["dpUrl"]+'ab');
-                    //           //   value.docs[0].data()["dpUrl"].update({
-                    //           //     "dpUrl":url
-                    //           //   });
-                    //           // });
-                    //           debugPrint(db.toString());
-                    //           debugPrint(url);
-                    //           db.update({
-                    //             'dpUrl': url
-                    //           });
-                    //           // db.update({'dpUrl': url});
-                    //         });
-                    //       });
-                    //     });
-                    //   },
-                    //   child: CircleAvatar(
-                    //     radius: 85,
-                    //     backgroundColor: Colors.orange[100],
-                    //     // backgroundImage: Images(Image.network(''))
-                    //
-                    //   ),
-                    // ),
+                    GestureDetector(
+                      onTap: () {
+                        ImagePicker()
+                            .pickImage(source: ImageSource.gallery)
+                            .then((value) {
+                          _pickedImage = File(value.path);
+                          Reference reference = FirebaseStorage.instance
+                              .ref()
+                              .child('images')
+                              .child('dps')
+                              .child(
+                                  DateTime.now().microsecondsSinceEpoch.toString() +
+                                      '.jpg');
+                          UploadTask task = reference.putFile(_pickedImage);
+                          task.whenComplete(() {
+                            reference.getDownloadURL().then((url) {
+
+                              picsdb.set({
+                                'dpUrl': url
+                              });
+
+                            });
+                          });
+                        });
+                      },
+                      child: CircleAvatar(
+                        radius: 85,
+                        backgroundColor: Colors.orange[100],
+                        // backgroundImage: NetworkImage(picsdb.docs.data["dpurl"])
+
+                      ),
+                    ),
                     SizedBox(
                       height: 35,
                     ),
                     TextFormField(
                       controller: username,
                       decoration: InputDecoration(
-                        hintText: 'username',
+                        hintText: _auth.currentUser.displayName,
                         labelText: 'Name',
                         fillColor: Colors.white,
                         filled: true,
@@ -142,7 +140,7 @@ class _EditProfileStudentState extends State<EditProfileStudent> {
                     TextFormField(
                       controller: email,
                       decoration: InputDecoration(
-                        hintText: 'username',
+                        hintText: _auth.currentUser.email,
                         labelText: 'Email',
                         fillColor: Colors.white,
                         filled: true,
@@ -161,7 +159,7 @@ class _EditProfileStudentState extends State<EditProfileStudent> {
                     TextFormField(
                       controller: mobileNumber,
                       decoration: InputDecoration(
-                        hintText: 'username',
+                        hintText: _auth.currentUser.phoneNumber,
                         labelText: 'Mobile number',
                         fillColor: Colors.white,
                         filled: true,

@@ -100,155 +100,190 @@ class _MarkingExitState extends State<MarkingExit> {
                   fit: BoxFit.contain
               )
           ),
-          child: Column(
-            children: <Widget>[
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
 
-              Container(
+                Container(
 
-                child: TextFormField(
-                    decoration: InputDecoration(
-                      hintText: 'Roll No.',
-                      filled: true,
-                      fillColor: Color(0xffFFFFFF),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                        borderSide: BorderSide(
-                            color: Colors.grey,
-                            width: 1.0
+                  child: TextFormField(
+                      decoration: InputDecoration(
+                        hintText: 'Roll No.',
+                        filled: true,
+                        fillColor: Color(0xffFFFFFF),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                          borderSide: BorderSide(
+                              color: Colors.grey,
+                              width: 1.0
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Colors.cyan,
+                                width: 1.0
+                            )
                         ),
                       ),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors.cyan,
-                              width: 1.0
-                          )
-                      ),
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        rollNumber = value.trim();
-                      });
-                    }
+                      onChanged: (value) {
+                        setState(() {
+                          rollNumber = value.trim();
+                        });
+                      }
 
-                ),
-              ),
-
-              SizedBox(height: 30,),
-
-              Container(
-
-                child: TextFormField(
-                    decoration: InputDecoration(
-                      hintText: 'Room No.',
-                      filled: true,
-                      fillColor: Color(0xffFFFFFF),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                        borderSide: BorderSide(
-                            color: Colors.grey,
-                            width: 1.0
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors.cyan,
-                              width: 1.0
-                          )
-                      ),
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        roomNumber = value.trim();
-                      });
-                    }
-
-                ),
-              ),
-
-              SizedBox(height: 30,),
-
-              Container(
-
-                child: TextField(
-                    keyboardType: TextInputType.multiline,
-                    maxLines: null,
-                    decoration: InputDecoration(
-                      hintText: 'Purpose of Exit',
-                      filled: true,
-                      fillColor: Color(0xffFFFFFF),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                        borderSide: BorderSide(
-                            color: Colors.grey,
-                            width: 1.0
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors.cyan,
-                              width: 1.0
-                          )
-                      ),
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        purpose = value.trim();
-                      });
-                    }
-
-                ),
-              ),
-
-              SizedBox(height: 80),
-              Container(
-                width: 130,
-                height: 50,
-                child: MaterialButton(
-                  child: Text('Mark Exit',
-
-                    style: TextStyle(color: Color(0xff33004A), fontSize: 15),
                   ),
-                  color: Color(0xffFE96FA),
-                  minWidth: 100,
-                  elevation: 10,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-                  onPressed: () async {
-
-                    FirebaseFirestore.instance.
-                    collection("studentUsers").
-                    doc(FirebaseAuth.instance.currentUser.uid).
-                    collection("exit").
-
-                    add({
-                      "hostelName" : hostelName,
-                      "rollNumber" :rollNumber,
-                      "roomNumber" : roomNumber,
-                      "purpose": purpose,
-                      "userUid" : FirebaseAuth.instance.currentUser.uid,
-                      "time" : DateTime.now().toLocal()
-                    });
-
-                    FirebaseFirestore.instance
-                        .collection('Exits').
-                    add({
-                      "hostelName" : hostelName,
-                      "rollNumber" :rollNumber,
-                      "roomNumber" : roomNumber,
-                      "purpose": purpose,
-                      "userUid" : FirebaseAuth.instance.currentUser.uid,
-                      "time" : DateTime.now().toLocal()
-                    });
-
-                    showDialog(
-                        context: context,
-                        // ignore: non_constant_identifier_names
-                        builder: (BuildContext) => leadDialog
-                    );
-
-                  },
                 ),
-              ),
-            ],
+
+                SizedBox(height: 30,),
+
+                Container(
+
+                  child: TextFormField(
+                      decoration: InputDecoration(
+                        hintText: 'Room No.',
+                        filled: true,
+                        fillColor: Color(0xffFFFFFF),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                          borderSide: BorderSide(
+                              color: Colors.grey,
+                              width: 1.0
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Colors.cyan,
+                                width: 1.0
+                            )
+                        ),
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          roomNumber = value.trim();
+                        });
+                      }
+
+                  ),
+                ),
+
+                SizedBox(height: 30,),
+
+                Container(
+
+                  child: TextFormField(
+                      decoration: InputDecoration(
+                        hintText: 'Hostel Name',
+                        filled: true,
+                        fillColor: Color(0xffFFFFFF),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                          borderSide: BorderSide(
+                              color: Colors.grey,
+                              width: 1.0
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Colors.cyan,
+                                width: 1.0
+                            )
+                        ),
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          hostelName = value.trim();
+                        });
+                      }
+
+                  ),
+                ),
+
+                SizedBox(height: 30,),
+
+                Container(
+
+                  child: TextField(
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null,
+                      decoration: InputDecoration(
+                        hintText: 'Purpose of Exit',
+                        filled: true,
+                        fillColor: Color(0xffFFFFFF),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                          borderSide: BorderSide(
+                              color: Colors.grey,
+                              width: 1.0
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Colors.cyan,
+                                width: 1.0
+                            )
+                        ),
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          purpose = value.trim();
+                        });
+                      }
+
+                  ),
+                ),
+
+                SizedBox(height: 80),
+                Container(
+                  width: 130,
+                  height: 50,
+                  child: MaterialButton(
+                    child: Text('Mark Exit',
+
+                      style: TextStyle(color: Color(0xff33004A), fontSize: 15),
+                    ),
+                    color: Color(0xffFE96FA),
+                    minWidth: 100,
+                    elevation: 10,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                    onPressed: () async {
+
+                      FirebaseFirestore.instance.
+                      collection("studentUsers").
+                      doc(FirebaseAuth.instance.currentUser.uid).
+                      collection("exit").
+
+                      add({
+                        "hostelName" : hostelName,
+                        "rollNumber" :rollNumber,
+                        "roomNumber" : roomNumber,
+                        "purpose": purpose,
+                        "userUid" : FirebaseAuth.instance.currentUser.uid,
+                        "time" : DateTime.now().toLocal(),
+                        "name" : FirebaseAuth.instance.currentUser.email
+                      });
+
+                      FirebaseFirestore.instance
+                          .collection('Exits').
+                      add({
+                        "hostelName" : hostelName,
+                        "rollNumber" :rollNumber,
+                        "roomNumber" : roomNumber,
+                        "purpose": purpose,
+                        "userUid" : FirebaseAuth.instance.currentUser.uid,
+                        "time" : DateTime.now().toLocal()
+                      });
+
+                      showDialog(
+                          context: context,
+                          // ignore: non_constant_identifier_names
+                          builder: (BuildContext) => leadDialog
+                      );
+
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -242,8 +242,11 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
                   color: Colors.purple,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
                   onPressed: ()  async {
-                    userCredential = await  _auth.createUserWithEmailAndPassword(email: email,password: password
-                );
+                    userCredential = await  _auth.createUserWithEmailAndPassword(email: email,password: password);
+                        User user = userCredential.user;
+                        user.updateDisplayName(username);
+                        // user.updatePhoneNumber(mobileNumber);
+
                 //Sending user data
                 FirebaseFirestore.instance.
                collection("studentUsers").

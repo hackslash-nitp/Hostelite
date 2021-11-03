@@ -67,23 +67,80 @@ Dialog leadDialog = Dialog(
   ),
 );
 
+Dialog leadDialogLate = Dialog(
+  child: Container(
+    height: 300,
+    width: 360,
+    child: Column(
+      children: <Widget>[
+        Center(
+          child: Image(
+            image: AssetImage('assets/create_account_page/Vector.png'),
+            height: 150,
+            width: 150,
+          ),
+        ),
+        Text(
+          'You are not',
+          style: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Text(
+          'at hostel',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 30,
+          ),
+        ),
+        Container(
+          width: 150.0,
+          height: 40.0,
+          child: MaterialButton(
+            child: Text(
+              'Done',
+              style: TextStyle(color: Colors.white, fontSize: 17.0),
+            ),
+            color: Colors.pinkAccent[100],
+            minWidth: 100.0,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)),
+            onPressed: () {
+              BuildContext context;
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return HomeScreenStudent();
+              }));
+            },
+          ),
+        ),
+      ],
+    ),
+  ),
+);
+
 class _MarkingEntryState extends State<MarkingEntry> {
+
+  var db = FirebaseFirestore.instance;
+  List alerts = [];
 
 
   String roomNumber;
   String rollNumber;
   String studentloc;
   String hostel;
-  // String hostelName;
+  int currentTime = DateTime.now().toLocal().hour;
   var locationMessage = '';
+  Position position;
 
   void getCurrentLocation() async {
-    Position position = await Geolocator.getCurrentPosition(
+    position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
     setState(() {
       locationMessage =
           'Longitude: ${position.longitude} \n Latitude: ${position.latitude}';
     });
+
   }
 
   @override
@@ -288,9 +345,9 @@ class _MarkingEntryState extends State<MarkingEntry> {
                       });
 
                       FirebaseFirestore.instance
-                      .collection('Entries').
-                          add({
-                        "name":FirebaseAuth.instance.currentUser.email,
+                          .collection('Entries').
+                      add({
+                        "name": FirebaseAuth.instance.currentUser.email,
                         "rollNumber": rollNumber,
                         "roomNumber": roomNumber,
                         "hostel": hostel,
@@ -299,10 +356,29 @@ class _MarkingEntryState extends State<MarkingEntry> {
                         "location": locationMessage,
                       });
 
-                      showDialog(
-                          context: context,
-                          // ignore: non_constant_identifier_names
-                          builder: (BuildContext) => leadDialog);
+                      if (  (currentTime > 8)) {
+                        FirebaseFirestore.instance.collection('alerts').add({
+                          "position": position.toString(),
+                          "name": FirebaseAuth.instance.currentUser.email,
+                          "rollNumber": rollNumber,
+                          "roomNumber": roomNumber,
+                          "hostel": hostel,
+                          "userUid": FirebaseAuth.instance.currentUser.uid,
+                          "time": DateTime.now().toLocal(),
+                        });
+                        showDialog(
+                            context: context,
+
+                            builder: (BuildContext context) => leadDialogLate);
+                        return;
+                      }
+
+                      else {
+                        showDialog(
+                            context: context,
+
+                            builder: (BuildContext context) => leadDialog);
+                      }
                     },
                   ),
                 ),

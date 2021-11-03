@@ -1,5 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hostelite/edit_profile_Admin.dart';
+import 'package:hostelite/exit-recordsAdmin.dart';
+import 'package:hostelite/home_screen_Admin.dart';
 
 class Alerts extends StatefulWidget {
   const Alerts({Key key}) : super(key: key);
@@ -10,6 +14,26 @@ class Alerts extends StatefulWidget {
 
 class _AlertsState extends State<Alerts> {
 
+  var db = FirebaseFirestore.instance;
+  List entries = [];
+
+
+
+  @override
+  void initState() {
+    super.initState();
+    db
+        .collection('Alerts')
+        .get()
+        .then((value) {
+      setState(() {
+        entries = value.docs;
+      });
+
+    });
+  }
+
+
   String dropdownvalue = "Hostel";
   var items = ['Hostel','Ganga','Kosi','Son','Brahmaputra'];
   final now = DateTime.now();
@@ -17,262 +41,290 @@ class _AlertsState extends State<Alerts> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-
-        preferredSize: Size.fromHeight(100),
-        child: AppBar(
-          leading: BackButton(
-              color: Colors.black
-          ),
-          title: Text('Alerts',
-            style: TextStyle(
-              color: Color(0xff4E4E4E),
-            ),),
-
-
-          backgroundColor: Color(0xffFE96FA),
+      appBar: AppBar(
+        leading: BackButton(
+            color: Colors.black
         ),
+        title: Text('Alerts',
+          style: TextStyle(
+            color: Color(0xff4E4E4E),
+          ),),
+
+
+        backgroundColor: Color(0xffFE96FA),
       ),
       body: SingleChildScrollView(
         child: Column(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              boxShadow:[ BoxShadow(
+          // Container(
+          //   decoration: BoxDecoration(
+          //     borderRadius: BorderRadius.circular(15),
+          //     boxShadow:[ BoxShadow(
+          //
+          //       color: Colors.tealAccent.withOpacity(0.1),
+          //       spreadRadius: 5
+          //     ),
+          //     ]
+          //   ),
+          //   child: Row(
+          //   children: [
+          //     Padding(
+          //       padding:EdgeInsets.fromLTRB(30, 5, 30, 5),
+          //       child: DropdownButton(
+          //
+          //         value: dropdownvalue,
+          //         icon: Icon(Icons.keyboard_arrow_down),
+          //         items:items.map((String items) {
+          //           return DropdownMenuItem(
+          //               value: items,
+          //               child: Text(items)
+          //           );
+          //         }
+          //         ).toList(),
+          //         onChanged: (String newValue){
+          //           setState(() {
+          //             dropdownvalue = newValue;
+          //           });
+          //         },
+          //       ),
+          //     ),
+          //     Spacer(),
+          //     Padding(
+          //       padding:EdgeInsets.fromLTRB(30, 5, 30, 5),
+          //       child: DropdownButton(
+          //
+          //         value: dropdownvalue,
+          //         icon: Icon(Icons.keyboard_arrow_down),
+          //         items:items.map((String items) {
+          //           return DropdownMenuItem(
+          //               value: items,
+          //               child: Text(items)
+          //           );
+          //         }
+          //         ).toList(),
+          //         onChanged: (String newValue){
+          //           setState(() {
+          //             dropdownvalue = newValue;
+          //           });
+          //         },
+          //       ),
+          //     ),
+          //       //Drop Down DatePicker Package required to be installed in pubspec
+          //
+          //       //child: DropdownDatePicker(
+          //         //firstDate: ValidDate(year: now.year - 100, month: 1, day: 1),
+          //         //lastDate: ValidDate(year: now.year, month: now.month, day: now.month),
+          //
+          //
+          //   ],
+          //   ),
+          // ),
+          //
+          //
+          // SizedBox(height: 20,),
 
-                color: Colors.tealAccent.withOpacity(0.1),
-                spreadRadius: 5
-              ),
-              ]
-            ),
-            child: Row(
-            children: [
-              Padding(
-                padding:EdgeInsets.fromLTRB(30, 5, 30, 5),
-                child: DropdownButton(
+          StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance.collection('alerts').snapshots(),
+              builder: (context,snapshots){
+                return (!snapshots.hasData) ? CircularProgressIndicator() : Container(
+                  height: 500,
+                  child: ListView.builder(
+                      itemCount: snapshots.data.docs.length,
+                      itemBuilder: (context,index){
+                        DocumentSnapshot data = snapshots.data.docs[index];
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Card(
+                              child: Container(
 
-                  value: dropdownvalue,
-                  icon: Icon(Icons.keyboard_arrow_down),
-                  items:items.map((String items) {
-                    return DropdownMenuItem(
-                        value: items,
-                        child: Text(items)
-                    );
-                  }
-                  ).toList(),
-                  onChanged: (String newValue){
-                    setState(() {
-                      dropdownvalue = newValue;
-                    });
-                  },
-                ),
-              ),
-              Spacer(),
-              Padding(
-                padding:EdgeInsets.fromLTRB(30, 5, 30, 5),
-                child: DropdownButton(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text('User email: ',style: TextStyle(
+                                            fontSize: 18
+                                          ),),
+                                          Text(data['name'],style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500
+                                          ),),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text('Roll No: ',style: TextStyle(
+                                              fontWeight: FontWeight.w500
+                                          ),),
+                                          Text(data['rollNumber'],style: TextStyle(
+                                            fontSize: 16,
 
-                  value: dropdownvalue,
-                  icon: Icon(Icons.keyboard_arrow_down),
-                  items:items.map((String items) {
-                    return DropdownMenuItem(
-                        value: items,
-                        child: Text(items)
-                    );
-                  }
-                  ).toList(),
-                  onChanged: (String newValue){
-                    setState(() {
-                      dropdownvalue = newValue;
-                    });
-                  },
-                ),
-              ),
-                //Drop Down DatePicker Package required to be installed in pubspec
+                                          ),),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text('Room No: ',style: TextStyle(
+                                              fontWeight: FontWeight.w500
+                                          ),),
+                                          Text(data['roomNumber'],style: TextStyle(
+                                            fontSize: 16,
 
-                //child: DropdownDatePicker(
-                  //firstDate: ValidDate(year: now.year - 100, month: 1, day: 1),
-                  //lastDate: ValidDate(year: now.year, month: now.month, day: now.month),
+                                          ),),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text('Hostel: ',style: TextStyle(
+                                              fontWeight: FontWeight.w500
+                                          ),),
+                                          Text(data['hostel'],style: TextStyle(
+                                            fontSize: 16,
 
+                                          ),),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text('Date: ',style: TextStyle(
+                                              fontWeight: FontWeight.w500
+                                          ),),
+                                          Text(data['time'].toDate().toString().substring(0,11),style: TextStyle(
+                                            fontSize: 16,
 
-            ],
-            ),
-          ),
-          SizedBox(height: 20,),
-          Container(
+                                          ),),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text('Time: ',style: TextStyle(
+                                              fontWeight: FontWeight.w500
+                                          ),),
+                                          Text(data['time'].toDate().toString().substring(11,19),style: TextStyle(
+                                            fontSize: 16,
 
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(15,0,15,0),
-              child: Card(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15)
-                ),
-                child: Padding(
-                  padding: EdgeInsets.all(15),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          CircleAvatar(),
-                          SizedBox(width: 10,),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Ramesh Kumar',
-                                style: TextStyle(
-                                    color: Color(0xff565656),
-                                    fontSize: 15
-                                ),),
-                              Text('Room No. 087',
-                              style: TextStyle(
-                                fontSize: 12
-                              ),),
-                            ],
+                                          ),),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text('Position: ',style: TextStyle(
+                                              fontWeight: FontWeight.w500
+                                          ),),
+                                          Text(data['position'].toString(),style: TextStyle(
+                                            fontSize: 16,
+
+                                          ),),
+                                        ],
+                                      ),
+
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
-                          Spacer(),
-                          Text(DateTime.now().day.toString()+'.'+DateTime.now().month.toString()+'.'+DateTime.now().year                     .toString(),
-                            style: TextStyle(
-                                color: Color(0xff9F9F9F)
-                            ),)
-                        ],
-                      ),
-                      Divider(),
-                      SizedBox(height: 5,),
-                      Text('Sir I went to purchase a book , but while returning it satrted raining . So there was                              no any options left for me then waiting at  the store until the rain stopped.'),
-                      SizedBox(height: 10,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            DateTime.now().toString(),
-                            style: TextStyle(
-                                color: Color(0xff9F9F9F)
-                            ),)
-                        ],
-                      )
-
-                    ],
+                        );
+                      }
                   ),
-                ),
-              ),
-            ),
-          ),
-          SizedBox(height: 20,),
-          Container(
-
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(15,0,15,0),
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15)
-                ),
-                child: Padding(
-                  padding: EdgeInsets.all(15),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          CircleAvatar(),
-                          SizedBox(width: 10,),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Ramesh Kumar',
-                              style: TextStyle(
-                                color: Color(0xff565656),
-                                fontSize: 15
-                              ),),
-                              Text('Room No. 087'),
-                            ],
-                          ),
-                          Spacer(),
-                          Text(DateTime.now().day.toString()+'.'+DateTime.now().month.toString()+'.'+DateTime.now().year                     .toString(),
-                            style: TextStyle(
-                                color: Color(0xff9F9F9F)
-                            ),)
-                        ],
-                      ),
-                      Divider(),
-                      SizedBox(height: 5,),
-                      Text('Sir I went to purchase a book , but while returning it satrted raining . So there was                              no any options left for me then waiting at  the store until the rain stopped.'),
-                      SizedBox(height: 10,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            DateTime.now().toString(),
-                            style: TextStyle(
-                                color: Color(0xff9F9F9F)
-                            ),)
-                        ],
-                      )
-
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-          SizedBox(height: 20,),
-          Container(
-
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(15,0,15,0),
-              child: Card(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15)
-                ),
-                child: Padding(
-                  padding: EdgeInsets.all(15),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          CircleAvatar(),
-                          SizedBox(width: 10,),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Ramesh Kumar',
-                                style: TextStyle(
-                                    color: Color(0xff565656),
-                                    fontSize: 15
-                                ),),
-                              Text('Room No. 087'),
-                            ],
-                          ),
-                          Spacer(),
-                          Text(DateTime.now().day.toString()+'.'+DateTime.now().month.toString()+'.'+DateTime.now().year                     .toString(),
-                            style: TextStyle(
-                                color: Color(0xff9F9F9F)
-                            ),)
-                        ],
-                      ),
-                      Divider(),
-                      SizedBox(height: 5,),
-                      Text('Sir I went to purchase a book , but while returning it satrted raining . So there was                              no any options left for me then waiting at  the store until the rain stopped.'),
-                      SizedBox(height: 10,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            DateTime.now().toString(),
-                            style: TextStyle(
-                                color: Color(0xff9F9F9F)
-                            ),)
-                        ],
-                      )
-
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
+                );
+              }
+          )
 
         ],
           ),
+      ),
+
+      bottomNavigationBar:  Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          border: Border.all(
+            color: Colors.grey[300],
+          ),
+
+        ),
+        height: 45,
+        width: 380,
+        child: Row(
+          children: <Widget>[
+            Spacer(),
+            MaterialButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) {
+                        return HomeScreenAdmin( );
+                      }
+                  ),
+                );
+              },
+              child: Icon(
+
+                Icons.home_filled,
+              ),
+            ),
+            Spacer(),
+            //SizedBox(width: 10),
+            MaterialButton(
+              onPressed: () {
+
+                Navigator.push(context,
+                MaterialPageRoute( builder: (context) {
+                return ExitListAdmin();
+                    }
+                  ),
+                );
+              },
+              child: Icon(
+                Icons.graphic_eq,
+
+              ),
+            ),
+            Spacer(),
+            //SizedBox(width: 10),
+            MaterialButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) {
+                        return Alerts();
+                      }
+                  ),
+                );
+              },
+              child: Icon(
+                Icons.add_alert,
+                color:Color(0xffF989E7),
+              ),
+            ),
+            Spacer(),
+            //SizedBox(width: 10),
+            MaterialButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) {
+                        return EditProfileAdmin();
+                      }
+                  ),
+                );
+              },
+              child: Icon(
+                Icons.person,
+              ),
+            ),
+            Spacer(),
+
+
+          ],
+        ),
       ),
 
     );

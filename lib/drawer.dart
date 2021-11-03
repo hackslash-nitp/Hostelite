@@ -14,6 +14,7 @@ class NavDrawer extends StatelessWidget {
 
         padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
         children: <Widget>[
+
           DrawerHeader(
             decoration: BoxDecoration(
               color: Color(0xffFE96FA),
@@ -137,7 +138,14 @@ class NavDrawer extends StatelessWidget {
               ),
             ),
             tileColor: Color(0xffFE96FA),
-          )
+          ),
+          ListTile(
+
+            tileColor: Color(0xffFE96FA),
+          ),ListTile(
+
+            tileColor: Color(0xffFE96FA),
+          ),
         ],
       ),
     );

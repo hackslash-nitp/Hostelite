@@ -75,154 +75,154 @@ class _CreateAccountAdminState extends State<CreateAccountAdmin> {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.fromLTRB(30,60,30,0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
 
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0,10,10,10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Text('Create Account',
-                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 25),
-                  ),
-                  SizedBox(height: 0),
-                  Text('Get your home here!',
-                    style: TextStyle(color: Colors.black, fontSize: 10),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 30),
-            Container(
-              height: 45,
-              width: 280,
-              child: TextFormField(
-                decoration: textInputDecoration.copyWith(
-                    hintText: 'Username',
-                    prefixIcon: const Icon(Icons.person, color: Colors.grey)),
-                  onChanged: (value) {
-                    setState(() {
-                      username = value.trim();
-                    });
-                  }
-              ),
-            ),
-
-
-            SizedBox(height: 15),
-            Container(
-              height: 45,
-              width: 280,
-              child: TextFormField(
-                decoration: textInputDecoration.copyWith(
-                    hintText: 'E-Mail',
-                    prefixIcon: const Icon(
-                        Icons.email, color: Colors.grey)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0,10,10,10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Text('Create Account',
+                      style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 25),
+                    ),
+                    SizedBox(height: 0),
+                    Text('Get your home here!',
+                      style: TextStyle(color: Colors.black, fontSize: 10),
+                    ),
+                  ],
                 ),
-                onChanged: (value) {
-                  setState(() {
-                    email = value.trim();
-                  });
-                },
               ),
-            ),
-
-
-
-            SizedBox(height: 15),
-            Container(
-              height: 45,
-              width: 280,
-              child: TextFormField(
-                decoration: textInputDecoration.copyWith(
-                    hintText: 'Mobile No.',
-                    prefixIcon: const Icon(Icons.local_phone, color: Colors.grey)),
-                  onChanged: (value) {
-                    setState(() {
-                   mobileNumber = value.trim();
-                    });
-                  }
-              ),
-            ),
-
-            SizedBox(height: 15),
-            Container(
-              height: 45,
-              width: 280,
-              child: TextFormField(
-                decoration: textInputDecoration.copyWith(
-                    hintText: 'Create Password',
-                    prefixIcon: const Icon(
-                        Icons.lock, color: Colors.grey)
+              SizedBox(height: 30),
+              Container(
+                height: 45,
+                width: 280,
+                child: TextFormField(
+                  decoration: textInputDecoration.copyWith(
+                      hintText: 'Username',
+                      prefixIcon: const Icon(Icons.person, color: Colors.grey)),
+                    onChanged: (value) {
+                      setState(() {
+                        username = value.trim();
+                      });
+                    }
                 ),
-                onChanged: (value) {
-                  setState(() {
-                    password = value.trim();
-                  });
-                },
               ),
 
-            ),
 
-            SizedBox(height: 15),
-            Container(
-              height: 45,
-              width: 280,
-              child: TextFormField(
-                decoration: textInputDecoration.copyWith(
-                    hintText: 'Confirm Password',
-                    prefixIcon: const Icon(Icons.lock, color: Colors.grey)),
+              SizedBox(height: 15),
+              Container(
+                height: 45,
+                width: 280,
+                child: TextFormField(
+                  decoration: textInputDecoration.copyWith(
+                      hintText: 'E-Mail',
+                      prefixIcon: const Icon(
+                          Icons.email, color: Colors.grey)
+                  ),
                   onChanged: (value) {
                     setState(() {
-                   confirmPassword = value.trim();
+                      email = value.trim();
                     });
-                  }
-              ),
-            ),
-            SizedBox(height: 40),
-            SingleChildScrollView(
-              child: Container(
-                height: 40,
-                width: 150,
-                child: MaterialButton(
-                  child: Text('Register',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white, fontSize: 17),
-                  ),
-                  color: Colors.purple,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-                  onPressed: () async {
-                   userCredential = await  _auth.createUserWithEmailAndPassword(email: email, password: password);
-
-                   //Sending user data
-                   FirebaseFirestore.instance.
-                   collection("adminUsers").
-                   doc(FirebaseAuth.instance.currentUser.uid).collection("profile").
-                   doc(FirebaseAuth.instance.currentUser.uid)
-
-                   .set({
-                     "username" : username,
-                     "mobileNumber" : mobileNumber,
-                     "emailAddress" : email,
-                     "userUid" : userCredential.user.uid
-
-
-                   });
-                    // print (_auth.toString());
-                    showDialog(
-                        context: context,
-                        // ignore: non_constant_identifier_names
-                        builder: (BuildContext) => leadDialog);
                   },
-
                 ),
               ),
-            ),
-            SizedBox(height: 30),
-            SingleChildScrollView(
-              child: Row(
+
+
+
+              SizedBox(height: 15),
+              Container(
+                height: 45,
+                width: 280,
+                child: TextFormField(
+                  decoration: textInputDecoration.copyWith(
+                      hintText: 'Mobile No.',
+                      prefixIcon: const Icon(Icons.local_phone, color: Colors.grey)),
+                    onChanged: (value) {
+                      setState(() {
+                     mobileNumber = value.trim();
+                      });
+                    }
+                ),
+              ),
+
+              SizedBox(height: 15),
+              Container(
+                height: 45,
+                width: 280,
+                child: TextFormField(
+                  decoration: textInputDecoration.copyWith(
+                      hintText: 'Create Password',
+                      prefixIcon: const Icon(
+                          Icons.lock, color: Colors.grey)
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      password = value.trim();
+                    });
+                  },
+                ),
+
+              ),
+
+              SizedBox(height: 15),
+              Container(
+                height: 45,
+                width: 280,
+                child: TextFormField(
+                  decoration: textInputDecoration.copyWith(
+                      hintText: 'Confirm Password',
+                      prefixIcon: const Icon(Icons.lock, color: Colors.grey)),
+                    onChanged: (value) {
+                      setState(() {
+                     confirmPassword = value.trim();
+                      });
+                    }
+                ),
+              ),
+              SizedBox(height: 40),
+              SingleChildScrollView(
+                child: Container(
+                  height: 40,
+                  width: 150,
+                  child: MaterialButton(
+                    child: Text('Register',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.white, fontSize: 17),
+                    ),
+                    color: Colors.purple,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                    onPressed: () async {
+                     userCredential = await  _auth.createUserWithEmailAndPassword(email: email, password: password);
+
+                     //Sending user data
+                     FirebaseFirestore.instance.
+                     collection("adminUsers").
+                     doc(FirebaseAuth.instance.currentUser.uid).collection("profile").
+                     doc(FirebaseAuth.instance.currentUser.uid)
+
+                     .set({
+                       "username" : username,
+                       "mobileNumber" : mobileNumber,
+                       "emailAddress" : email,
+                       "userUid" : userCredential.user.uid
+
+
+                     });
+                      // print (_auth.toString());
+                      showDialog(
+                          context: context,
+                          // ignore: non_constant_identifier_names
+                          builder: (BuildContext) => leadDialog);
+                    },
+
+                  ),
+                ),
+              ),
+              SizedBox(height: 30),
+              Row(
                 children: <Widget>[
                   Text('     Already have an Account ?',
                     textAlign: TextAlign.center,
@@ -244,13 +244,13 @@ class _CreateAccountAdminState extends State<CreateAccountAdmin> {
                     },
                   )
                 ],
-              ),
-            )
+              )
 
 
 
 
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -203,12 +203,10 @@ class _StudentComplaintState extends State<StudentComplaint> {
                   MaterialButton(
                     onPressed: () async {
 
-                      log('123');
 
                       firebase_storage.UploadTask uploadedImg = ref
-                          .child(FirebaseAuth.instance.currentUser.uid
-                                  .toString() +
-                              // DateTime.now().microsecondsSinceEpoch.toString() +
+                          .child(
+                              DateTime.now().microsecondsSinceEpoch.toString() +
                               '.png')
                           .putFile(img);
                       await uploadedImg.whenComplete(() => null);
@@ -230,10 +228,8 @@ class _StudentComplaintState extends State<StudentComplaint> {
                             "userUid": FirebaseAuth.instance.currentUser.uid,
                             "imageUrl": url,
                             "status": "Pending"
-                          })
-                          .then((value) => log(value.toString() + 'o/p'))
-                          .catchError(
-                              (err) => log(err.toString() + 'err'));
+                          });
+
 
                       FirebaseFirestore.instance
                           .collection('allComplaints')
@@ -246,13 +242,12 @@ class _StudentComplaintState extends State<StudentComplaint> {
                         "status": "Pending"
                       });
 
-                      
 
-                      // showDialog(
-                      // context: context,
-                      // ignore: non_constant_identifier_names
-                      // builder: (BuildContext) => leadDialog
-                      // );
+
+                      showDialog(
+                          context: context,
+
+                          builder: (BuildContext context) => leadDialog);
                     },
                     color: Color(0xffFE96FA),
                     elevation: 10,

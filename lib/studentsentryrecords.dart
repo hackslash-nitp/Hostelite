@@ -119,15 +119,21 @@ class _StudentEntryRecordListState extends State<StudentEntryRecordList> {
                 data: Theme.of(context).copyWith(dividerColor: Colors.blueAccent),
                 child: DataTable(
                   columns: [
-                    DataColumn(label: Text('Location')),
+                    DataColumn(label: Text('Date')),
                     DataColumn(label: Text('Time')),
+                    DataColumn(label: Text('Location')),
+                    DataColumn(label: Text('Hostel')),
+                    DataColumn(label: Text('Room No.')),
 
                   ],
                   rows:
                     my_entries.map((element) => DataRow(
                       cells: <DataCell>[
-                        DataCell(Text(element["location"])), //Extracting from Map element the value
-                        DataCell(Text(element["time"])),
+                        DataCell(Text(element["time"].toDate().toString().substring(0,11))), //Extracting from Map element the value
+                        DataCell(Text(element["time"].toDate().toString().substring(11,19))), //Extracting from Map element the value
+                        DataCell(Text(element["location"])),
+                        DataCell(Text(element["hostel"])),
+                        DataCell(Text(element["roomNumber"])),
 
                       ],
                     )
