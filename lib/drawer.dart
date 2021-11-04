@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hostelite/edit_profile_Student.dart';
@@ -5,6 +6,9 @@ import 'package:hostelite/loginStudent.dart';
 
 class NavDrawer extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  final displayPicUrl = FirebaseFirestore.instance.collection("displayPics")
+      .doc(FirebaseAuth.instance.currentUser.uid).get().toString();
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +33,8 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             title: Text(
-              _auth.currentUser.email,
+              // _auth.currentUser.displayName,
+              displayPicUrl,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 18,
@@ -59,18 +64,18 @@ class NavDrawer extends StatelessWidget {
                       return EditProfileStudent();
                     }))
                   }),
-          ListTile(
-            tileColor: Color(0xffFE96FA),
-            leading: Icon(Icons.notifications),
-            title: Text(
-              'Notification',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-              ),
-            ),
-            onTap: () {},
-          ),
+          // ListTile(
+          //   tileColor: Color(0xffFE96FA),
+          //   leading: Icon(Icons.notifications),
+          //   title: Text(
+          //     'Notification',
+          //     style: TextStyle(
+          //       fontWeight: FontWeight.bold,
+          //       fontSize: 18,
+          //     ),
+          //   ),
+          //   onTap: () {},
+          // ),
           ListTile(
             tileColor: Color(0xffFE96FA),
             leading: Icon(Icons.report_problem),
@@ -83,18 +88,18 @@ class NavDrawer extends StatelessWidget {
             ),
             onTap: () => {},
           ),
-          ListTile(
-            tileColor: Color(0xffFE96FA),
-            leading: Icon(Icons.system_update_alt_outlined),
-            title: Text(
-              'App Updates',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            onTap: () => {},
-          ),
+          // ListTile(
+          //   tileColor: Color(0xffFE96FA),
+          //   leading: Icon(Icons.system_update_alt_outlined),
+          //   title: Text(
+          //     'App Updates',
+          //     style: TextStyle(
+          //       fontSize: 18,
+          //       fontWeight: FontWeight.bold,
+          //     ),
+          //   ),
+          //   onTap: () => {},
+          // ),
           ListTile(
             tileColor: Color(0xffFE96FA),
             leading: Icon(Icons.quick_contacts_dialer_outlined),

@@ -232,14 +232,15 @@ class _StudentComplaintState extends State<StudentComplaint> {
 
 
                       FirebaseFirestore.instance
-                          .collection('allComplaints')
+                          .collection('pendingComplaints')
                           .add({
                         "issue": issue,
                         "roomNumber": roomNumber,
                         "explanation": explanation,
                         "userUid": FirebaseAuth.instance.currentUser.uid,
                         "imageUrl": url,
-                        "status": "Pending"
+                        "status": "Pending",
+                        "name": FirebaseAuth.instance.currentUser.displayName
                       });
 
 

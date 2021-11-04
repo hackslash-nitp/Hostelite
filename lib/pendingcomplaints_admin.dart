@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hostelite/alerts_admin.dart';
 import 'package:hostelite/complaintAdmin.dart';
@@ -17,8 +18,7 @@ class PendingComplaints extends StatefulWidget {
 
 class _PendingComplaintsState extends State<PendingComplaints> {
 
-  String dropdownvalue = "Category";
-  var items = ['Category','Infrastructure','Sanitation','Water','Electricity','Wifi','Others'];
+
   final now = DateTime.now();
 
   @override
@@ -109,30 +109,7 @@ class _PendingComplaintsState extends State<PendingComplaints> {
                           color: Colors.lightBlue,
                           thickness: 2, width: 4,
                         ),
-                        Spacer(),
-                        TextButton(
-                          style: TextButton.styleFrom(
-                            textStyle: const TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) {
-                                    return RejectedComplaints( );
-                                  }
-                              ),
-                            );
 
-                          },
-                          child: const Text('Rejected',
-                            style: TextStyle(
-                                color: Color(0xffFF4646)
-                            ),),
-                        ),
                         Spacer(),
                       ],
                     ),
@@ -142,205 +119,122 @@ class _PendingComplaintsState extends State<PendingComplaints> {
 
 
             ),
-            Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  boxShadow:[ BoxShadow(
 
-                      color: Colors.tealAccent.withOpacity(0.1),
-                      spreadRadius: 5
-                  ),
-                  ]
-              ),
-              child: Row(
-                children: [
-
-                  Spacer(),
-                  Padding(
-                    padding:EdgeInsets.fromLTRB(30, 5, 30, 5),
-                    child: DropdownButton(
-
-                      value: dropdownvalue,
-                      icon: Icon(Icons.keyboard_arrow_down),
-                      items:items.map((String items) {
-                        return DropdownMenuItem(
-                            value: items,
-                            child: Text(items)
-                        );
-                      }
-                      ).toList(),
-                      onChanged: (String newValue){
-                        setState(() {
-                          dropdownvalue = newValue;
-                        });
-                      },
-                    ),
-                  ),
-                  //Drop Down DatePicker Package required to be installed in pubspec
-
-                  //child: DropdownDatePicker(
-                  //firstDate: ValidDate(year: now.year - 100, month: 1, day: 1),
-                  //lastDate: ValidDate(year: now.year, month: now.month, day: now.month),
-
-
-                ],
-              ),
-            ),
             SizedBox(height: 20,),
 
-            Container(
 
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(15,0,15,0),
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.all(15),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            CircleAvatar(),
-                            SizedBox(width: 10,),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('Ramesh Kumar',
-                                  style: TextStyle(
-                                      color: Color(0xff565656),
-                                      fontSize: 15
-                                  ),),
-                                Text('Room No. 087',
-                                  style: TextStyle(
-                                      fontSize: 12
-                                  ),),
-                              ],
+            SizedBox(height: 20,),
+            StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection("Exits").snapshots(),
+
+
+              builder: (context, snapshots) {
+                if (!snapshots.hasData){
+                  return CircularProgressIndicator();
+                }
+
+
+                return ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: snapshots.data.size,
+                    itemBuilder: (context, index){
+                      return Container(
+
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(15,0,15,0),
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15)
                             ),
-                            Spacer(),
-                            Text(DateTime.now().day.toString()+'.'+DateTime.now().month.toString()+'.'+DateTime.now().year                     .toString(),
-                              style: TextStyle(
-                                  color: Color(0xff9F9F9F)
-                              ),)
-                          ],
-                        ),
-                        Divider(),
-                        SizedBox(height: 5,),
-                        Image(
-                          image: AssetImage('assets/home_Screen_Student/2720490 1.png'),
-                        ),
-                        SizedBox(height: 5,),
-                        Text('Title of Issue',
+                            child: Padding(
+                              padding: EdgeInsets.all(15),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      CircleAvatar(),
+                                      SizedBox(width: 10,),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text('Ramesh Kumar',
+                                            style: TextStyle(
+                                                color: Color(0xff565656),
+                                                fontSize: 15
+                                            ),),
+                                          Text('Room No. 087',
+                                            style: TextStyle(
+                                                fontSize: 12
+                                            ),),
+                                        ],
+                                      ),
+                                      Spacer(),
+                                      Text(DateTime.now().day.toString()+'.'+DateTime.now().month.toString()+'.'+DateTime.now().year                     .toString(),
+                                        style: TextStyle(
+                                            color: Color(0xff9F9F9F)
+                                        ),)
+                                    ],
+                                  ),
+                                  Divider(),
+                                  SizedBox(height: 5,),
+                                  Image(
+                                    image: AssetImage('assets/home_Screen_Student/2720490 1.png'),
+                                  ),
+                                  SizedBox(height: 5,),
+                                  Text('Title of Issue',
 
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xff1A1919),
-                          ),
-                        ),
-                        SizedBox(height: 5,),
-                        Text('Sir I went to purchase a book , but while returning it satrted raining . So there was                              no any options left for me then waiting at  the store until the rain stopped.'),
-                        SizedBox(height: 10,),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
-                              DateTime.now().toString(),
-                              style: TextStyle(
-                                  color: Color(0xff9F9F9F)
-                              ),)
-                          ],
-                        ),
-                        SizedBox(height: 50,),
-                        Row(
-                          children: [
-                            TextButton(
-                                onPressed: null,
-                                child: Text(' Reject',
                                     style: TextStyle(
-                                    color: Color(0xffFF4646)
-                                        ),),
-                            ),
-                            Spacer(),
-                            MaterialButton(onPressed: () {},
-                              color: Color(0xffDFFED4),
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500,
+                                      color: Color(0xff1A1919),
+                                    ),
+                                  ),
+                                  SizedBox(height: 5,),
+                                  Text('Sir I went to purchase a book , but while returning it satrted raining . So there was                              no any options left for me then waiting at  the store until the rain stopped.'),
+                                  SizedBox(height: 10,),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        DateTime.now().toString(),
+                                        style: TextStyle(
+                                            color: Color(0xff9F9F9F)
+                                        ),)
+                                    ],
+                                  ),
+                                  SizedBox(height: 20,),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
 
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius. circular(10.0),
-                                  side: BorderSide(color: Color(0xff4BB227))
+                                      MaterialButton(onPressed: () {},
+                                        color: Color(0xffDFFED4),
+
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius. circular(10.0),
+                                            side: BorderSide(color: Color(0xff4BB227))
+                                        ),
+                                        child: Text('Mark Sorted',
+                                            style:TextStyle(
+                                                color: Color(0xff4BB227)
+                                            )),
+
+                                      )
+                                    ],
+                                  )
+
+                                ],
                               ),
-                            child: Text('Mark Sorted',
-                            style:TextStyle(
-                              color: Color(0xff4BB227)
-                            )),
-
-                            )
-                          ],
-                        )
-
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: 20,),
-            Container(
-
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(15,0,15,0),
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.all(15),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            CircleAvatar(),
-                            SizedBox(width: 10,),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('Ramesh Kumar',
-                                  style: TextStyle(
-                                      color: Color(0xff565656),
-                                      fontSize: 15
-                                  ),),
-                                Text('Room No. 087'),
-                              ],
                             ),
-                            Spacer(),
-                            Text(DateTime.now().day.toString()+'.'+DateTime.now().month.toString()+'.'+DateTime.now().year                     .toString(),
-                              style: TextStyle(
-                                  color: Color(0xff9F9F9F)
-                              ),)
-                          ],
+                          ),
                         ),
-                        Divider(),
-                        SizedBox(height: 5,),
-                        Text('Sir I went to purchase a book , but while returning it satrted raining . So there was                              no any options left for me then waiting at  the store until the rain stopped.'),
-                        SizedBox(height: 10,),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
-                              DateTime.now().toString(),
-                              style: TextStyle(
-                                  color: Color(0xff9F9F9F)
-                              ),)
-                          ],
-                        )
-
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+                      );
+                    });
+              },
             ),
+
 
 
           ],

@@ -100,6 +100,12 @@ class _CreateAccountAdminState extends State<CreateAccountAdmin> {
                 height: 45,
                 width: 280,
                 child: TextFormField(
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Please enter name';
+                      }
+                      return null;
+                    },
                   decoration: textInputDecoration.copyWith(
                       hintText: 'Username',
                       prefixIcon: const Icon(Icons.person, color: Colors.grey)),
@@ -195,27 +201,86 @@ class _CreateAccountAdminState extends State<CreateAccountAdmin> {
                     color: Colors.purple,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
                     onPressed: () async {
-                     userCredential = await  _auth.createUserWithEmailAndPassword(email: email, password: password);
+                      // if (username.isEmpty || email.isEmpty ||
+                      //     password.isEmpty || confirmPassword.isEmpty || mobileNumber.isEmpty){
+                      //   showDialog(
+                      //       context: context,
+                      //       builder: (BuildContext context) {
+                      //         return AlertDialog(
+                      //           title: Text("Error signing up"),
+                      //           content: Text("Please fill all the fields"),
+                      //           actions: [
+                      //             FlatButton(
+                      //               child: Text("Ok"),
+                      //               onPressed: () {
+                      //                 Navigator.of(context).pop();
+                      //               },
+                      //             )
+                      //           ],
+                      //         );
+                      //       });
+                      //
+                      // }
+                      if (password != confirmPassword){
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text("Error signing up"),
+                                content: Text("Passwords don't match"),
+                                actions: [
+                                  FlatButton(
+                                    child: Text("Ok"),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  )
+                                ],
+                              );
+                            });
+                        return;
+                      }
+                     userCredential = await  _auth.createUserWithEmailAndPassword(email: email, password: password)
+                         .then((user) {
+                       //Sending user data
+                       FirebaseFirestore.instance.
+                       collection("adminUsers").
+                       doc(FirebaseAuth.instance.currentUser.uid).collection("profile").
+                       doc(FirebaseAuth.instance.currentUser.uid)
 
-                     //Sending user data
-                     FirebaseFirestore.instance.
-                     collection("adminUsers").
-                     doc(FirebaseAuth.instance.currentUser.uid).collection("profile").
-                     doc(FirebaseAuth.instance.currentUser.uid)
-
-                     .set({
-                       "username" : username,
-                       "mobileNumber" : mobileNumber,
-                       "emailAddress" : email,
-                       "userUid" : userCredential.user.uid
+                           .set({
+                         "username" : username,
+                         "mobileNumber" : mobileNumber,
+                         "emailAddress" : email,
+                         "userUid" : userCredential.user.uid
 
 
+                       });
+                       // print (_auth.toString());
+                       showDialog(
+                           context: context,
+                           // ignore: non_constant_identifier_names
+                           builder: (BuildContext) => leadDialog);
+                     }).catchError((err) {
+                       showDialog(
+                           context: context,
+                           builder: (BuildContext context) {
+                             return AlertDialog(
+                               title: Text("Error signing up"),
+                               content: Text(err.message),
+                               actions: [
+                                 FlatButton(
+                                   child: Text("Ok"),
+                                   onPressed: () {
+                                     Navigator.of(context).pop();
+                                   },
+                                 )
+                               ],
+                             );
+                           });
                      });
-                      // print (_auth.toString());
-                      showDialog(
-                          context: context,
-                          // ignore: non_constant_identifier_names
-                          builder: (BuildContext) => leadDialog);
+
+
                     },
 
                   ),

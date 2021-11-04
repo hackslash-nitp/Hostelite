@@ -91,18 +91,24 @@ class _StudentComplaintListState extends State<StudentComplaintList> {
                         endIndent: 5,
                       ),
                       Card(child: Image.network(complaints[index]["imageUrl"])),
+
+                      Padding(
+                        padding: const EdgeInsets.only(top:8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [Text(complaints[index]["roomNumber"]),
+                            Text(DateTime.now().toString().substring(0,11)),
+                            Text(DateTime.now().toString().substring(12,19))],
+                        ),
+                      ),
                       Padding(
                         padding:
                         const EdgeInsets.symmetric(vertical: 8, horizontal: 0),
                         child: Text(
-                          'abc',
+                          complaints[index]["explanation"],
                           style: TextStyle(color: Color(0xff5C5C5C), fontSize: 16),
                         ),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [Text('abc'), Text(DateTime.now().toString())],
-                      )
                     ],
                   ),
                 )),

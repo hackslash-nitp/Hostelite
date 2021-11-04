@@ -31,6 +31,11 @@ class _LoginAdminState extends State<LoginAdmin> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
+  Future<void> resetPassword(String email) async {
+    await _auth.sendPasswordResetEmail(email: email);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
@@ -160,7 +165,9 @@ class _LoginAdminState extends State<LoginAdmin> {
                         child: Text('Forgot Password?',
                           style: TextStyle(color: Colors.orange[700],fontSize: 10, fontWeight: FontWeight.bold),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          resetPassword(_email);
+                        },
                       )
                     ],
                   ),

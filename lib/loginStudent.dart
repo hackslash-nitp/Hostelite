@@ -22,6 +22,11 @@ class _LoginStudentState extends State<LoginStudent> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
+  Future<void> resetPassword(String email) async {
+    await _auth.sendPasswordResetEmail(email: email);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
@@ -78,6 +83,11 @@ class _LoginStudentState extends State<LoginStudent> {
                   ),
                   SizedBox(height: 20),
                   TextFormField(
+                    validator: (value) {
+                      if (value.isEmpty || !value.contains('@'))
+                        return 'Please enter a valid Email address';
+                      return null;
+                    },
                     decoration: InputDecoration(
                       labelText: 'Email',
                       fillColor: Colors.white,
@@ -151,7 +161,9 @@ class _LoginStudentState extends State<LoginStudent> {
                         child: Text('Forgot Password?',
                           style: TextStyle(color: Colors.orange[700],fontSize: 10, fontWeight: FontWeight.bold),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          resetPassword(_email);
+                        },
                       )
                     ],
                   ),
@@ -167,9 +179,36 @@ class _LoginStudentState extends State<LoginStudent> {
                       minWidth: 100,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
                       onPressed: () async {
-                        await  _auth.signInWithEmailAndPassword(email: _email, password: _password);
-                        print(_auth);
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomeScreenStudent() ));
+
+                          await  _auth.signInWithEmailAndPassword(email: _email, password: _password)
+                              .then(( user) {
+                            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomeScreenStudent() ));
+                            // Navigator.of(context).pushReplacementNamed("/TheNextPage");
+
+                          })
+                              .catchError((err) {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text("Error logging in"),
+                                    content: Text(err.message),
+                                    actions: [
+                                      FlatButton(
+                                        child: Text("Ok"),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      )
+                                    ],
+                                  );
+                                });
+                          });
+
+
+
+
+
 
                       },
 

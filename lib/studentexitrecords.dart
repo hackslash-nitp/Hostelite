@@ -41,7 +41,7 @@ class _StudentEntryRecordListState extends State<StudentExitRecordList> {
   }
   @override
   Widget build(BuildContext context) {
-    return my_exits.length == 0 ?  Scaffold(body: Center(child: CircularProgressIndicator())) :
+    return
     Scaffold(
         appBar: AppBar(
           title: Text('Your Exit/Entry Records'),
@@ -104,7 +104,7 @@ class _StudentEntryRecordListState extends State<StudentExitRecordList> {
               ),
 
 
-              SingleChildScrollView(
+         my_exits.length == 0 ? Center(child: Text('No records yet')) : SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Theme(
                   data: Theme.of(context).copyWith(dividerColor: Colors.blueAccent),

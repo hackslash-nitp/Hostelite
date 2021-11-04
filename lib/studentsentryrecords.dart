@@ -41,7 +41,7 @@ class _StudentEntryRecordListState extends State<StudentEntryRecordList> {
   }
   @override
   Widget build(BuildContext context) {
-    return my_entries.length == 0 ?  Scaffold(body: Center(child: CircularProgressIndicator())) :
+    return
     Scaffold(
         appBar: AppBar(
           title: Text('Your Exit/Entry Records'),
@@ -92,7 +92,7 @@ class _StudentEntryRecordListState extends State<StudentEntryRecordList> {
 
                           child: GestureDetector(
                             onTap: (){
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(builder: (context) {
                                   return StudentExitRecordList();
@@ -113,7 +113,7 @@ class _StudentEntryRecordListState extends State<StudentEntryRecordList> {
                   )
               ),
             ),
-            SingleChildScrollView(
+            my_entries.length == 0 ? Center(child: Text('No records yet')) : SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Theme(
                 data: Theme.of(context).copyWith(dividerColor: Colors.blueAccent),
