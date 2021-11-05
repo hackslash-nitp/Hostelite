@@ -21,7 +21,7 @@ class _StudentEntryRecordListState extends State<StudentExitRecordList> {
   var entry = FirebaseFirestore.instance
       .collection('studentUsers')
       .doc(FirebaseAuth.instance.currentUser.uid)
-      .collection('exit');
+      .collection('exit').orderBy('hostelName');
 
   @override
   void initState() {

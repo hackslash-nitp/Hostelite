@@ -183,9 +183,30 @@ class _LoginAdminState extends State<LoginAdmin> {
                       minWidth: 100,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
                       onPressed: () async {
-                         await  _auth.signInWithEmailAndPassword(email: _email, password: _password);
-                         print(_auth);
+                        await  _auth.signInWithEmailAndPassword(email: _email, password: _password)
+                            .then(( user) {
                           Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomeScreenAdmin() ));
+
+
+                        })
+                            .catchError((err) {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text("Error logging in"),
+                                  content: Text(err.message),
+                                  actions: [
+                                    FlatButton(
+                                      child: Text("Ok"),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    )
+                                  ],
+                                );
+                              });
+                        });
 
                       },
 

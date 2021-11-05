@@ -242,6 +242,25 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
                   color: Colors.purple,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
                   onPressed: ()  async {
+                    if (password != confirmPassword){
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text("Error signing up"),
+                              content: Text("Passwords don't match"),
+                              actions: [
+                                FlatButton(
+                                  child: Text("Ok"),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                )
+                              ],
+                            );
+                          });
+                      return;
+                    }
                     userCredential = await  _auth.createUserWithEmailAndPassword(email: email,password: password);
                         User user = userCredential.user;
                         user.updateDisplayName(username);
@@ -261,6 +280,23 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
                   "roomNumber" : roomNumber,
               "userUid" : userCredential.user.uid,
                   "dpUrl":""
+                }).catchError((err) {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text("Error signing up"),
+                          content: Text(err.message),
+                          actions: [
+                            FlatButton(
+                              child: Text("Ok"),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            )
+                          ],
+                        );
+                      });
                 });
 
 

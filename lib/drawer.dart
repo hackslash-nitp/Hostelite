@@ -4,11 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:hostelite/edit_profile_Student.dart';
 import 'package:hostelite/loginStudent.dart';
 
-class NavDrawer extends StatelessWidget {
+class NavDrawer extends StatefulWidget {
+  @override
+  _NavDrawerState createState() => _NavDrawerState();
+}
+
+class _NavDrawerState extends State<NavDrawer> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  final displayPicUrl = FirebaseFirestore.instance.collection("displayPics")
-      .doc(FirebaseAuth.instance.currentUser.uid).get().toString();
+
+
+  final displayPicUrlSnapshot = FirebaseFirestore.instance.collection("displayPics")
+      .doc(FirebaseAuth.instance.currentUser.uid).get().then((value) {
+       var userpicurl = value.data()["dpUrl"];
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +33,7 @@ class NavDrawer extends StatelessWidget {
               color: Color(0xffFE96FA),
             ),
             child: CircleAvatar(
-              backgroundImage: AssetImage(''),
+              // backgroundImage: NetworkImage(userpicurl),
               radius: 30,
             ),
           ),
@@ -33,8 +42,8 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             title: Text(
-              // _auth.currentUser.displayName,
-              displayPicUrl,
+              _auth.currentUser.displayName,
+              // displayPicUrlSnapshot.data()['dpUrl'],
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 18,

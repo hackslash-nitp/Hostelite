@@ -91,7 +91,6 @@ class _StudentComplaintState extends State<StudentComplaint> {
   String explanation;
   String status = "pending";
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -202,12 +201,10 @@ class _StudentComplaintState extends State<StudentComplaint> {
                 children: [
                   MaterialButton(
                     onPressed: () async {
-
-
                       firebase_storage.UploadTask uploadedImg = ref
                           .child(
                               DateTime.now().microsecondsSinceEpoch.toString() +
-                              '.png')
+                                  '.png')
                           .putFile(img);
                       await uploadedImg.whenComplete(() => null);
 
@@ -216,21 +213,27 @@ class _StudentComplaintState extends State<StudentComplaint> {
                       await ref.getDownloadURL().then((value) {
                         url = value;
                       });
-
+                      if (roomNumber.isEmpty ||
+                          issue.isEmpty ||
+                          explanation.isEmpty ||
+                          url.isEmpty) {
+                        return SnackBar(
+                            content: Text("Please enter all fields"));
+                      }
+                      print("abc o......");
                       FirebaseFirestore.instance
                           .collection("studentUsers")
                           .doc(FirebaseAuth.instance.currentUser.uid)
-                          .collection("complaints")
+                          .collection("complaint")
                           .add({
-                            "issue": issue,
-                            "roomNumber": roomNumber,
-                            "explanation": explanation,
-                            "userUid": FirebaseAuth.instance.currentUser.uid,
-                            "imageUrl": url,
-                            "status": "Pending"
-                          });
-
-
+                        "issue": issue,
+                        "roomNumber": roomNumber,
+                        "explanation": explanation,
+                        "userUid": FirebaseAuth.instance.currentUser.uid,
+                        "imageUrl": url,
+                        "status": "Pending"
+                      });
+                      print("abc o......");
                       FirebaseFirestore.instance
                           .collection('pendingComplaints')
                           .add({
@@ -242,12 +245,10 @@ class _StudentComplaintState extends State<StudentComplaint> {
                         "status": "Pending",
                         "name": FirebaseAuth.instance.currentUser.displayName
                       });
-
-
+                      print("abc o......");
 
                       showDialog(
                           context: context,
-
                           builder: (BuildContext context) => leadDialog);
                     },
                     color: Color(0xffFE96FA),

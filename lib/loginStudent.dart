@@ -183,7 +183,7 @@ class _LoginStudentState extends State<LoginStudent> {
                           await  _auth.signInWithEmailAndPassword(email: _email, password: _password)
                               .then(( user) {
                             Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomeScreenStudent() ));
-                            // Navigator.of(context).pushReplacementNamed("/TheNextPage");
+
 
                           })
                               .catchError((err) {
