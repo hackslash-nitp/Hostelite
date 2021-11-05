@@ -78,7 +78,7 @@ class _StudentComplaintState extends State<StudentComplaint> {
   File img;
   getImage() async {
     ImagePicker _picker = ImagePicker();
-    final XFile image = await _picker.pickImage(source: ImageSource.camera);
+    final XFile image = await _picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
       setState(() {
         img = File(image.path);
@@ -201,14 +201,17 @@ class _StudentComplaintState extends State<StudentComplaint> {
                 children: [
                   MaterialButton(
                     onPressed: () async {
-                      firebase_storage.UploadTask uploadedImg = ref
-                          .child(
-                              DateTime.now().microsecondsSinceEpoch.toString() +
-                                  '.png')
-                          .putFile(img);
+                      print("ffffff");
+                      var imgPath =
+                          DateTime.now().millisecondsSinceEpoch.toString() +
+                              ".png";
+                      ref = ref.child(imgPath);
+                      firebase_storage.UploadTask uploadedImg =
+                          ref.putFile(img);
                       await uploadedImg.whenComplete(() => null);
+                      print("storage");
 
-                      String url = "";
+                      String url = "fjjfjfjfjfj";
 
                       await ref.getDownloadURL().then((value) {
                         url = value;
@@ -245,7 +248,7 @@ class _StudentComplaintState extends State<StudentComplaint> {
                         "status": "Pending",
                         "name": FirebaseAuth.instance.currentUser.displayName
                       });
-                      print("abc o......");
+                      print("abc o...... done");
 
                       showDialog(
                           context: context,
