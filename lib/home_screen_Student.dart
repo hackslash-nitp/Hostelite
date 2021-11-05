@@ -22,12 +22,14 @@ class _HomeScreenStudentState extends State<HomeScreenStudent> {
   //   super.initState();
   //   _controller = CalendarController();
   // }
+  final GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: WillPopScope(
         child: Scaffold(
+          key: _scaffoldkey,
           drawer: NavDrawer(),
           body: SingleChildScrollView(
             child: Padding(
@@ -42,12 +44,7 @@ class _HomeScreenStudentState extends State<HomeScreenStudent> {
                         minWidth: 30,
                         splashColor: Colors.pink,
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) {
-                              return NavDrawer();
-                            }),
-                          );
+                          _scaffoldkey.currentState.openDrawer();
                         },
                         child: Image(
                           image: AssetImage(
@@ -97,7 +94,6 @@ class _HomeScreenStudentState extends State<HomeScreenStudent> {
                         ],
                       ),
                       SizedBox(width: 40),
-
                     ],
                   ),
                   SizedBox(height: 20),
@@ -127,7 +123,6 @@ class _HomeScreenStudentState extends State<HomeScreenStudent> {
                   ),
                   SizedBox(height: 20),
                   Container(
-
                     height: 200,
                     child: MaterialButton(
                       // focusElevation: 80,
@@ -157,7 +152,6 @@ class _HomeScreenStudentState extends State<HomeScreenStudent> {
                               fontSize: 25,
                             ),
                           ),
-
                         ],
                       ),
                     ),
@@ -166,7 +160,6 @@ class _HomeScreenStudentState extends State<HomeScreenStudent> {
                   Column(
                     children: <Widget>[
                       Container(
-
                         height: 100,
                         child: MaterialButton(
                           elevation: 10,
@@ -188,7 +181,6 @@ class _HomeScreenStudentState extends State<HomeScreenStudent> {
                                 image: AssetImage(
                                     'assets/home_Screen_Student/bermuda-747 1.png'),
                                 width: 200,
-
                               ),
                               Column(
                                 children: <Widget>[
@@ -217,7 +209,6 @@ class _HomeScreenStudentState extends State<HomeScreenStudent> {
                       ),
                       SizedBox(height: 10),
                       Container(
-
                         height: 100,
                         child: MaterialButton(
                           elevation: 10,
@@ -321,9 +312,7 @@ class _HomeScreenStudentState extends State<HomeScreenStudent> {
               children: <Widget>[
                 Spacer(),
                 MaterialButton(
-                  onPressed: () {
-
-                  },
+                  onPressed: () {},
                   child: Icon(
                     Icons.home_filled,
                     color: Color(0xffF989E7),
@@ -333,13 +322,13 @@ class _HomeScreenStudentState extends State<HomeScreenStudent> {
                 //SizedBox(width: 10),
                 MaterialButton(
                   onPressed: () {
-                        Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) {
                         return StudentExitRecordList();
-                            }),
-                          );
-                        },
+                      }),
+                    );
+                  },
                   child: Icon(
                     Icons.add_chart_outlined,
                   ),
