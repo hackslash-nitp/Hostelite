@@ -27,13 +27,15 @@ Dialog leadDialog = Dialog(
             width: 150,
           ),
         ),
-        Text('Entry Marked',
+        Text(
+          'Entry Marked',
           style: TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.bold,
           ),
         ),
-        Text('Successfully',
+        Text(
+          'Successfully',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 30,
@@ -43,22 +45,19 @@ Dialog leadDialog = Dialog(
           width: 150.0,
           height: 40.0,
           child: MaterialButton(
-            child: Text('Done',style: TextStyle(color: Colors.white,fontSize: 17.0),),
+            child: Text(
+              'Done',
+              style: TextStyle(color: Colors.white, fontSize: 17.0),
+            ),
             color: Colors.pinkAccent[100],
             minWidth: 100.0,
-
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)),
             onPressed: () {
               BuildContext context;
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context){
-                        return HomeScreenStudent();
-                      }
-                  )
-              );
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return HomeScreenStudent();
+              }));
             },
           ),
         ),
@@ -68,7 +67,6 @@ Dialog leadDialog = Dialog(
 );
 
 class _MarkingExitState extends State<MarkingExit> {
-
   String roomNumber;
   String rollNumber;
   String purpose;
@@ -82,13 +80,15 @@ class _MarkingExitState extends State<MarkingExit> {
           icon: new Icon(Icons.arrow_back_rounded),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: Text('Mark Exit',
+        title: Text(
+          'Mark Exit',
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-          ),),
+          ),
+        ),
         elevation: 10,
-          backgroundColor: Color(0xffFE96FA),
+        backgroundColor: Color(0xffFE96FA),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
@@ -97,15 +97,11 @@ class _MarkingExitState extends State<MarkingExit> {
           decoration: BoxDecoration(
               image: DecorationImage(
                   image: AssetImage('assets/second_page/Group 33694.png'),
-                  fit: BoxFit.contain
-              )
-          ),
+                  fit: BoxFit.contain)),
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
-
                 Container(
-
                   child: TextFormField(
                       decoration: InputDecoration(
                         hintText: 'Roll No.',
@@ -113,31 +109,23 @@ class _MarkingExitState extends State<MarkingExit> {
                         fillColor: Color(0xffFFFFFF),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12.0),
-                          borderSide: BorderSide(
-                              color: Colors.grey,
-                              width: 1.0
-                          ),
+                          borderSide:
+                              BorderSide(color: Colors.grey, width: 1.0),
                         ),
                         focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.cyan,
-                                width: 1.0
-                            )
-                        ),
+                            borderSide:
+                                BorderSide(color: Colors.cyan, width: 1.0)),
                       ),
                       onChanged: (value) {
                         setState(() {
                           rollNumber = value.trim();
                         });
-                      }
-
-                  ),
+                      }),
                 ),
-
-                SizedBox(height: 30,),
-
+                SizedBox(
+                  height: 30,
+                ),
                 Container(
-
                   child: TextFormField(
                       decoration: InputDecoration(
                         hintText: 'Room No.',
@@ -145,31 +133,23 @@ class _MarkingExitState extends State<MarkingExit> {
                         fillColor: Color(0xffFFFFFF),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12.0),
-                          borderSide: BorderSide(
-                              color: Colors.grey,
-                              width: 1.0
-                          ),
+                          borderSide:
+                              BorderSide(color: Colors.grey, width: 1.0),
                         ),
                         focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.cyan,
-                                width: 1.0
-                            )
-                        ),
+                            borderSide:
+                                BorderSide(color: Colors.cyan, width: 1.0)),
                       ),
                       onChanged: (value) {
                         setState(() {
                           roomNumber = value.trim();
                         });
-                      }
-
-                  ),
+                      }),
                 ),
-
-                SizedBox(height: 30,),
-
+                SizedBox(
+                  height: 30,
+                ),
                 Container(
-
                   child: TextFormField(
                       decoration: InputDecoration(
                         hintText: 'Hostel Name',
@@ -177,31 +157,23 @@ class _MarkingExitState extends State<MarkingExit> {
                         fillColor: Color(0xffFFFFFF),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12.0),
-                          borderSide: BorderSide(
-                              color: Colors.grey,
-                              width: 1.0
-                          ),
+                          borderSide:
+                              BorderSide(color: Colors.grey, width: 1.0),
                         ),
                         focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.cyan,
-                                width: 1.0
-                            )
-                        ),
+                            borderSide:
+                                BorderSide(color: Colors.cyan, width: 1.0)),
                       ),
                       onChanged: (value) {
                         setState(() {
                           hostelName = value.trim();
                         });
-                      }
-
-                  ),
+                      }),
                 ),
-
-                SizedBox(height: 30,),
-
+                SizedBox(
+                  height: 30,
+                ),
                 Container(
-
                   child: TextField(
                       keyboardType: TextInputType.multiline,
                       maxLines: null,
@@ -211,74 +183,69 @@ class _MarkingExitState extends State<MarkingExit> {
                         fillColor: Color(0xffFFFFFF),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12.0),
-                          borderSide: BorderSide(
-                              color: Colors.grey,
-                              width: 1.0
-                          ),
+                          borderSide:
+                              BorderSide(color: Colors.grey, width: 1.0),
                         ),
                         focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.cyan,
-                                width: 1.0
-                            )
-                        ),
+                            borderSide:
+                                BorderSide(color: Colors.cyan, width: 1.0)),
                       ),
                       onChanged: (value) {
                         setState(() {
                           purpose = value.trim();
                         });
-                      }
-
-                  ),
+                      }),
                 ),
-
                 SizedBox(height: 80),
                 Container(
                   width: 130,
                   height: 50,
                   child: MaterialButton(
-                    child: Text('Mark Exit',
-
+                    child: Text(
+                      'Mark Exit',
                       style: TextStyle(color: Color(0xff33004A), fontSize: 15),
                     ),
                     color: Color(0xffFE96FA),
                     minWidth: 100,
                     elevation: 10,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)),
                     onPressed: () async {
-
-                      FirebaseFirestore.instance.
-                      collection("studentUsers").
-                      doc(FirebaseAuth.instance.currentUser.uid).
-                      collection("exit").
-
-                      add({
-                        "hostelName" : hostelName,
-                        "rollNumber" :rollNumber,
-                        "roomNumber" : roomNumber,
+                      if (roomNumber.isEmpty ||
+                          rollNumber.isEmpty ||
+                          hostelName.isEmpty ||
+                          purpose.isEmpty) {
+                        return SnackBar(
+                            content: Text("Please enter all fields"));
+                      }
+                      FirebaseFirestore.instance
+                          .collection("studentUsers")
+                          .doc(FirebaseAuth.instance.currentUser.uid)
+                          .collection("exit")
+                          .add({
+                        "hostelName": hostelName,
+                        "rollNumber": rollNumber,
+                        "roomNumber": roomNumber,
                         "purpose": purpose,
-                        "userUid" : FirebaseAuth.instance.currentUser.uid,
-                        "time" : DateTime.now().toLocal(),
-                        "name" : FirebaseAuth.instance.currentUser.email
+                        "userUid": FirebaseAuth.instance.currentUser.uid,
+                        "time": DateTime.now().toLocal(),
+                        "name": FirebaseAuth.instance.currentUser.displayName,
                       });
 
-                      FirebaseFirestore.instance
-                          .collection('Exits').
-                      add({
-                        "hostelName" : hostelName,
-                        "rollNumber" :rollNumber,
-                        "roomNumber" : roomNumber,
+                      FirebaseFirestore.instance.collection('Exits').add({
+                        "hostelName": hostelName,
+                        "rollNumber": rollNumber,
+                        "roomNumber": roomNumber,
                         "purpose": purpose,
-                        "userUid" : FirebaseAuth.instance.currentUser.uid,
-                        "time" : DateTime.now().toLocal()
+                        "userUid": FirebaseAuth.instance.currentUser.uid,
+                        "time": DateTime.now().toLocal(),
+                        "name": FirebaseAuth.instance.currentUser.displayName,
                       });
 
                       showDialog(
                           context: context,
                           // ignore: non_constant_identifier_names
-                          builder: (BuildContext) => leadDialog
-                      );
-
+                          builder: (BuildContext) => leadDialog);
                     },
                   ),
                 ),
@@ -287,6 +254,7 @@ class _MarkingExitState extends State<MarkingExit> {
           ),
         ),
       ),
-    );;
+    );
+    ;
   }
 }

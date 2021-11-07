@@ -1,42 +1,37 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hostelite/alerts_admin.dart';
 import 'package:hostelite/complaintAdmin.dart';
 import 'package:hostelite/edit_profile_Admin.dart';
+import 'package:hostelite/entry-recordsAdmin.dart';
 import 'package:hostelite/home_screen_Admin.dart';
 import 'package:hostelite/rejected_complaints.dart';
 
 class PendingComplaints extends StatefulWidget {
-
-
-
-  const PendingComplaints({Key  key}) : super(key: key);
+  const PendingComplaints({Key key}) : super(key: key);
 
   @override
   _PendingComplaintsState createState() => _PendingComplaintsState();
 }
 
 class _PendingComplaintsState extends State<PendingComplaints> {
-
-
   final now = DateTime.now();
+  var db = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-
         preferredSize: Size.fromHeight(100),
         child: AppBar(
-          leading: BackButton(
-              color: Colors.black
-          ),
-          title: Text('View Complaints',
+          leading: BackButton(color: Colors.black),
+          title: Text(
+            'View Complaints',
             style: TextStyle(
               color: Color(0xff4E4E4E),
-            ),),
-
-
+            ),
+          ),
           backgroundColor: Color(0xffFE96FA),
         ),
       ),
@@ -51,11 +46,11 @@ class _PendingComplaintsState extends State<PendingComplaints> {
                     padding: EdgeInsets.all(5),
                     child: Row(
                       children: [
-                        Text('Status : ',
+                        Text(
+                          'Status : ',
                           style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600
-                          ),),
+                              fontSize: 15, fontWeight: FontWeight.w600),
+                        ),
                         Spacer(),
                         TextButton(
                           style: TextButton.styleFrom(
@@ -64,152 +59,180 @@ class _PendingComplaintsState extends State<PendingComplaints> {
                                 fontWeight: FontWeight.w700,
                                 color: Color(0xff4BB227)),
                           ),
-                          onPressed: (){
+                          onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                  builder: (context) {
-                                    return ViewComplaintsAdmin();
-                                  }
-                              ),
+                              MaterialPageRoute(builder: (context) {
+                                return ViewComplaintsAdmin();
+                              }),
                             );
                           },
-                          child: const Text('Sorted',
-                            style: TextStyle(
-
-                                color: Color(0xff4BB227)
-                            ),),
+                          child: const Text(
+                            'Sorted',
+                            style: TextStyle(color: Color(0xff4BB227)),
+                          ),
                         ),
                         Spacer(),
                         VerticalDivider(
                           color: Colors.green,
-                          thickness: 2, width: 2,
+                          thickness: 2,
+                          width: 2,
                         ),
                         Spacer(),
                         TextButton(
                           style: TextButton.styleFrom(
-                            primary:  Colors.red,
+                            primary: Colors.red,
                             textStyle: const TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w700,
                             ),
-
                           ),
                           onPressed: null,
-                          child: const Text('Pending',
+                          child: const Text(
+                            'Pending',
                             style: TextStyle(
                                 decoration: TextDecoration.underline,
                                 decorationThickness: 4,
-                                color: Color(0xffFBC02D)
-                            ),
+                                color: Color(0xffFBC02D)),
                           ),
                         ),
                         Spacer(),
                         VerticalDivider(
                           color: Colors.lightBlue,
-                          thickness: 2, width: 4,
+                          thickness: 2,
+                          width: 4,
                         ),
-
                         Spacer(),
                       ],
                     ),
                   ),
                 ),
               ),
-
-
             ),
-
-            SizedBox(height: 20,),
-
-
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
+            SizedBox(
+              height: 20,
+            ),
             StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
-                  .collection("Exits").snapshots(),
-
-
+                  .collection("pendingComplaints").orderBy("postedAt",descending: true)
+                  .snapshots(),
               builder: (context, snapshots) {
-                if (!snapshots.hasData){
+                if (!snapshots.hasData) {
                   return CircularProgressIndicator();
                 }
-
 
                 return ListView.builder(
                     physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: snapshots.data.size,
-                    itemBuilder: (context, index){
+                    itemBuilder: (context, index) {
+                      DocumentSnapshot data = snapshots.data.docs[index];
                       return Container(
-
                         child: Padding(
-                          padding: EdgeInsets.fromLTRB(15,0,15,0),
+                          padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
                           child: Card(
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15)
-                            ),
+                                borderRadius: BorderRadius.circular(15)),
                             child: Padding(
                               padding: EdgeInsets.all(15),
                               child: Column(
                                 children: [
                                   Row(
                                     children: [
-                                      CircleAvatar(),
-                                      SizedBox(width: 10,),
+                                      CircleAvatar(
+                                        backgroundColor: Colors.yellow,
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
                                       Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          Text('Ramesh Kumar',
+                                          Text(
+                                            data["name"],
                                             style: TextStyle(
                                                 color: Color(0xff565656),
-                                                fontSize: 15
-                                            ),),
-                                          Text('Room No. 087',
-                                            style: TextStyle(
-                                                fontSize: 12
-                                            ),),
+                                                fontSize: 15),
+                                          ),
                                         ],
                                       ),
                                       Spacer(),
-                                      Text(DateTime.now().day.toString()+'.'+DateTime.now().month.toString()+'.'+DateTime.now().year                     .toString(),
-                                        style: TextStyle(
-                                            color: Color(0xff9F9F9F)
-                                        ),)
+                                      Text(
+                                        "Room No." + data["roomNumber"],
+                                        style: TextStyle(fontSize: 14),
+                                      ),
                                     ],
                                   ),
                                   Divider(),
-                                  SizedBox(height: 5,),
-                                  Image(
-                                    image: AssetImage('assets/home_Screen_Student/2720490 1.png'),
+                                  SizedBox(
+                                    height: 5,
                                   ),
-                                  SizedBox(height: 5,),
-                                  Text('Title of Issue',
-
+                                  Text(
+                                    "Posted On " +
+                                        data["postedAt"]
+                                            .toDate()
+                                            .toString()
+                                            .substring(2, 11) +
+                                        " At " +
+                                        data["postedAt"]
+                                            .toDate()
+                                            .toString()
+                                            .substring(11, 19),
+                                    style: TextStyle(color: Color(0xff9F9F9F)),
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Image(
+                                    image: NetworkImage(data["imageUrl"]),
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    data["issue"],
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w500,
                                       color: Color(0xff1A1919),
                                     ),
                                   ),
-                                  SizedBox(height: 5,),
-                                  Text('Sir I went to purchase a book , but while returning it satrted raining . So there was                              no any options left for me then waiting at  the store until the rain stopped.'),
-                                  SizedBox(height: 10,),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Text(
-                                        DateTime.now().toString(),
-                                        style: TextStyle(
-                                            color: Color(0xff9F9F9F)
-                                        ),)
-                                    ],
+                                  SizedBox(
+                                    height: 5,
                                   ),
-                                  SizedBox(height: 20,),
+                                  Text(data["explanation"]),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
+                                      MaterialButton(onPressed: () async {
+                                        // await db.collection("sortedComplaints").add({
+                                        //   "issue": data["issue"],
+                                        //   "roomNumber": data["roomNumber"],
+                                        //   "explanation": data["explanation"],
+                                        //   "userUid": FirebaseAuth.instance.currentUser.uid,
+                                        //   "imageUrl": data["imageUrl"],
+                                        //   "status": "Sorted",
+                                        //   "name" : data["name"]
+                                        // });
+                                        // await FirebaseFirestore.instance.runTransaction((Transaction myTransaction) async {
+                                        //   await myTransaction.delete(snapshots.data.docs[index].reference);
+                                        // });
 
-                                      MaterialButton(onPressed: () {},
+                                        await db.collection("studentUsers").doc(data["userUid"]).collection("complaint")
+                                        .where("imageUrl",isEqualTo:data["imageUrl"]).snapshots().listen((data) {
+
+                                                var stts = data.docs[0]["status"];
+                                                stts = "Sorted";
+                                          });
+
+                                      },
                                         color: Color(0xffDFFED4),
 
                                         shape: RoundedRectangleBorder(
@@ -221,10 +244,9 @@ class _PendingComplaintsState extends State<PendingComplaints> {
                                                 color: Color(0xff4BB227)
                                             )),
 
-                                      )
+                                      ),
                                     ],
                                   )
-
                                 ],
                               ),
                             ),
@@ -234,19 +256,15 @@ class _PendingComplaintsState extends State<PendingComplaints> {
                     });
               },
             ),
-
-
-
           ],
         ),
       ),
-      bottomNavigationBar:  Container(
+      bottomNavigationBar: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           border: Border.all(
             color: Colors.grey[300],
           ),
-
         ),
         height: 45,
         width: 380,
@@ -257,22 +275,26 @@ class _PendingComplaintsState extends State<PendingComplaints> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) {
-                        return HomeScreenAdmin( );
-                      }
-                  ),
+                  MaterialPageRoute(builder: (context) {
+                    return HomeScreenAdmin();
+                  }),
                 );
               },
               child: Icon(
-
                 Icons.home_filled,
               ),
             ),
             Spacer(),
             //SizedBox(width: 10),
             MaterialButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) {
+                    return EntryListAdmin();
+                  }),
+                );
+              },
               child: Icon(
                 Icons.graphic_eq,
               ),
@@ -283,11 +305,9 @@ class _PendingComplaintsState extends State<PendingComplaints> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) {
-                        return Alerts();
-                      }
-                  ),
+                  MaterialPageRoute(builder: (context) {
+                    return Alerts();
+                  }),
                 );
               },
               child: Icon(
@@ -300,11 +320,9 @@ class _PendingComplaintsState extends State<PendingComplaints> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) {
-                        return EditProfileAdmin();
-                      }
-                  ),
+                  MaterialPageRoute(builder: (context) {
+                    return EditProfileAdmin();
+                  }),
                 );
               },
               child: Icon(
@@ -312,12 +330,9 @@ class _PendingComplaintsState extends State<PendingComplaints> {
               ),
             ),
             Spacer(),
-
-
           ],
         ),
       ),
-
     );
   }
 }

@@ -122,6 +122,7 @@ class _LoginAdminState extends State<LoginAdmin> {
                   ),
                   SizedBox(height: 10),
                   TextFormField(
+                    obscureText: true,
                     decoration: InputDecoration(
                       hintText: '**************',
                       fillColor: Colors.white,
@@ -152,13 +153,12 @@ class _LoginAdminState extends State<LoginAdmin> {
                     },
                   ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
 
                     children: <Widget>[
 
-                      Text('Remember me',
-                        style: TextStyle(color: Colors.black,fontSize: 10, fontWeight: FontWeight.bold),
-                      ),
-                      Spacer(),
+
+
                       // Checkbox(checkColor: Colors.lightGreenAccent),
 
                       TextButton(

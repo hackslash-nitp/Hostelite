@@ -27,16 +27,7 @@ class _EditProfileStudentState extends State<EditProfileStudent> {
 
   FirebaseAuth _auth = FirebaseAuth.instance;
 
-  String dpurl = FirebaseFirestore.instance
-      .collection('studentUsers')
-      .doc(FirebaseAuth.instance.currentUser.uid)
-      .collection('profile')
-      .get()
-      .then((value) {
-    value.docs[0].data()["dpUrl"];
-  }).toString();
-
-  var picsdb = FirebaseFirestore.instance
+  var picsdb =  FirebaseFirestore.instance
       .collection('displayPics')
       .doc(FirebaseAuth.instance.currentUser.uid);
 
@@ -107,15 +98,28 @@ class _EditProfileStudentState extends State<EditProfileStudent> {
                         });
                         print(url);
                         print(ImgUrl);
-                        picsdb.set({'dpUrl': url});
+                        picsdb.set({
+                          'dpUrl': url,
+                          'userUid': FirebaseAuth.instance.currentUser.uid
+                        });
                       });
                     });
                   });
                 },
-                child: CircleAvatar(
-                  radius: 85,
-                  backgroundColor: Colors.orange[100],
-                  backgroundImage: ImgUrl != "" ? NetworkImage(ImgUrl) : null,
+                child: StreamBuilder<QuerySnapshot>(
+                  stream:  FirebaseFirestore.instance
+                    .collection('displayPics')
+                    .where("userUid",isEqualTo:FirebaseAuth.instance.currentUser.uid).snapshots(),
+                  builder: (context, snapshot) {
+                    String dataUrl  = snapshot.data.docs[0]["dpUrl"];
+                    return !snapshot.hasData ? CircularProgressIndicator() : CircleAvatar(
+                      radius: 85,
+                      backgroundColor: Colors.orange[100],
+                      backgroundImage: dataUrl != " "
+                          ? NetworkImage(dataUrl)
+                          : AssetImage('assets/nodppic.jfif'),
+                    );
+                  }
                 ),
               ),
               SizedBox(
@@ -216,19 +220,36 @@ class _EditProfileStudentState extends State<EditProfileStudent> {
                   minWidth: 100,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0)),
-                  onPressed: () {
-                    buildUpdateProfile();
+                  onPressed: () async {
+                    if (username.text.isEmpty || email.text.isEmpty || mobileNumber.text.isEmpty){
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text("Error updating profile"),
+                              content: Text("Please fill all fields"),
+                              actions: [
+                                FlatButton(
+                                  child: Text("Ok"),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                )
+                              ],
+                            );
 
+                          });
+                      return;
+                    }
+                    buildUpdateProfile();
+                    print("1.-------------------");
                     //code to update email in firebase auth
-                    var message;
+
                     User firebaseUser = FirebaseAuth.instance.currentUser;
-                    firebaseUser
-                        .updateEmail(email.text)
-                        .then(
-                          (value) => message = 'Success',
-                        )
-                        .catchError((onError) => message = 'error');
-                    debugPrint(message);
+                    firebaseUser.updateDisplayName(username.text);
+                    await firebaseUser.updateEmail(email.text);
+                    print("2.-------------------");
+
 
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (context) => HomeScreenStudent()));

@@ -17,11 +17,7 @@ class HomeScreenStudent extends StatefulWidget {
 }
 
 class _HomeScreenStudentState extends State<HomeScreenStudent> {
-  // CalendarController _controller;
-  // void initState() {
-  //   super.initState();
-  //   _controller = CalendarController();
-  // }
+
   final GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>();
 
   @override

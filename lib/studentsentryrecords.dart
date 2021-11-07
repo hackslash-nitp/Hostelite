@@ -14,14 +14,14 @@ class StudentEntryRecordList extends StatefulWidget {
 }
 
 class _StudentEntryRecordListState extends State<StudentEntryRecordList> {
-
   List my_entries = [];
   String userId = FirebaseAuth.instance.currentUser.uid;
   var db = FirebaseFirestore.instance;
   var entry = FirebaseFirestore.instance
       .collection('studentUsers')
       .doc(FirebaseAuth.instance.currentUser.uid)
-      .collection('entry');
+      .collection('entry')
+      .orderBy('hostelName', descending: false);
 
   @override
   void initState() {
@@ -35,116 +35,116 @@ class _StudentEntryRecordListState extends State<StudentEntryRecordList> {
       setState(() {
         my_entries = value.docs;
       });
-
-
+      my_entries.sort((b,a)=> a["time"].compareTo(b["time"]));
     });
   }
+
   @override
   Widget build(BuildContext context) {
-    return
-    Scaffold(
-        appBar: AppBar(
-          title: Text('Your Exit/Entry Records'),
-          backgroundColor: Color(0xffFE96FA),
-          elevation: 0,
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Your Exit/Entry Records'),
+        backgroundColor: Color(0xffFE96FA),
+        elevation: 0,
+      ),
       body: SingleChildScrollView(
-
         child: Column(
           children: [
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Card(
-                  child:Padding(
-
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left:50.0),
-                          child: GestureDetector(
-                            onTap: (){
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) {
-                                  return StudentEntryRecordList();
-                                }),
-                              );
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  border: Border(
-
-                                    bottom: BorderSide(
-
-                                        width: 5.0, color: Color(0xffFE96FA)),
-                                  )
-                              ),
-                              child: Text('Entry',style: TextStyle(
-                                  fontSize: 18
-                              ),),
-                            ),
+                  child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 50.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) {
+                              return StudentEntryRecordList();
+                            }),
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border(
+                            bottom: BorderSide(
+                                width: 5.0, color: Color(0xffFE96FA)),
+                          )),
+                          child: Text(
+                            'Entry',
+                            style: TextStyle(fontSize: 18),
                           ),
                         ),
-                        Spacer(),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 50),
-
-                          child: GestureDetector(
-                            onTap: (){
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(builder: (context) {
-                                  return StudentExitRecordList();
-                                }),
-                              );
-                            },
-                            child: Container(
-
-                              child: Text('Exit',style: TextStyle(
-                                  fontSize: 18
-                              ),),
-                            ),
-                          ),
-                        ),
-
-                      ],
+                      ),
                     ),
-                  )
-              ),
-            ),
-            my_entries.length == 0 ? Center(child: Text('No records yet')) : SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Theme(
-                data: Theme.of(context).copyWith(dividerColor: Colors.blueAccent),
-                child: DataTable(
-                  columns: [
-                    DataColumn(label: Text('Date')),
-                    DataColumn(label: Text('Time')),
-                    DataColumn(label: Text('Location')),
-                    DataColumn(label: Text('Hostel')),
-                    DataColumn(label: Text('Room No.')),
-
+                    Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 50),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) {
+                              return StudentExitRecordList();
+                            }),
+                          );
+                        },
+                        child: Container(
+                          child: Text(
+                            'Exit',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
-                  rows:
-                    my_entries.map((element) => DataRow(
-                      cells: <DataCell>[
-                        DataCell(Text(element["time"].toDate().toString().substring(0,11))), //Extracting from Map element the value
-                        DataCell(Text(element["time"].toDate().toString().substring(11,19))), //Extracting from Map element the value
-                        DataCell(Text(element["location"])),
-                        DataCell(Text(element["hostel"])),
-                        DataCell(Text(element["roomNumber"])),
-
-                      ],
-                    )
-                    ).toList(),
                 ),
-              ),
+              )),
             ),
+            my_entries.length == 0
+                ? Center(child: Text('No records yet'))
+                : SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Theme(
+                      data: Theme.of(context)
+                          .copyWith(dividerColor: Colors.blueAccent),
+                      child: DataTable(
+                        columns: [
+                          DataColumn(label: Text('Date')),
+                          DataColumn(label: Text('Time')),
+                          DataColumn(label: Text('Location')),
+                          DataColumn(label: Text('Hostel')),
+                          DataColumn(label: Text('Room No.')),
+                        ],
+                        rows: my_entries
+                            .map((element) => DataRow(
+                                  cells: <DataCell>[
+                                    DataCell(Text(element["time"]
+                                        .toDate()
+                                        .toString()
+                                        .substring(0,
+                                            11))), //Extracting from Map element the value
+                                    DataCell(Text(element["time"]
+                                        .toDate()
+                                        .toString()
+                                        .substring(11,
+                                            19))), //Extracting from Map element the value
+                                    DataCell(Text(element["location"])),
+                                    DataCell(Text(element["hostel"])),
+                                    DataCell(Text(element["roomNumber"])),
+                                  ],
+                                ))
+                            .toList(),
+                      ),
+                    ),
+                  ),
           ],
         ),
       ),
-
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
@@ -161,11 +161,9 @@ class _StudentEntryRecordListState extends State<StudentEntryRecordList> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) {
-                        return HomeScreenStudent( );
-                      }
-                  ),
+                  MaterialPageRoute(builder: (context) {
+                    return HomeScreenStudent();
+                  }),
                 );
               },
               child: Icon(
@@ -185,7 +183,7 @@ class _StudentEntryRecordListState extends State<StudentEntryRecordList> {
               },
               child: Icon(
                 Icons.add_chart_outlined,
-                color:Color(0xffF989E7),
+                color: Color(0xffF989E7),
               ),
             ),
             Spacer(),
@@ -222,8 +220,6 @@ class _StudentEntryRecordListState extends State<StudentEntryRecordList> {
           ],
         ),
       ),
-
-
     );
   }
 }

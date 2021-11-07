@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:hostelite/alerts_admin.dart';
 import 'package:hostelite/exit-recordsAdmin.dart';
@@ -25,6 +26,11 @@ firebase_storage.Reference ref = storage.ref().child('dps');
 class _EditProfileAdminState extends State<EditProfileAdmin>{
 
   var imageUrl = 'str';
+  File _pickedImage;
+  var picsdb =  FirebaseFirestore.instance
+      .collection('displayPics')
+      .doc(FirebaseAuth.instance.currentUser.uid);
+  String ImgUrl = "";
 
   File img;
   getImage() async {
@@ -102,11 +108,51 @@ FirebaseFirestore db = FirebaseFirestore.instance;
 
                       },
                   child: Container(
-                    child: CircleAvatar(
-                      radius: 85,
-                      backgroundColor: Colors.blueAccent[100],
-                      backgroundImage: NetworkImage(imageUrl),
+                    child: GestureDetector(
+                    onTap: () {
+                    ImagePicker()
+                        .pickImage(source: ImageSource.gallery)
+                        .then((value) async {
+                                _pickedImage = File(value.path);
+                                Reference reference = FirebaseStorage.instance
+                                    .ref()
+                                    .child('images')
+                                    .child('dps')
+                                    .child(
+                                DateTime.now().microsecondsSinceEpoch.toString() +
+                                '.jpg');
+                                UploadTask task = reference.putFile(_pickedImage);
+                                task.whenComplete(() {
+                                reference.getDownloadURL().then((url) {
+                                setState(() {
+                                ImgUrl = url;
+                                });
+                                print(url);
 
+                                  picsdb.set({
+                                'dpUrl': url,
+                                'userUid': FirebaseAuth.instance.currentUser.uid
+                                  });
+                                });
+                                });
+                    });
+                    },
+                      child: StreamBuilder<QuerySnapshot>(
+                          stream:  FirebaseFirestore.instance
+                              .collection('displayPics')
+                              .where("userUid",isEqualTo:FirebaseAuth.instance.currentUser.uid).snapshots(),
+                          builder: (context, snapshot) {
+
+                            String dataUrl  = snapshot.data.docs[0]["dpUrl"];
+                            return !snapshot.hasData ? CircularProgressIndicator() : CircleAvatar(
+                              radius: 85,
+                              backgroundColor: Colors.orange[100],
+                              backgroundImage: dataUrl != " "
+                                  ? NetworkImage(dataUrl)
+                                  : AssetImage('assets/nodppic.jfif'),
+                            );
+                          }
+                      ),
                     ),
                   ),
                 ),
@@ -140,6 +186,7 @@ FirebaseFirestore db = FirebaseFirestore.instance;
 
                 TextFormField(
                   controller: email,
+
                   decoration: InputDecoration(
                     hintText: _auth.currentUser.email,
                     labelText: 'Email',
@@ -168,7 +215,7 @@ FirebaseFirestore db = FirebaseFirestore.instance;
                 TextFormField(
                   controller: mobileNumber,
                   decoration: InputDecoration(
-                    hintText: _auth.currentUser.displayName,
+                    hintText: _auth.currentUser.phoneNumber,
                     labelText: 'Mobile number',
                     fillColor: Colors.white,
                     filled: true,
@@ -201,20 +248,41 @@ FirebaseFirestore db = FirebaseFirestore.instance;
                     color: Colors.purple,
                     minWidth: 100,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-                    onPressed: () {
-                      buildUpdateProfile();
-                      var message;
-                      User firebaseUser = FirebaseAuth.instance
-                          .currentUser;
-                      firebaseUser
-                          .updateEmail(email.text)
-                          .then(
-                            (value) => message = 'Success',
-                      )
-                          .catchError((onError) => message = 'error');
-                      debugPrint(message);
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomeScreenAdmin() ));
-                    },
+                    onPressed: () async {
+
+                        if (username.text.isEmpty || email.text.isEmpty || mobileNumber.text.isEmpty){
+                  showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("Error updating profile"),
+                            content: Text("Please fill all fields"),
+                            actions: [
+                              FlatButton(
+                                child: Text("Ok"),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              )
+                            ],
+                          );
+
+                        });
+                  return;
+                      }
+
+                        buildUpdateProfile();
+                        print("1.-------------------");
+                        //code to update email in firebase auth
+
+                        User firebaseUser = FirebaseAuth.instance.currentUser;
+                        firebaseUser.updateDisplayName(username.text);
+                        await firebaseUser.updateEmail(email.text);
+                        print("2.-------------------");
+                          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomeScreenAdmin() ));
+                        }
+
+
 
                   ),
                 ),

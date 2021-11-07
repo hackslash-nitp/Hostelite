@@ -33,7 +33,7 @@ class _EntryListAdminState extends State<EntryListAdmin> {
       setState(() {
         entries = value.docs;
       });
-
+      entries.sort((b,a) => a["time"].compareTo(b["time"]));
     });
   }
 

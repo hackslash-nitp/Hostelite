@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hostelite/alerts_admin.dart';
+import 'package:hostelite/entry-recordsAdmin.dart';
 import 'package:hostelite/home_screen_Admin.dart';
 import 'package:hostelite/pendingcomplaints_admin.dart';
 import 'package:hostelite/rejected_complaints.dart';
@@ -16,7 +17,6 @@ class ViewComplaintsAdmin extends StatefulWidget {
 }
 
 class _ViewComplaintsAdminState extends State<ViewComplaintsAdmin> {
-
   final now = DateTime.now();
 
   @override
@@ -103,34 +103,30 @@ class _ViewComplaintsAdminState extends State<ViewComplaintsAdmin> {
                           width: 4,
                         ),
                         Spacer(),
-
-
                       ],
                     ),
                   ),
                 ),
               ),
             ),
-          
             SizedBox(
               height: 20,
             ),
             StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
-                  .collection("Exits").snapshots(),
-
-
+                  .collection("sortedComplaints").orderBy("postedAt",descending: true)
+                  .snapshots(),
               builder: (context, snapshots) {
-                if (!snapshots.hasData){
+                if (!snapshots.hasData) {
                   return CircularProgressIndicator();
                 }
-
 
                 return ListView.builder(
                     physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: snapshots.data.size,
-                    itemBuilder: (context, index){
+                    itemBuilder: (context, index) {
+                      DocumentSnapshot data = snapshots.data.docs[index];
                       return Container(
                         child: Padding(
                           padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
@@ -150,43 +146,52 @@ class _ViewComplaintsAdminState extends State<ViewComplaintsAdmin> {
                                         width: 10,
                                       ),
                                       Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            'Ramesh Kumar',
+                                            data["name"],
                                             style: TextStyle(
-                                                color: Color(0xff565656), fontSize: 15),
-                                          ),
-                                          Text(
-                                            'Room No. 087',
-                                            style: TextStyle(fontSize: 12),
+                                                color: Color(0xff565656),
+                                                fontSize: 15),
                                           ),
                                         ],
                                       ),
                                       Spacer(),
                                       Text(
-                                        DateTime.now().day.toString() +
-                                            '.' +
-                                            DateTime.now().month.toString() +
-                                            '.' +
-                                            DateTime.now().year.toString(),
-                                        style: TextStyle(color: Color(0xff9F9F9F)),
-                                      )
+                                        "Room No." + data["roomNumber"],
+                                        style: TextStyle(fontSize: 14),
+                                      ),
                                     ],
                                   ),
                                   Divider(),
                                   SizedBox(
                                     height: 5,
                                   ),
+                                  Text(
+                                    "Posted On " +
+                                        data["postedAt"]
+                                            .toDate()
+                                            .toString()
+                                            .substring(2, 11) +
+                                        " At " +
+                                        data["postedAt"]
+                                            .toDate()
+                                            .toString()
+                                            .substring(11, 19),
+                                    style: TextStyle(color: Color(0xff9F9F9F)),
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
                                   Image(
-                                    image: AssetImage(
-                                        'assets/home_Screen_Student/2720490 1.png'),
+                                    image: NetworkImage(data["imageUrl"]),
                                   ),
                                   SizedBox(
                                     height: 5,
                                   ),
                                   Text(
-                                    'Title of Issue',
+                                    data["issue"],
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w500,
@@ -196,12 +201,10 @@ class _ViewComplaintsAdminState extends State<ViewComplaintsAdmin> {
                                   SizedBox(
                                     height: 5,
                                   ),
-                                  Text(
-                                      'Sir I went to purchase a book , but while returning it satrted raining . So there was                              no any options left for me then waiting at  the store until the rain stopped.'),
+                                  Text(data["explanation"]),
                                   SizedBox(
                                     height: 10,
                                   ),
-
                                 ],
                               ),
                             ),
@@ -211,12 +214,9 @@ class _ViewComplaintsAdminState extends State<ViewComplaintsAdmin> {
                     });
               },
             ),
-
             SizedBox(
               height: 20,
             ),
-
-
           ],
         ),
       ),
@@ -248,7 +248,14 @@ class _ViewComplaintsAdminState extends State<ViewComplaintsAdmin> {
             Spacer(),
             //SizedBox(width: 10),
             MaterialButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) {
+                    return EntryListAdmin();
+                  }),
+                );
+              },
               child: Icon(
                 Icons.graphic_eq,
               ),

@@ -162,6 +162,7 @@ class _CreateAccountAdminState extends State<CreateAccountAdmin> {
                   height: 45,
                   width: 280,
                   child: TextFormField(
+                    obscureText: true,
                     decoration: textInputDecoration.copyWith(
                         hintText: 'Create Password',
                         prefixIcon: const Icon(
@@ -181,6 +182,7 @@ class _CreateAccountAdminState extends State<CreateAccountAdmin> {
                   height: 45,
                   width: 280,
                   child: TextFormField(
+                    obscureText: true,
                     decoration: textInputDecoration.copyWith(
                         hintText: 'Confirm Password',
                         prefixIcon: const Icon(Icons.lock, color: Colors.grey)),
@@ -243,8 +245,12 @@ class _CreateAccountAdminState extends State<CreateAccountAdmin> {
                               });
                           return;
                         }
-                       userCredential = await  _auth.createUserWithEmailAndPassword(email: email, password: password)
-                           .then((user) {
+
+                        userCredential = await _auth.createUserWithEmailAndPassword(
+                            email: email, password: password);
+                        User user = userCredential.user;
+                        user.updateDisplayName(username);
+
                          //Sending user data
                          FirebaseFirestore.instance.
                          collection("adminUsers").
@@ -258,30 +264,54 @@ class _CreateAccountAdminState extends State<CreateAccountAdmin> {
                            "userUid" : userCredential.user.uid
 
 
+                         }).catchError((err) {
+                           showDialog(
+                               context: context,
+                               builder: (BuildContext context) {
+                                 return AlertDialog(
+                                   title: Text("Error signing up"),
+                                   content: Text(err.message),
+                                   actions: [
+                                     FlatButton(
+                                       child: Text("Ok"),
+                                       onPressed: () {
+                                         Navigator.of(context).pop();
+                                       },
+                                     )
+                                   ],
+                                 );
+                               });
                          });
+
+                        FirebaseFirestore.instance.
+                        collection("displayPics").
+                        doc(FirebaseAuth.instance.currentUser.uid).
+                            set({
+                          "userUid" : userCredential.user.uid,
+                          "dpUrl":" "
+                        }).catchError((err) {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text("Error signing up"),
+                                  content: Text(err.message),
+                                  actions: [
+                                    FlatButton(
+                                      child: Text("Ok"),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    )
+                                  ],
+                                );
+                              });
+                        });;
 
                          showDialog(
                              context: context,
                              // ignore: non_constant_identifier_names
                              builder: (BuildContext) => leadDialog);
-                       }).catchError((err) {
-                         showDialog(
-                             context: context,
-                             builder: (BuildContext context) {
-                               return AlertDialog(
-                                 title: Text("Error signing up"),
-                                 content: Text(err.message),
-                                 actions: [
-                                   FlatButton(
-                                     child: Text("Ok"),
-                                     onPressed: () {
-                                       Navigator.of(context).pop();
-                                     },
-                                   )
-                                 ],
-                               );
-                             });
-                       });
 
 
                       },

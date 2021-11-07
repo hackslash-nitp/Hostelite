@@ -30,8 +30,11 @@ class _ExitListAdminState extends State<ExitListAdmin> {
         exits = value.docs;
       });
 
+      exits.sort((b,a) => a["time"].compareTo(b["time"]));
+
     });
   }
+
 
   @override
   Widget build(BuildContext context) {

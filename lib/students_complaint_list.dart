@@ -22,7 +22,7 @@ class _StudentComplaintListState extends State<StudentComplaintList> {
   var compl = FirebaseFirestore.instance
       .collection('studentUsers')
       .doc(FirebaseAuth.instance.currentUser.uid)
-      .collection('complaints');
+      .collection('complaint');
 
   @override
   void initState() {
@@ -30,13 +30,12 @@ class _StudentComplaintListState extends State<StudentComplaintList> {
     db
         .collection('studentUsers')
         .doc(userId)
-        .collection('complaints')
+        .collection('complaint')
         .get()
         .then((value) {
       setState(() {
         complaints = value.docs;
       });
-      debugPrint('comp0'+complaints[0]["issue"]);
     });
   }
 
@@ -48,7 +47,6 @@ class _StudentComplaintListState extends State<StudentComplaintList> {
         backgroundColor: Color(0xffFE96FA),
       ),
       body: ListView.builder(
-
         itemCount: complaints.length,
         itemBuilder: (context, index) {
           return Padding(
@@ -91,33 +89,47 @@ class _StudentComplaintListState extends State<StudentComplaintList> {
                         endIndent: 5,
                       ),
                       Card(child: Image.network(complaints[index]["imageUrl"])),
-
                       Padding(
-                        padding: const EdgeInsets.only(top:8.0),
+                        padding: const EdgeInsets.only(top: 8.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [Text(complaints[index]["roomNumber"]),
-                            Text(DateTime.now().toString().substring(0,11)),
-                            Text(DateTime.now().toString().substring(12,19))],
+                          children: [
+                            Text(complaints[index]["roomNumber"]),
+                            Text(complaints[index]["postedAt"]
+                                .toDate()
+                                .toString()
+                                .substring(0, 11)),
+                            Text(complaints[index]["postedAt"]
+                                .toDate()
+                                .toString()
+                                .substring(11, 19))
+                          ],
                         ),
                       ),
                       Padding(
-                        padding:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 0),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8, horizontal: 0),
                         child: Text(
                           complaints[index]["explanation"],
-                          style: TextStyle(color: Color(0xff5C5C5C), fontSize: 16),
+                          style:
+                              TextStyle(color: Color(0xff5C5C5C), fontSize: 16),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8, horizontal: 0),
+                        child: Text("Status: "  +
+                          complaints[index]["status"],
+                          style:
+                              TextStyle(color: Colors.redAccent, fontSize: 16),
                         ),
                       ),
                     ],
                   ),
                 )),
-
-
           );
         },
       ),
-
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
@@ -132,13 +144,11 @@ class _StudentComplaintListState extends State<StudentComplaintList> {
             Spacer(),
             MaterialButton(
               onPressed: () {
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                        builder: (context) => HomeScreenStudent()));
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => HomeScreenStudent()));
               },
               child: Icon(
                 Icons.home_filled,
-
               ),
             ),
             Spacer(),
@@ -154,7 +164,6 @@ class _StudentComplaintListState extends State<StudentComplaintList> {
               },
               child: Icon(
                 Icons.add_chart_outlined,
-
               ),
             ),
             Spacer(),
@@ -170,7 +179,7 @@ class _StudentComplaintListState extends State<StudentComplaintList> {
               },
               child: Icon(
                 Icons.av_timer_outlined,
-                color:Color(0xffF989E7),
+                color: Color(0xffF989E7),
               ),
             ),
             Spacer(),
@@ -199,7 +208,7 @@ class _StudentComplaintListState extends State<StudentComplaintList> {
 class Cardcomplaint extends StatelessWidget {
   final complaints;
   final index;
-  const Cardcomplaint({Key key, this.complaints,this.index}) : super(key: key);
+  const Cardcomplaint({Key key, this.complaints, this.index}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -258,8 +267,6 @@ class Cardcomplaint extends StatelessWidget {
               ],
             ),
           )),
-
-
     );
   }
 }

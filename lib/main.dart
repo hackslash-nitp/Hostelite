@@ -1,4 +1,4 @@
-// import 'dart:js';
+
 
 import 'package:flutter/material.dart';
 import 'package:hostelite/createAccountAdmin.dart';
@@ -16,16 +16,13 @@ import 'package:hostelite/starting_pages/keep_track.dart';
 import 'package:hostelite/starting_pages/solve_your_issues.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
   runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
     initialRoute: '/loginadmin',
-
-
     routes: {
       '/': (context) => HomeScreenStudent(),
       '/solveyourissues': (context) => SolveYourIssues(),
@@ -39,8 +36,6 @@ void main() async {
       '/homescreenadmin': (context) => HomeScreenAdmin(),
       '/studententry': (context) => MarkingEntry(),
       '/studentexit': (context) => MarkingExit(),
-
     },
   ));
 }
-

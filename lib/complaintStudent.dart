@@ -78,7 +78,7 @@ class _StudentComplaintState extends State<StudentComplaint> {
   File img;
   getImage() async {
     ImagePicker _picker = ImagePicker();
-    final XFile image = await _picker.pickImage(source: ImageSource.gallery);
+    final XFile image = await _picker.pickImage(source: ImageSource.camera);
     if (image != null) {
       setState(() {
         img = File(image.path);

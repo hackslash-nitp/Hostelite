@@ -120,10 +120,8 @@ Dialog leadDialogLate = Dialog(
 );
 
 class _MarkingEntryState extends State<MarkingEntry> {
-
   var db = FirebaseFirestore.instance;
   List alerts = [];
-
 
   String roomNumber;
   String rollNumber;
@@ -140,7 +138,6 @@ class _MarkingEntryState extends State<MarkingEntry> {
       locationMessage =
           'Longitude: ${position.longitude} \n Latitude: ${position.latitude}';
     });
-
   }
 
   @override
@@ -162,9 +159,7 @@ class _MarkingEntryState extends State<MarkingEntry> {
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
-              
                 Container(
-
                   child: TextFormField(
                       decoration: InputDecoration(
                         hintText: 'Roll No.',
@@ -172,31 +167,23 @@ class _MarkingEntryState extends State<MarkingEntry> {
                         fillColor: Color(0xffFFFFFF),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12.0),
-                          borderSide: BorderSide(
-                              color: Colors.grey,
-                              width: 1.0
-                          ),
+                          borderSide:
+                              BorderSide(color: Colors.grey, width: 1.0),
                         ),
                         focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.cyan,
-                                width: 1.0
-                            )
-                        ),
+                            borderSide:
+                                BorderSide(color: Colors.cyan, width: 1.0)),
                       ),
                       onChanged: (value) {
                         setState(() {
                           rollNumber = value.trim();
                         });
-                      }
-
-                  ),
+                      }),
                 ),
-
-                SizedBox(height: 30,),
-
+                SizedBox(
+                  height: 30,
+                ),
                 Container(
-
                   child: TextFormField(
                       decoration: InputDecoration(
                         hintText: 'Room No.',
@@ -204,31 +191,23 @@ class _MarkingEntryState extends State<MarkingEntry> {
                         fillColor: Color(0xffFFFFFF),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12.0),
-                          borderSide: BorderSide(
-                              color: Colors.grey,
-                              width: 1.0
-                          ),
+                          borderSide:
+                              BorderSide(color: Colors.grey, width: 1.0),
                         ),
                         focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.cyan,
-                                width: 1.0
-                            )
-                        ),
+                            borderSide:
+                                BorderSide(color: Colors.cyan, width: 1.0)),
                       ),
                       onChanged: (value) {
                         setState(() {
                           roomNumber = value.trim();
                         });
-                      }
-
-                  ),
+                      }),
                 ),
-
-                SizedBox(height: 30,),
-
+                SizedBox(
+                  height: 30,
+                ),
                 Container(
-
                   child: TextFormField(
                       decoration: InputDecoration(
                         hintText: 'Hostel Name',
@@ -236,36 +215,26 @@ class _MarkingEntryState extends State<MarkingEntry> {
                         fillColor: Color(0xffFFFFFF),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12.0),
-                          borderSide: BorderSide(
-                              color: Colors.grey,
-                              width: 1.0
-                          ),
+                          borderSide:
+                              BorderSide(color: Colors.grey, width: 1.0),
                         ),
                         focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.cyan,
-                                width: 1.0
-                            )
-                        ),
+                            borderSide:
+                                BorderSide(color: Colors.cyan, width: 1.0)),
                       ),
                       onChanged: (value) {
                         setState(() {
                           hostel = value.trim();
                         });
-                      }
-
-                  ),
+                      }),
                 ),
-
-                SizedBox(height: 30,),
-
+                SizedBox(
+                  height: 30,
+                ),
                 Card(
                   child: Container(
                     decoration: BoxDecoration(
-
-                      borderRadius: BorderRadius.circular(15.0
-
-                      ),
+                      borderRadius: BorderRadius.circular(15.0),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.white38.withOpacity(0.5),
@@ -280,7 +249,6 @@ class _MarkingEntryState extends State<MarkingEntry> {
                         Padding(
                             padding: EdgeInsets.all(8),
                             child: Container(
-
                               child: Text('Your Location',
                                   style: TextStyle(
                                       fontSize: 18,
@@ -298,9 +266,7 @@ class _MarkingEntryState extends State<MarkingEntry> {
                     ),
                   ),
                 ),
-
                 SizedBox(height: 80),
-
                 MaterialButton(
                   child: Text(
                     'Get location',
@@ -314,7 +280,6 @@ class _MarkingEntryState extends State<MarkingEntry> {
                     getCurrentLocation();
                   },
                 ),
-
                 SizedBox(height: 40),
                 Container(
                   width: 130,
@@ -329,11 +294,17 @@ class _MarkingEntryState extends State<MarkingEntry> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0)),
                     onPressed: () async {
+                      if (roomNumber.isEmpty ||
+                          rollNumber.isEmpty ||
+                          hostel.isEmpty ||
+                          locationMessage.isEmpty) {
+                        return SnackBar(
+                            content: Text("Please enter all fields"));
+                      }
                       FirebaseFirestore.instance
                           .collection("studentUsers")
                           .doc(FirebaseAuth.instance.currentUser.uid)
                           .collection("entry")
-
                           .add({
                         // "hostelName" : hostelName,
                         "rollNumber": rollNumber,
@@ -344,9 +315,7 @@ class _MarkingEntryState extends State<MarkingEntry> {
                         "location": locationMessage,
                       });
 
-                      FirebaseFirestore.instance
-                          .collection('Entries').
-                      add({
+                      FirebaseFirestore.instance.collection('Entries').add({
                         "name": FirebaseAuth.instance.currentUser.email,
                         "rollNumber": rollNumber,
                         "roomNumber": roomNumber,
@@ -356,10 +325,10 @@ class _MarkingEntryState extends State<MarkingEntry> {
                         "location": locationMessage,
                       });
 
-                      if (  (currentTime > 8)) {
+                      if ((currentTime > 8)) {
                         FirebaseFirestore.instance.collection('alerts').add({
                           "position": position.toString(),
-                          "name": FirebaseAuth.instance.currentUser.email,
+                          "name": FirebaseAuth.instance.currentUser.displayName,
                           "rollNumber": rollNumber,
                           "roomNumber": roomNumber,
                           "hostel": hostel,
@@ -368,15 +337,10 @@ class _MarkingEntryState extends State<MarkingEntry> {
                         });
                         showDialog(
                             context: context,
-
                             builder: (BuildContext context) => leadDialogLate);
-                        return;
-                      }
-
-                      else {
+                      } else {
                         showDialog(
                             context: context,
-
                             builder: (BuildContext context) => leadDialog);
                       }
                     },
