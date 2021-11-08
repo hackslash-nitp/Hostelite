@@ -72,6 +72,19 @@ class _MarkingExitState extends State<MarkingExit> {
   String purpose;
   String hostelName;
 
+  var exitdb = FirebaseFirestore.instance
+      .collection("studentUsers")
+      .doc(FirebaseAuth.instance.currentUser.uid)
+      .collection("exit");
+
+  int exitdbsize;
+  int entrydbsize;
+
+  var entrydb = FirebaseFirestore.instance
+      .collection("studentUsers")
+      .doc(FirebaseAuth.instance.currentUser.uid)
+      .collection("entry");
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -218,38 +231,41 @@ class _MarkingExitState extends State<MarkingExit> {
                         return SnackBar(
                             content: Text("Please enter all fields"));
                       }
-                      FirebaseFirestore.instance
-                          .collection("studentUsers")
-                          .doc(FirebaseAuth.instance.currentUser.uid)
-                          .collection("exit")
-                          .add({
-                        "hostelName": hostelName,
-                        "rollNumber": rollNumber,
-                        "roomNumber": roomNumber,
-                        "purpose": purpose,
-                        "userUid": FirebaseAuth.instance.currentUser.uid,
-                        "exitTime": DateTime.now().toLocal(),
-                        "name": FirebaseAuth.instance.currentUser.displayName,
-                        "entryTime": null,
-                        "token": DateTime.now().microsecondsSinceEpoch
-                      });
+                      exitdb.get().then(
+                          (snapshots) => {exitdbsize = snapshots.docs.length});
+                      entrydb.get().then(
+                          (snapshots) => {entrydbsize = snapshots.docs.length});
 
-                      FirebaseFirestore.instance.collection('Exits').add({
-                        "hostelName": hostelName,
-                        "rollNumber": rollNumber,
-                        "roomNumber": roomNumber,
-                        "purpose": purpose,
-                        "userUid": FirebaseAuth.instance.currentUser.uid,
-                        "exitTime": DateTime.now().toLocal(),
-                        "name": FirebaseAuth.instance.currentUser.displayName,
-                        "entryTime": null,
-                        "token": DateTime.now().microsecondsSinceEpoch
-                      });
+                      if (exitdbsize - entrydbsize == 5) {
+                        exitdb.add({
+                          "hostelName": hostelName,
+                          "rollNumber": rollNumber,
+                          "roomNumber": roomNumber,
+                          "purpose": purpose,
+                          "userUid": FirebaseAuth.instance.currentUser.uid,
+                          "exitTime": DateTime.now().toLocal(),
+                          "name": FirebaseAuth.instance.currentUser.displayName,
+                          "entryTime": null,
+                          "token": DateTime.now().microsecondsSinceEpoch
+                        });
+                        showDialog(
+                            context: context,
+                            // ignore: non_constant_identifier_names
+                            builder: (BuildContext) => leadDialog);
+                        return "";
+                      }
 
-                      showDialog(
-                          context: context,
-                          // ignore: non_constant_identifier_names
-                          builder: (BuildContext) => leadDialog);
+                      // FirebaseFirestore.instance.collection('Exits').add({
+                      //   "hostelName": hostelName,
+                      //   "rollNumber": rollNumber,
+                      //   "roomNumber": roomNumber,
+                      //   "purpose": purpose,
+                      //   "userUid": FirebaseAuth.instance.currentUser.uid,
+                      //   "exitTime": DateTime.now().toLocal(),
+                      //   "name": FirebaseAuth.instance.currentUser.displayName,
+                      //   "entryTime": null,
+                      //   "token": DateTime.now().microsecondsSinceEpoch
+                      // });
                     },
                   ),
                 ),

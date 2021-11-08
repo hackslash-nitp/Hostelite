@@ -127,19 +127,19 @@ class _StudentEntryRecordListState extends State<StudentExitRecordList> {
                                         .substring(11,
                                             19))), //Extracting from Map element the value
                                     DataCell(Text(element["purpose"])),
-                                    DataCell(Text(element["token"])),
+                                    DataCell(Text(element["token"].toString())),
                                     DataCell(element["entryTime"] != null
                                         ? Text(element["entryTime"]
                                             .toDate()
                                             .toString()
                                             .substring(0, 11))
-                                        : Text("Not yet entered")),
+                                        : Text("     ")),
                                     DataCell(element["entryTime"] != null
                                         ? Text(element["entryTime"]
                                             .toDate()
                                             .toString()
                                             .substring(11, 19))
-                                        : Text("Not yet entered")),
+                                        : Text("     ")),
 
                                     DataCell(Text(element["hostelName"])),
                                     DataCell(Text(element["roomNumber"])),

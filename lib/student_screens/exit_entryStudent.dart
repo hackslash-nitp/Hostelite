@@ -122,14 +122,19 @@ Dialog leadDialogLate = Dialog(
 class _MarkingEntryState extends State<MarkingEntry> {
   var db = FirebaseFirestore.instance;
   List alerts = [];
-
+  int entrytoken;
   String roomNumber;
   String rollNumber;
   String studentloc;
   String hostel;
-  int currentTime = DateTime.now().toLocal().hour;
+  var nowTime = DateTime.now();
   var locationMessage = '';
   Position position;
+
+  var stdentdb = FirebaseFirestore.instance
+      .collection("studentUsers")
+      .doc(FirebaseAuth.instance.currentUser.uid)
+      .collection("exit");
 
   void getCurrentLocation() async {
     position = await Geolocator.getCurrentPosition(
@@ -231,6 +236,30 @@ class _MarkingEntryState extends State<MarkingEntry> {
                 SizedBox(
                   height: 30,
                 ),
+                Container(
+                  child: TextFormField(
+                      decoration: InputDecoration(
+                        hintText: 'Enter token provided during exit',
+                        filled: true,
+                        fillColor: Color(0xffFFFFFF),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                          borderSide:
+                              BorderSide(color: Colors.grey, width: 1.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.cyan, width: 1.0)),
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          entrytoken = int.parse(value);
+                        });
+                      }),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
                 Card(
                   child: Container(
                     decoration: BoxDecoration(
@@ -301,31 +330,29 @@ class _MarkingEntryState extends State<MarkingEntry> {
                         return SnackBar(
                             content: Text("Please enter all fields"));
                       }
-                      FirebaseFirestore.instance
-                          .collection("studentUsers")
-                          .doc(FirebaseAuth.instance.currentUser.uid)
-                          .collection("entry")
-                          .add({
-                        // "hostelName" : hostelName,
-                        "rollNumber": rollNumber,
-                        "roomNumber": roomNumber,
-                        "hostel": hostel,
-                        "userUid": FirebaseAuth.instance.currentUser.uid,
-                        "time": DateTime.now().toLocal(),
-                        "location": locationMessage,
-                      });
+                      print("1.------------------------");
 
-                      FirebaseFirestore.instance.collection('Entries').add({
-                        "name": FirebaseAuth.instance.currentUser.email,
-                        "rollNumber": rollNumber,
-                        "roomNumber": roomNumber,
-                        "hostel": hostel,
-                        "userUid": FirebaseAuth.instance.currentUser.uid,
-                        "time": DateTime.now().toLocal(),
-                        "location": locationMessage,
-                      });
+                      print("2.------------------------");
+                      //   // "hostelName" : hostelName,
+                      //   "rollNumber": rollNumber,
+                      //   "roomNumber": roomNumber,
+                      //   "hostel": hostel,
+                      //   "userUid": FirebaseAuth.instance.currentUser.uid,
+                      //   "time": DateTime.now().toLocal(),
+                      //   "location": locationMessage,
+                      // });
 
-                      if ((currentTime > 8)) {
+                      // FirebaseFirestore.instance.collection('Entries').add({
+                      //   "name": FirebaseAuth.instance.currentUser.email,
+                      //   "rollNumber": rollNumber,
+                      //   "roomNumber": roomNumber,
+                      //   "hostel": hostel,
+                      //   "userUid": FirebaseAuth.instance.currentUser.uid,
+                      //   "time": DateTime.now().toLocal(),
+                      //   "location": locationMessage,
+                      // });
+
+                      if ((nowTime.hour >= 15)) {
                         FirebaseFirestore.instance.collection('alerts').add({
                           "position": position.toString(),
                           "name": FirebaseAuth.instance.currentUser.displayName,
@@ -339,6 +366,22 @@ class _MarkingEntryState extends State<MarkingEntry> {
                             context: context,
                             builder: (BuildContext context) => leadDialogLate);
                       } else {
+                        stdentdb
+                            .where("token", isEqualTo: entrytoken)
+                            .get()
+                            .then((snapshots) => {
+                                  if (snapshots.size == 1)
+                                    {
+                                      for (var snapshot in snapshots.docs)
+                                        {
+                                          stdentdb.doc(snapshot.id).update({
+                                            "entryTime":
+                                                DateTime.now().toLocal(),
+                                            "token": "0"
+                                          })
+                                        }
+                                    }
+                                });
                         showDialog(
                             context: context,
                             builder: (BuildContext context) => leadDialog);
