@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:hostelite/complaintStudent.dart';
-import 'package:hostelite/drawer.dart';
-import 'package:hostelite/edit_profile_Student.dart';
-import 'package:hostelite/mark_exit.dart';
-import 'package:hostelite/exit_entryStudent.dart';
+import 'package:hostelite/student_screens/complaintStudent.dart';
+import 'package:hostelite/student_screens/drawer.dart';
+import 'package:hostelite/student_screens/edit_profile_Student.dart';
+import 'package:hostelite/student_screens/mark_exit.dart';
+import 'package:hostelite/student_screens/exit_entryStudent.dart';
 import 'package:hostelite/studentexitrecords.dart';
 import 'package:hostelite/students_complaint_list.dart';
 import 'package:hostelite/studentsentryrecords.dart';
@@ -17,7 +17,6 @@ class HomeScreenStudent extends StatefulWidget {
 }
 
 class _HomeScreenStudentState extends State<HomeScreenStudent> {
-
   final GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>();
 
   @override

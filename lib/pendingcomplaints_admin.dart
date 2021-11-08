@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hostelite/alerts_admin.dart';
-import 'package:hostelite/complaintAdmin.dart';
-import 'package:hostelite/edit_profile_Admin.dart';
+import 'package:hostelite/admin_screens/alerts_admin.dart';
+import 'package:hostelite/admin_screens/complaintAdmin.dart';
+import 'package:hostelite/admin_screens/edit_profile_Admin.dart';
 import 'package:hostelite/entry-recordsAdmin.dart';
 import 'package:hostelite/home_screen_Admin.dart';
 import 'package:hostelite/rejected_complaints.dart';
@@ -117,7 +117,8 @@ class _PendingComplaintsState extends State<PendingComplaints> {
             ),
             StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
-                  .collection("pendingComplaints").orderBy("postedAt",descending: true)
+                  .collection("pendingComplaints")
+                  .orderBy("postedAt", descending: true)
                   .snapshots(),
               builder: (context, snapshots) {
                 if (!snapshots.hasData) {
@@ -211,39 +212,42 @@ class _PendingComplaintsState extends State<PendingComplaints> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                      MaterialButton(onPressed: () async {
-                                        // await db.collection("sortedComplaints").add({
-                                        //   "issue": data["issue"],
-                                        //   "roomNumber": data["roomNumber"],
-                                        //   "explanation": data["explanation"],
-                                        //   "userUid": FirebaseAuth.instance.currentUser.uid,
-                                        //   "imageUrl": data["imageUrl"],
-                                        //   "status": "Sorted",
-                                        //   "name" : data["name"]
-                                        // });
-                                        // await FirebaseFirestore.instance.runTransaction((Transaction myTransaction) async {
-                                        //   await myTransaction.delete(snapshots.data.docs[index].reference);
-                                        // });
+                                      MaterialButton(
+                                        onPressed: () async {
+                                          // await db.collection("sortedComplaints").add({
+                                          //   "issue": data["issue"],
+                                          //   "roomNumber": data["roomNumber"],
+                                          //   "explanation": data["explanation"],
+                                          //   "userUid": FirebaseAuth.instance.currentUser.uid,
+                                          //   "imageUrl": data["imageUrl"],
+                                          //   "status": "Sorted",
+                                          //   "name" : data["name"]
+                                          // });
+                                          // await FirebaseFirestore.instance.runTransaction((Transaction myTransaction) async {
+                                          //   await myTransaction.delete(snapshots.data.docs[index].reference);
+                                          // });
 
-                                        await db.collection("studentUsers").doc(data["userUid"]).collection("complaint")
-                                        .where("imageUrl",isEqualTo:data["imageUrl"]).snapshots().listen((data) {
-
-                                                var stts = data.docs[0]["status"];
-                                                stts = "Sorted";
+                                          await db
+                                              .collection("studentUsers")
+                                              .doc(data["userUid"])
+                                              .collection("complaint")
+                                              .where("imageUrl",
+                                                  isEqualTo: data["imageUrl"])
+                                              .snapshots()
+                                              .listen((data) {
+                                            var stts = data.docs[0]["status"];
+                                            stts = "Sorted";
                                           });
-
-                                      },
+                                        },
                                         color: Color(0xffDFFED4),
-
                                         shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius. circular(10.0),
-                                            side: BorderSide(color: Color(0xff4BB227))
-                                        ),
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                            side: BorderSide(
+                                                color: Color(0xff4BB227))),
                                         child: Text('Mark Sorted',
-                                            style:TextStyle(
-                                                color: Color(0xff4BB227)
-                                            )),
-
+                                            style: TextStyle(
+                                                color: Color(0xff4BB227))),
                                       ),
                                     ],
                                   )

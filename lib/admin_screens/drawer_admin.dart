@@ -1,20 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hostelite/edit_profile_Student.dart';
-import 'package:hostelite/loginStudent.dart';
+import 'package:hostelite/admin_screens/alerts_admin.dart';
+import 'package:hostelite/admin_screens/edit_profile_Admin.dart';
+import 'package:hostelite/home_screen_Admin.dart';
+import 'package:hostelite/loginAdmin.dart';
 
-class NavDrawer extends StatefulWidget {
-  @override
-  _NavDrawerState createState() => _NavDrawerState();
-}
-
-class _NavDrawerState extends State<NavDrawer> {
+class NavDrawerAdmin extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-
-
-
+  final db = FirebaseFirestore.instance
+      .collection("adminUsers")
+      .doc(FirebaseAuth.instance.currentUser.uid)
+      .collection("profile")
+      .snapshots();
 
   @override
   Widget build(BuildContext context) {
@@ -23,22 +22,21 @@ class _NavDrawerState extends State<NavDrawer> {
         canvasColor: Color(0xffFE96FA),
       ),
       child: Drawer(
-
         child: ListView(
-
           padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
           children: <Widget>[
-
             DrawerHeader(
               decoration: BoxDecoration(
                 color: Color(0xffFE96FA),
               ),
               child: StreamBuilder<QuerySnapshot>(
-                  stream:  FirebaseFirestore.instance
+                  stream: FirebaseFirestore.instance
                       .collection('displayPics')
-                      .where("userUid",isEqualTo:FirebaseAuth.instance.currentUser.uid).snapshots(),
+                      .where("userUid",
+                          isEqualTo: FirebaseAuth.instance.currentUser.uid)
+                      .snapshots(),
                   builder: (context, snapshot) {
-                    String dataUrl  = snapshot.data.docs[0]["dpUrl"];
+                    String dataUrl = snapshot.data.docs[0]["dpUrl"];
                     return CircleAvatar(
                       radius: 85,
                       backgroundColor: Colors.orange[100],
@@ -46,45 +44,79 @@ class _NavDrawerState extends State<NavDrawer> {
                           ? NetworkImage(dataUrl)
                           : AssetImage('assets/nodppic.jfif'),
                     );
-                  }
+                  }),
+            ),
+            StreamBuilder<Object>(
+                stream: FirebaseFirestore.instance
+                    .collection("adminUsers")
+                    .doc(FirebaseAuth.instance.currentUser.uid)
+                    .collection("profile")
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  return ListTile(
+                    title: Text(
+                      _auth.currentUser.displayName,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xff636363),
+                      ),
+                    ),
+                    tileColor: Color(0xffFE96FA),
+                  );
+                }),
+            ListTile(
+              tileColor: Color(0xffFE96FA),
+              title: Text(
+                'Hostel In-Charge',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 15,
+                ),
               ),
             ),
             ColoredBox(
-              color: Color(0xffFE96FA),
+              color: Color(0xffFFBCF4),
             ),
             ListTile(
+              tileColor: Color(0xffFE96FA),
+              leading: Icon(Icons.edit),
               title: Text(
-                _auth.currentUser.displayName,
-                textAlign: TextAlign.center,
+                'Edit Profile',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black87,
                 ),
               ),
-              tileColor: Color(0xffFE96FA),
-            ),
-
-            ColoredBox(
-              color: Color(0xffFE96FA),
+              onTap: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) {
+                    return EditProfileAdmin();
+                  }),
+                )
+              },
             ),
             ListTile(
-                tileColor: Color(0xffFE96FA),
-                leading: Icon(Icons.edit),
-                title: Text(
-                  'Edit Profile',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+              tileColor: Color(0xffFE96FA),
+              leading: Icon(Icons.notifications),
+              title: Text(
+                'Alerts',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
                 ),
-                onTap: () => {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return EditProfileStudent();
-                      }))
-                    }),
-
+              ),
+              onTap: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) {
+                    return Alerts();
+                  }),
+                )
+              },
+            ),
             ListTile(
               tileColor: Color(0xffFE96FA),
               leading: Icon(Icons.report_problem),
@@ -97,7 +129,6 @@ class _NavDrawerState extends State<NavDrawer> {
               ),
               onTap: () => {},
             ),
-
             ListTile(
               tileColor: Color(0xffFE96FA),
               leading: Icon(Icons.quick_contacts_dialer_outlined),
@@ -122,9 +153,15 @@ class _NavDrawerState extends State<NavDrawer> {
               ),
               onTap: () async {
                 _auth.signOut();
+                print('signed out');
                 Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => LoginStudent()));
+                    MaterialPageRoute(builder: (context) => LoginAdmin()));
               },
+              // onTap: () => {
+              //   // print('signed out')
+              //   _auth.signOut()
+              //
+              // },
             ),
             SizedBox(
               height: 50,
@@ -141,18 +178,10 @@ class _NavDrawerState extends State<NavDrawer> {
                 ),
               ),
               tileColor: Color(0xffFE96FA),
-            ),
-            ListTile(
-
-              tileColor: Color(0xffFE96FA),
-            ),ListTile(
-
-              tileColor: Color(0xffFE96FA),
-            ),
+            )
           ],
         ),
       ),
     );
   }
 }
-

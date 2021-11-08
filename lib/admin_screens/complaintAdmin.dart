@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hostelite/alerts_admin.dart';
+import 'package:hostelite/admin_screens/alerts_admin.dart';
 import 'package:hostelite/entry-recordsAdmin.dart';
 import 'package:hostelite/home_screen_Admin.dart';
 import 'package:hostelite/pendingcomplaints_admin.dart';
@@ -114,7 +114,8 @@ class _ViewComplaintsAdminState extends State<ViewComplaintsAdmin> {
             ),
             StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
-                  .collection("sortedComplaints").orderBy("postedAt",descending: true)
+                  .collection("sortedComplaints")
+                  .orderBy("postedAt", descending: true)
                   .snapshots(),
               builder: (context, snapshots) {
                 if (!snapshots.hasData) {

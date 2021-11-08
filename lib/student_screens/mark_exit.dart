@@ -3,16 +3,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import 'package:hostelite/home_screen_Admin.dart';
-import 'package:hostelite/home_screen_Student.dart';
+import 'package:hostelite/student_screens/home_screen_Student.dart';
 import 'package:hostelite/models/user_model.dart';
 import 'package:hostelite/shared_files/decoration.dart';
-import 'package:geolocator/geolocator.dart';
 
-class MarkingEntry extends StatefulWidget {
-  const MarkingEntry({Key key}) : super(key: key);
+class MarkingExit extends StatefulWidget {
+  const MarkingExit({Key key}) : super(key: key);
 
   @override
-  _MarkingEntryState createState() => _MarkingEntryState();
+  _MarkingExitState createState() => _MarkingExitState();
 }
 
 Dialog leadDialog = Dialog(
@@ -67,89 +66,32 @@ Dialog leadDialog = Dialog(
   ),
 );
 
-Dialog leadDialogLate = Dialog(
-  child: Container(
-    height: 300,
-    width: 360,
-    child: Column(
-      children: <Widget>[
-        Center(
-          child: Image(
-            image: AssetImage('assets/create_account_page/Vector.png'),
-            height: 150,
-            width: 150,
-          ),
-        ),
-        Text(
-          'You are not',
-          style: TextStyle(
-            fontSize: 30,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Text(
-          'at hostel',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 30,
-          ),
-        ),
-        Container(
-          width: 150.0,
-          height: 40.0,
-          child: MaterialButton(
-            child: Text(
-              'Done',
-              style: TextStyle(color: Colors.white, fontSize: 17.0),
-            ),
-            color: Colors.pinkAccent[100],
-            minWidth: 100.0,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)),
-            onPressed: () {
-              BuildContext context;
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return HomeScreenStudent();
-              }));
-            },
-          ),
-        ),
-      ],
-    ),
-  ),
-);
-
-class _MarkingEntryState extends State<MarkingEntry> {
-  var db = FirebaseFirestore.instance;
-  List alerts = [];
-
+class _MarkingExitState extends State<MarkingExit> {
   String roomNumber;
   String rollNumber;
-  String studentloc;
-  String hostel;
-  int currentTime = DateTime.now().toLocal().hour;
-  var locationMessage = '';
-  Position position;
-
-  void getCurrentLocation() async {
-    position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    setState(() {
-      locationMessage =
-          'Longitude: ${position.longitude} \n Latitude: ${position.latitude}';
-    });
-  }
+  String purpose;
+  String hostelName;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Mark Entry'),
+        leading: new IconButton(
+          icon: new Icon(Icons.arrow_back_rounded),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        title: Text(
+          'Mark Exit',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        elevation: 10,
         backgroundColor: Color(0xffFE96FA),
-        elevation: 0,
       ),
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 30, 20, 0),
+        padding: const EdgeInsets.all(20),
         child: Container(
           constraints: BoxConstraints.expand(),
           decoration: BoxDecoration(
@@ -224,125 +166,90 @@ class _MarkingEntryState extends State<MarkingEntry> {
                       ),
                       onChanged: (value) {
                         setState(() {
-                          hostel = value.trim();
+                          hostelName = value.trim();
                         });
                       }),
                 ),
                 SizedBox(
                   height: 30,
                 ),
-                Card(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15.0),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.white38.withOpacity(0.5),
-                          spreadRadius: 2,
-                          blurRadius: 7,
-                          offset: Offset(1, 3), // changes position of shadow
+                Container(
+                  child: TextField(
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null,
+                      decoration: InputDecoration(
+                        hintText: 'Purpose of Exit',
+                        filled: true,
+                        fillColor: Color(0xffFFFFFF),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                          borderSide:
+                              BorderSide(color: Colors.grey, width: 1.0),
                         ),
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        Padding(
-                            padding: EdgeInsets.all(8),
-                            child: Container(
-                              child: Text('Your Location',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.green,
-                                      fontWeight: FontWeight.w600)),
-                            )),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(locationMessage,
-                              style: TextStyle(
-                                fontSize: 16,
-                              )),
-                        ),
-                      ],
-                    ),
-                  ),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.cyan, width: 1.0)),
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          purpose = value.trim();
+                        });
+                      }),
                 ),
                 SizedBox(height: 80),
-                MaterialButton(
-                  child: Text(
-                    'Get location',
-                    style: TextStyle(color: Colors.black87, fontSize: 15),
-                  ),
-                  color: Color(0xffFE96FA),
-                  minWidth: 100,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0)),
-                  onPressed: () {
-                    getCurrentLocation();
-                  },
-                ),
-                SizedBox(height: 40),
                 Container(
                   width: 130,
                   height: 50,
                   child: MaterialButton(
                     child: Text(
-                      'Mark Entry',
-                      style: TextStyle(color: Colors.black87, fontSize: 15),
+                      'Mark Exit',
+                      style: TextStyle(color: Color(0xff33004A), fontSize: 15),
                     ),
                     color: Color(0xffFE96FA),
                     minWidth: 100,
+                    elevation: 10,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0)),
                     onPressed: () async {
                       if (roomNumber.isEmpty ||
                           rollNumber.isEmpty ||
-                          hostel.isEmpty ||
-                          locationMessage.isEmpty) {
+                          hostelName.isEmpty ||
+                          purpose.isEmpty) {
                         return SnackBar(
                             content: Text("Please enter all fields"));
                       }
                       FirebaseFirestore.instance
                           .collection("studentUsers")
                           .doc(FirebaseAuth.instance.currentUser.uid)
-                          .collection("entry")
+                          .collection("exit")
                           .add({
-                        // "hostelName" : hostelName,
+                        "hostelName": hostelName,
                         "rollNumber": rollNumber,
                         "roomNumber": roomNumber,
-                        "hostel": hostel,
+                        "purpose": purpose,
                         "userUid": FirebaseAuth.instance.currentUser.uid,
-                        "time": DateTime.now().toLocal(),
-                        "location": locationMessage,
+                        "exitTime": DateTime.now().toLocal(),
+                        "name": FirebaseAuth.instance.currentUser.displayName,
+                        "entryTime": null,
+                        "token": DateTime.now().microsecondsSinceEpoch
                       });
 
-                      FirebaseFirestore.instance.collection('Entries').add({
-                        "name": FirebaseAuth.instance.currentUser.email,
+                      FirebaseFirestore.instance.collection('Exits').add({
+                        "hostelName": hostelName,
                         "rollNumber": rollNumber,
                         "roomNumber": roomNumber,
-                        "hostel": hostel,
+                        "purpose": purpose,
                         "userUid": FirebaseAuth.instance.currentUser.uid,
-                        "time": DateTime.now().toLocal(),
-                        "location": locationMessage,
+                        "exitTime": DateTime.now().toLocal(),
+                        "name": FirebaseAuth.instance.currentUser.displayName,
+                        "entryTime": null,
+                        "token": DateTime.now().microsecondsSinceEpoch
                       });
 
-                      if ((currentTime > 8)) {
-                        FirebaseFirestore.instance.collection('alerts').add({
-                          "position": position.toString(),
-                          "name": FirebaseAuth.instance.currentUser.displayName,
-                          "rollNumber": rollNumber,
-                          "roomNumber": roomNumber,
-                          "hostel": hostel,
-                          "userUid": FirebaseAuth.instance.currentUser.uid,
-                          "time": DateTime.now().toLocal(),
-                        });
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) => leadDialogLate);
-                      } else {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) => leadDialog);
-                      }
+                      showDialog(
+                          context: context,
+                          // ignore: non_constant_identifier_names
+                          builder: (BuildContext) => leadDialog);
                     },
                   ),
                 ),
@@ -352,5 +259,6 @@ class _MarkingEntryState extends State<MarkingEntry> {
         ),
       ),
     );
+    ;
   }
 }

@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hostelite/createAccountStudent.dart';
+import 'package:hostelite/student_screens/createAccountStudent.dart';
 //import 'package:hostelite/firebase/register_sign_in.dart';
-import 'package:hostelite/home_screen_Student.dart';
+import 'package:hostelite/student_screens/home_screen_Student.dart';
 import 'package:hostelite/shared_files/decoration.dart';
 import 'package:hostelite/loginAdmin.dart';
 
@@ -137,8 +137,6 @@ class _LoginStudentState extends State<LoginStudent> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-
-
                       TextButton(
                         child: Text(
                           'Forgot Password?',

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hostelite/edit_profile_Admin.dart';
+import 'package:hostelite/admin_screens/edit_profile_Admin.dart';
 import 'package:hostelite/exit-recordsAdmin.dart';
 import 'package:hostelite/home_screen_Admin.dart';
 
@@ -114,11 +114,11 @@ class _AlertsState extends State<Alerts> {
             // SizedBox(height: 20,),
 
             StreamBuilder<QuerySnapshot>(
-                stream:
-                    FirebaseFirestore.instance.collection('alerts').orderBy("time",descending: true)
-                        .snapshots(),
+                stream: FirebaseFirestore.instance
+                    .collection('alerts')
+                    .orderBy("time", descending: true)
+                    .snapshots(),
                 builder: (context, snapshots) {
-
                   return (!snapshots.hasData)
                       ? CircularProgressIndicator()
                       : Container(

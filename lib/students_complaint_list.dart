@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:hostelite/edit_profile_Student.dart';
-import 'package:hostelite/home_screen_Student.dart';
+import 'package:hostelite/student_screens/edit_profile_Student.dart';
+import 'package:hostelite/student_screens/home_screen_Student.dart';
 import 'package:hostelite/models/user_model.dart';
 import 'package:hostelite/studentexitrecords.dart';
 
@@ -118,8 +118,8 @@ class _StudentComplaintListState extends State<StudentComplaintList> {
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 8, horizontal: 0),
-                        child: Text("Status: "  +
-                          complaints[index]["status"],
+                        child: Text(
+                          "Status: " + complaints[index]["status"],
                           style:
                               TextStyle(color: Colors.redAccent, fontSize: 16),
                         ),

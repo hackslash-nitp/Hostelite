@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:hostelite/home_screen_Student.dart';
+import 'package:hostelite/student_screens/home_screen_Student.dart';
 import 'package:hostelite/studentexitrecords.dart';
 import 'package:hostelite/students_complaint_list.dart';
 import 'package:image_picker/image_picker.dart';
@@ -27,7 +27,7 @@ class _EditProfileStudentState extends State<EditProfileStudent> {
 
   FirebaseAuth _auth = FirebaseAuth.instance;
 
-  var picsdb =  FirebaseFirestore.instance
+  var picsdb = FirebaseFirestore.instance
       .collection('displayPics')
       .doc(FirebaseAuth.instance.currentUser.uid);
 
@@ -107,20 +107,23 @@ class _EditProfileStudentState extends State<EditProfileStudent> {
                   });
                 },
                 child: StreamBuilder<QuerySnapshot>(
-                  stream:  FirebaseFirestore.instance
-                    .collection('displayPics')
-                    .where("userUid",isEqualTo:FirebaseAuth.instance.currentUser.uid).snapshots(),
-                  builder: (context, snapshot) {
-                    String dataUrl  = snapshot.data.docs[0]["dpUrl"];
-                    return !snapshot.hasData ? CircularProgressIndicator() : CircleAvatar(
-                      radius: 85,
-                      backgroundColor: Colors.orange[100],
-                      backgroundImage: dataUrl != " "
-                          ? NetworkImage(dataUrl)
-                          : AssetImage('assets/nodppic.jfif'),
-                    );
-                  }
-                ),
+                    stream: FirebaseFirestore.instance
+                        .collection('displayPics')
+                        .where("userUid",
+                            isEqualTo: FirebaseAuth.instance.currentUser.uid)
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      String dataUrl = snapshot.data.docs[0]["dpUrl"];
+                      return !snapshot.hasData
+                          ? CircularProgressIndicator()
+                          : CircleAvatar(
+                              radius: 85,
+                              backgroundColor: Colors.orange[100],
+                              backgroundImage: dataUrl != " "
+                                  ? NetworkImage(dataUrl)
+                                  : AssetImage('assets/nodppic.jfif'),
+                            );
+                    }),
               ),
               SizedBox(
                 height: 35,
@@ -221,7 +224,9 @@ class _EditProfileStudentState extends State<EditProfileStudent> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0)),
                   onPressed: () async {
-                    if (username.text.isEmpty || email.text.isEmpty || mobileNumber.text.isEmpty){
+                    if (username.text.isEmpty ||
+                        email.text.isEmpty ||
+                        mobileNumber.text.isEmpty) {
                       showDialog(
                           context: context,
                           builder: (BuildContext context) {
@@ -237,7 +242,6 @@ class _EditProfileStudentState extends State<EditProfileStudent> {
                                 )
                               ],
                             );
-
                           });
                       return;
                     }
@@ -249,7 +253,6 @@ class _EditProfileStudentState extends State<EditProfileStudent> {
                     firebaseUser.updateDisplayName(username.text);
                     await firebaseUser.updateEmail(email.text);
                     print("2.-------------------");
-
 
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (context) => HomeScreenStudent()));

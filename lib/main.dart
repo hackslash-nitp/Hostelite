@@ -1,15 +1,13 @@
-
-
 import 'package:flutter/material.dart';
-import 'package:hostelite/createAccountAdmin.dart';
-import 'package:hostelite/createAccountStudent.dart';
+import 'package:hostelite/admin_screens/createAccountAdmin.dart';
+import 'package:hostelite/student_screens/createAccountStudent.dart';
 import 'package:hostelite/entry-recordsAdmin.dart';
-import 'package:hostelite/exit_entryStudent.dart';
+import 'package:hostelite/student_screens/exit_entryStudent.dart';
 import 'package:hostelite/home_screen_Admin.dart';
-import 'package:hostelite/home_screen_Student.dart';
+import 'package:hostelite/student_screens/home_screen_Student.dart';
 import 'package:hostelite/loginAdmin.dart';
 import 'package:hostelite/loginStudent.dart';
-import 'package:hostelite/mark_exit.dart';
+import 'package:hostelite/student_screens/mark_exit.dart';
 import 'package:hostelite/starting_pages/fast_and_easy.dart';
 import 'package:hostelite/starting_pages/home.dart';
 import 'package:hostelite/starting_pages/keep_track.dart';
