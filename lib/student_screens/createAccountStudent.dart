@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hostelite/loginStudent.dart';
+import 'package:hostelite/student_screens/loginStudent.dart';
 import 'package:hostelite/shared_files/decoration.dart';
 
 class CreateAccountStudent extends StatefulWidget {
@@ -283,12 +283,12 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
                           });
                     });
 
-                    FirebaseFirestore.instance.
-                    collection("adminUsers").
-                    doc(FirebaseAuth.instance.currentUser.uid).
-                    set({
-                      "userUid" : userCredential.user.uid,
-                      "dpUrl":" "
+                    FirebaseFirestore.instance
+                        .collection("adminUsers")
+                        .doc(FirebaseAuth.instance.currentUser.uid)
+                        .set({
+                      "userUid": userCredential.user.uid,
+                      "dpUrl": " "
                     }).catchError((err) {
                       showDialog(
                           context: context,
@@ -306,7 +306,8 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
                               ],
                             );
                           });
-                    });;
+                    });
+                    ;
 
                     showDialog(
                         context: context,

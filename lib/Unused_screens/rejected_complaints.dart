@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hostelite/admin_screens/alerts_admin.dart';
 import 'package:hostelite/admin_screens/complaintAdmin.dart';
 import 'package:hostelite/admin_screens/edit_profile_Admin.dart';
-import 'package:hostelite/home_screen_Admin.dart';
-import 'package:hostelite/pendingcomplaints_admin.dart';
+import 'package:hostelite/admin_screens/home_screen_Admin.dart';
+import 'package:hostelite/admin_screens/pendingcomplaints_admin.dart';
 
 class RejectedComplaints extends StatefulWidget {
   const RejectedComplaints({Key key}) : super(key: key);

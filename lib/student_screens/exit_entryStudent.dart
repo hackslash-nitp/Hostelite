@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
-import 'package:hostelite/home_screen_Admin.dart';
+import 'package:hostelite/admin_screens/home_screen_Admin.dart';
 import 'package:hostelite/student_screens/home_screen_Student.dart';
 import 'package:hostelite/models/user_model.dart';
 import 'package:hostelite/shared_files/decoration.dart';
@@ -135,6 +135,13 @@ class _MarkingEntryState extends State<MarkingEntry> {
       .collection("studentUsers")
       .doc(FirebaseAuth.instance.currentUser.uid)
       .collection("exit");
+
+  var entrydbcol = FirebaseFirestore.instance
+      .collection("studentUsers")
+      .doc(FirebaseAuth.instance.currentUser.uid)
+      .collection("entry");
+
+  var entryadmindb = FirebaseFirestore.instance.collection("Exits");
 
   void getCurrentLocation() async {
     position = await Geolocator.getCurrentPosition(
@@ -330,29 +337,8 @@ class _MarkingEntryState extends State<MarkingEntry> {
                         return SnackBar(
                             content: Text("Please enter all fields"));
                       }
-                      print("1.------------------------");
 
-                      print("2.------------------------");
-                      //   // "hostelName" : hostelName,
-                      //   "rollNumber": rollNumber,
-                      //   "roomNumber": roomNumber,
-                      //   "hostel": hostel,
-                      //   "userUid": FirebaseAuth.instance.currentUser.uid,
-                      //   "time": DateTime.now().toLocal(),
-                      //   "location": locationMessage,
-                      // });
-
-                      // FirebaseFirestore.instance.collection('Entries').add({
-                      //   "name": FirebaseAuth.instance.currentUser.email,
-                      //   "rollNumber": rollNumber,
-                      //   "roomNumber": roomNumber,
-                      //   "hostel": hostel,
-                      //   "userUid": FirebaseAuth.instance.currentUser.uid,
-                      //   "time": DateTime.now().toLocal(),
-                      //   "location": locationMessage,
-                      // });
-
-                      if ((nowTime.hour >= 15)) {
+                      if ((nowTime.hour >= 21)) {
                         FirebaseFirestore.instance.collection('alerts').add({
                           "position": position.toString(),
                           "name": FirebaseAuth.instance.currentUser.displayName,
@@ -368,6 +354,9 @@ class _MarkingEntryState extends State<MarkingEntry> {
                       } else {
                         stdentdb
                             .where("token", isEqualTo: entrytoken)
+                            .where("rollNumber", isEqualTo: rollNumber)
+                            .where("roomNumber", isEqualTo: roomNumber)
+                            .where("hostelName", isEqualTo: hostel)
                             .get()
                             .then((snapshots) => {
                                   if (snapshots.size == 1)
@@ -382,6 +371,44 @@ class _MarkingEntryState extends State<MarkingEntry> {
                                         }
                                     }
                                 });
+                        entryadmindb
+                            .where("token", isEqualTo: entrytoken)
+                            .where("rollNumber", isEqualTo: rollNumber)
+                            .where("roomNumber", isEqualTo: roomNumber)
+                            .where("hostelName", isEqualTo: hostel)
+                            .get()
+                            .then((snapshots) => {
+                                  if (snapshots.size == 1)
+                                    {
+                                      for (var snapshot in snapshots.docs)
+                                        {
+                                          entryadmindb.doc(snapshot.id).update({
+                                            "entryTime":
+                                                DateTime.now().toLocal(),
+                                            "token": "0"
+                                          })
+                                        }
+                                    }
+                                });
+                        entrydbcol.add({
+                          "name": FirebaseAuth.instance.currentUser.email,
+                          "rollNumber": rollNumber,
+                          "roomNumber": roomNumber,
+                          "hostel": hostel,
+                          "userUid": FirebaseAuth.instance.currentUser.uid,
+                          "time": DateTime.now().toLocal(),
+                          "location": locationMessage,
+                        });
+                        FirebaseFirestore.instance.collection('Entries').add({
+                          "name": FirebaseAuth.instance.currentUser.email,
+                          "rollNumber": rollNumber,
+                          "roomNumber": roomNumber,
+                          "hostel": hostel,
+                          "userUid": FirebaseAuth.instance.currentUser.uid,
+                          "time": DateTime.now().toLocal(),
+                          "location": locationMessage,
+                        });
+
                         showDialog(
                             context: context,
                             builder: (BuildContext context) => leadDialog);

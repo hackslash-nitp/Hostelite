@@ -5,7 +5,7 @@ import 'package:hostelite/student_screens/createAccountStudent.dart';
 //import 'package:hostelite/firebase/register_sign_in.dart';
 import 'package:hostelite/student_screens/home_screen_Student.dart';
 import 'package:hostelite/shared_files/decoration.dart';
-import 'package:hostelite/loginAdmin.dart';
+import 'package:hostelite/admin_screens/loginAdmin.dart';
 
 class LoginStudent extends StatefulWidget {
   const LoginStudent({Key key}) : super(key: key);

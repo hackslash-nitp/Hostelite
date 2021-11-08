@@ -34,7 +34,7 @@ Dialog leadDialog = Dialog(
           ),
         ),
         Text(
-          'Entry Marked',
+          'Complaint Submitted',
           style: TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.bold,
@@ -234,7 +234,8 @@ class _StudentComplaintState extends State<StudentComplaint> {
                         "explanation": explanation,
                         "userUid": FirebaseAuth.instance.currentUser.uid,
                         "imageUrl": url,
-                        "status": "Pending"
+                        "status": "Pending",
+                        "postedAt": DateTime.now().toLocal()
                       });
                       print("abc o......");
                       FirebaseFirestore.instance
@@ -246,7 +247,8 @@ class _StudentComplaintState extends State<StudentComplaint> {
                         "userUid": FirebaseAuth.instance.currentUser.uid,
                         "imageUrl": url,
                         "status": "Pending",
-                        "name": FirebaseAuth.instance.currentUser.displayName
+                        "name": FirebaseAuth.instance.currentUser.displayName,
+                        "postedAt": DateTime.now().toLocal()
                       });
                       print("abc o...... done");
 

@@ -4,9 +4,9 @@ import 'package:hostelite/student_screens/drawer.dart';
 import 'package:hostelite/student_screens/edit_profile_Student.dart';
 import 'package:hostelite/student_screens/mark_exit.dart';
 import 'package:hostelite/student_screens/exit_entryStudent.dart';
-import 'package:hostelite/studentexitrecords.dart';
-import 'package:hostelite/students_complaint_list.dart';
-import 'package:hostelite/studentsentryrecords.dart';
+import 'package:hostelite/student_screens/studentexitrecords.dart';
+import 'package:hostelite/student_screens/students_complaint_list.dart';
+import 'package:hostelite/Unused_screens/studentsentryrecords.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class HomeScreenStudent extends StatefulWidget {

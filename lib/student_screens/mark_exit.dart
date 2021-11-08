@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
-import 'package:hostelite/home_screen_Admin.dart';
+import 'package:hostelite/admin_screens/home_screen_Admin.dart';
 import 'package:hostelite/student_screens/home_screen_Student.dart';
 import 'package:hostelite/models/user_model.dart';
 import 'package:hostelite/shared_files/decoration.dart';
@@ -236,7 +236,8 @@ class _MarkingExitState extends State<MarkingExit> {
                       entrydb.get().then(
                           (snapshots) => {entrydbsize = snapshots.docs.length});
 
-                      if (exitdbsize - entrydbsize == 5) {
+                      if (exitdbsize == entrydbsize) {
+                        int token = DateTime.now().microsecondsSinceEpoch;
                         exitdb.add({
                           "hostelName": hostelName,
                           "rollNumber": rollNumber,
@@ -246,7 +247,18 @@ class _MarkingExitState extends State<MarkingExit> {
                           "exitTime": DateTime.now().toLocal(),
                           "name": FirebaseAuth.instance.currentUser.displayName,
                           "entryTime": null,
-                          "token": DateTime.now().microsecondsSinceEpoch
+                          "token": token
+                        });
+                        FirebaseFirestore.instance.collection('Exits').add({
+                          "hostelName": hostelName,
+                          "rollNumber": rollNumber,
+                          "roomNumber": roomNumber,
+                          "purpose": purpose,
+                          "userUid": FirebaseAuth.instance.currentUser.uid,
+                          "exitTime": DateTime.now().toLocal(),
+                          "name": FirebaseAuth.instance.currentUser.displayName,
+                          "entryTime": null,
+                          "token": token
                         });
                         showDialog(
                             context: context,
@@ -254,18 +266,6 @@ class _MarkingExitState extends State<MarkingExit> {
                             builder: (BuildContext) => leadDialog);
                         return "";
                       }
-
-                      // FirebaseFirestore.instance.collection('Exits').add({
-                      //   "hostelName": hostelName,
-                      //   "rollNumber": rollNumber,
-                      //   "roomNumber": roomNumber,
-                      //   "purpose": purpose,
-                      //   "userUid": FirebaseAuth.instance.currentUser.uid,
-                      //   "exitTime": DateTime.now().toLocal(),
-                      //   "name": FirebaseAuth.instance.currentUser.displayName,
-                      //   "entryTime": null,
-                      //   "token": DateTime.now().microsecondsSinceEpoch
-                      // });
                     },
                   ),
                 ),

@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hostelite/student_screens/edit_profile_Student.dart';
-import 'package:hostelite/loginStudent.dart';
+import 'package:hostelite/student_screens/loginStudent.dart';
 
 class NavDrawer extends StatefulWidget {
   @override

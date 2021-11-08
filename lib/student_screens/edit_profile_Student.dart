@@ -5,8 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:hostelite/student_screens/home_screen_Student.dart';
-import 'package:hostelite/studentexitrecords.dart';
-import 'package:hostelite/students_complaint_list.dart';
+import 'package:hostelite/student_screens/studentexitrecords.dart';
+import 'package:hostelite/student_screens/students_complaint_list.dart';
 import 'package:image_picker/image_picker.dart';
 
 class EditProfileStudent extends StatefulWidget {

@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hostelite/admin_screens/alerts_admin.dart';
 import 'package:hostelite/admin_screens/edit_profile_Admin.dart';
-import 'package:hostelite/entry-recordsAdmin.dart';
-import 'package:hostelite/home_screen_Admin.dart';
+import 'package:hostelite/admin_screens/entry-recordsAdmin.dart';
+import 'package:hostelite/admin_screens/home_screen_Admin.dart';
 
 class ExitListAdmin extends StatefulWidget {
   const ExitListAdmin({Key key}) : super(key: key);
@@ -46,51 +46,6 @@ class _ExitListAdminState extends State<ExitListAdmin> {
       ),
       body: SingleChildScrollView(
         child: Column(children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Card(
-                child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 50.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) {
-                            return EntryListAdmin();
-                          }),
-                        );
-                      },
-                      child: Container(
-                        child: Text(
-                          'Entry',
-                          style: TextStyle(fontSize: 18),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 50),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          border: Border(
-                        bottom:
-                            BorderSide(width: 5.0, color: Color(0xffFE96FA)),
-                      )),
-                      child: Text(
-                        'Exit',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            )),
-          ),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Theme(
@@ -98,30 +53,46 @@ class _ExitListAdminState extends State<ExitListAdmin> {
               child: DataTable(
                 sortAscending: true,
                 columns: [
-                  DataColumn(label: Text('Date')),
-                  DataColumn(label: Text('Time')),
-                  DataColumn(label: Text('User email')),
+                  DataColumn(label: Text('Exit Date')),
+                  DataColumn(label: Text('Exit Time')),
+                  DataColumn(label: Text('Name')),
                   DataColumn(label: Text('Roll No.')),
-                  DataColumn(label: Text('purpose')),
+                  DataColumn(label: Text('Purpose of exit')),
+                  DataColumn(label: Text('Token')),
+                  DataColumn(label: Text('Entry Date')),
+                  DataColumn(label: Text('Entry Time')),
                   DataColumn(label: Text('Hostel')),
                   DataColumn(label: Text('Room No.')),
                 ],
                 rows: exits
                     .map((element) => DataRow(
                           cells: <DataCell>[
-                            DataCell(Text(element["time"]
+                            DataCell(Text(element["exitTime"]
                                 .toDate()
                                 .toString()
                                 .substring(0,
                                     11))), //Extracting from Map element the value
-                            DataCell(Text(element["time"]
+
+                            DataCell(Text(element["exitTime"]
                                 .toDate()
                                 .toString()
-                                .substring(11,
-                                    19))), //Extracting from Map element the value
+                                .substring(11, 19))),
                             DataCell(Text(element["name"])),
                             DataCell(Text(element["rollNumber"])),
                             DataCell(Text(element["purpose"])),
+                            DataCell(Text(element["token"].toString())),
+                            DataCell(element["entryTime"] != null
+                                ? Text(element["entryTime"]
+                                    .toDate()
+                                    .toString()
+                                    .substring(0, 11))
+                                : Text("   ")),
+                            DataCell(element["entryTime"] != null
+                                ? Text(element["entryTime"]
+                                    .toDate()
+                                    .toString()
+                                    .substring(11, 19))
+                                : Text("   ")),
                             DataCell(Text(element["hostelName"])),
                             DataCell(Text(element["roomNumber"])),
                           ],

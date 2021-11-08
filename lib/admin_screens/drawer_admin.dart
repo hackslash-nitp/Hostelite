@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hostelite/admin_screens/alerts_admin.dart';
 import 'package:hostelite/admin_screens/edit_profile_Admin.dart';
-import 'package:hostelite/home_screen_Admin.dart';
-import 'package:hostelite/loginAdmin.dart';
+import 'package:hostelite/admin_screens/home_screen_Admin.dart';
+import 'package:hostelite/admin_screens/loginAdmin.dart';
 
 class NavDrawerAdmin extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;

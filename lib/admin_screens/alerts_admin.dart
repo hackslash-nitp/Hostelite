@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hostelite/admin_screens/edit_profile_Admin.dart';
-import 'package:hostelite/exit-recordsAdmin.dart';
-import 'package:hostelite/home_screen_Admin.dart';
+import 'package:hostelite/admin_screens/exit-recordsAdmin.dart';
+import 'package:hostelite/admin_screens/home_screen_Admin.dart';
 
 class Alerts extends StatefulWidget {
   const Alerts({Key key}) : super(key: key);
@@ -121,151 +121,154 @@ class _AlertsState extends State<Alerts> {
                 builder: (context, snapshots) {
                   return (!snapshots.hasData)
                       ? CircularProgressIndicator()
-                      : Container(
-                          height: MediaQuery.of(context).size.height,
-                          child: ListView.builder(
-                              itemCount: snapshots.data.docs.length,
-                              itemBuilder: (context, index) {
-                                DocumentSnapshot data =
-                                    snapshots.data.docs[index];
-                                return Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: SingleChildScrollView(
-                                    scrollDirection: Axis.horizontal,
-                                    child: Card(
-                                      child: Container(
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    'User email: ',
-                                                    style:
-                                                        TextStyle(fontSize: 18),
-                                                  ),
-                                                  Text(
-                                                    data['name'],
-                                                    style: TextStyle(
+                      : SingleChildScrollView(
+                          child: Container(
+                            height: MediaQuery.of(context).size.height,
+                            child: ListView.builder(
+                                itemCount: snapshots.data.docs.length,
+                                itemBuilder: (context, index) {
+                                  DocumentSnapshot data =
+                                      snapshots.data.docs[index];
+                                  return Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: Card(
+                                        child: Container(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      'User email: ',
+                                                      style: TextStyle(
+                                                          fontSize: 18),
+                                                    ),
+                                                    Text(
+                                                      data['name'],
+                                                      style: TextStyle(
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.w500),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      'Roll No: ',
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w500),
+                                                    ),
+                                                    Text(
+                                                      data['rollNumber'],
+                                                      style: TextStyle(
                                                         fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.w500),
-                                                  ),
-                                                ],
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    'Roll No: ',
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w500),
-                                                  ),
-                                                  Text(
-                                                    data['rollNumber'],
-                                                    style: TextStyle(
-                                                      fontSize: 16,
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    'Room No: ',
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w500),
-                                                  ),
-                                                  Text(
-                                                    data['roomNumber'],
-                                                    style: TextStyle(
-                                                      fontSize: 16,
+                                                  ],
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      'Room No: ',
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w500),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    'Hostel: ',
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w500),
-                                                  ),
-                                                  Text(
-                                                    data['hostel'],
-                                                    style: TextStyle(
-                                                      fontSize: 16,
+                                                    Text(
+                                                      data['roomNumber'],
+                                                      style: TextStyle(
+                                                        fontSize: 16,
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    'Date: ',
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w500),
-                                                  ),
-                                                  Text(
-                                                    data['time']
-                                                        .toDate()
-                                                        .toString()
-                                                        .substring(0, 11),
-                                                    style: TextStyle(
-                                                      fontSize: 16,
+                                                  ],
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      'Hostel: ',
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w500),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    'Time: ',
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w500),
-                                                  ),
-                                                  Text(
-                                                    data['time']
-                                                        .toDate()
-                                                        .toString()
-                                                        .substring(11, 19),
-                                                    style: TextStyle(
-                                                      fontSize: 16,
+                                                    Text(
+                                                      data['hostel'],
+                                                      style: TextStyle(
+                                                        fontSize: 16,
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    'Position: ',
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w500),
-                                                  ),
-                                                  Text(
-                                                    data['position'].toString(),
-                                                    style: TextStyle(
-                                                      fontSize: 16,
+                                                  ],
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      'Date: ',
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w500),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
+                                                    Text(
+                                                      data['time']
+                                                          .toDate()
+                                                          .toString()
+                                                          .substring(0, 11),
+                                                      style: TextStyle(
+                                                        fontSize: 16,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      'Time: ',
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w500),
+                                                    ),
+                                                    Text(
+                                                      data['time']
+                                                          .toDate()
+                                                          .toString()
+                                                          .substring(11, 19),
+                                                      style: TextStyle(
+                                                        fontSize: 16,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      'Position: ',
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w500),
+                                                    ),
+                                                    Text(
+                                                      data['position']
+                                                          .toString(),
+                                                      style: TextStyle(
+                                                        fontSize: 16,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                );
-                              }),
+                                  );
+                                }),
+                          ),
                         );
                 })
           ],

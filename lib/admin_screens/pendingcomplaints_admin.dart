@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:hostelite/admin_screens/alerts_admin.dart';
 import 'package:hostelite/admin_screens/complaintAdmin.dart';
 import 'package:hostelite/admin_screens/edit_profile_Admin.dart';
-import 'package:hostelite/entry-recordsAdmin.dart';
-import 'package:hostelite/home_screen_Admin.dart';
-import 'package:hostelite/rejected_complaints.dart';
+import 'package:hostelite/admin_screens/entry-recordsAdmin.dart';
+import 'package:hostelite/admin_screens/home_screen_Admin.dart';
 
 class PendingComplaints extends StatefulWidget {
   const PendingComplaints({Key key}) : super(key: key);
@@ -18,6 +18,7 @@ class PendingComplaints extends StatefulWidget {
 class _PendingComplaintsState extends State<PendingComplaints> {
   final now = DateTime.now();
   var db = FirebaseFirestore.instance;
+  var studentdb = FirebaseFirestore.instance.collection("studentUsers");
 
   @override
   Widget build(BuildContext context) {
@@ -143,9 +144,25 @@ class _PendingComplaintsState extends State<PendingComplaints> {
                                 children: [
                                   Row(
                                     children: [
-                                      CircleAvatar(
-                                        backgroundColor: Colors.yellow,
-                                      ),
+                                      StreamBuilder<QuerySnapshot>(
+                                          stream: db
+                                              .collection("displayPics")
+                                              .where("userUid",
+                                                  isEqualTo: data["userUid"])
+                                              .snapshots(),
+                                          builder: (context, snapshot) {
+                                            String dataUrl =
+                                                snapshot.data.docs[0]["dpUrl"];
+                                            return CircleAvatar(
+                                              radius: 25,
+                                              backgroundColor:
+                                                  Colors.orange[100],
+                                              backgroundImage: dataUrl != " "
+                                                  ? NetworkImage(dataUrl)
+                                                  : AssetImage(
+                                                      'assets/nodppic.jfif'),
+                                            );
+                                          }),
                                       SizedBox(
                                         width: 10,
                                       ),
@@ -214,30 +231,51 @@ class _PendingComplaintsState extends State<PendingComplaints> {
                                     children: [
                                       MaterialButton(
                                         onPressed: () async {
-                                          // await db.collection("sortedComplaints").add({
-                                          //   "issue": data["issue"],
-                                          //   "roomNumber": data["roomNumber"],
-                                          //   "explanation": data["explanation"],
-                                          //   "userUid": FirebaseAuth.instance.currentUser.uid,
-                                          //   "imageUrl": data["imageUrl"],
-                                          //   "status": "Sorted",
-                                          //   "name" : data["name"]
-                                          // });
-                                          // await FirebaseFirestore.instance.runTransaction((Transaction myTransaction) async {
-                                          //   await myTransaction.delete(snapshots.data.docs[index].reference);
-                                          // });
-
                                           await db
-                                              .collection("studentUsers")
-                                              .doc(data["userUid"])
-                                              .collection("complaint")
-                                              .where("imageUrl",
-                                                  isEqualTo: data["imageUrl"])
-                                              .snapshots()
-                                              .listen((data) {
-                                            var stts = data.docs[0]["status"];
-                                            stts = "Sorted";
+                                              .collection("sortedComplaints")
+                                              .add({
+                                            "issue": data["issue"],
+                                            "roomNumber": data["roomNumber"],
+                                            "explanation": data["explanation"],
+                                            "userUid": FirebaseAuth
+                                                .instance.currentUser.uid,
+                                            "imageUrl": data["imageUrl"],
+                                            "status": "Sorted",
+                                            "name": data["name"],
+                                            "postedAt": data["postedAt"]
                                           });
+                                          await FirebaseFirestore.instance
+                                              .runTransaction((Transaction
+                                                  myTransaction) async {
+                                            await myTransaction.delete(snapshots
+                                                .data.docs[index].reference);
+                                          });
+
+                                          await studentdb
+                                              .doc(data["userUid"])
+                                              .collection("complaints")
+                                              .where("postedAt",
+                                                  isEqualTo: data["postedAt"])
+                                              .get()
+                                              .then((snapshots) => {
+                                                    if (snapshots.size == 1)
+                                                      {
+                                                        for (var snapshot
+                                                            in snapshots.docs)
+                                                          {
+                                                            studentdb
+                                                                .doc(data[
+                                                                    "userUid"])
+                                                                .collection(
+                                                                    "complaints")
+                                                                .doc(
+                                                                    snapshot.id)
+                                                                .update({
+                                                              "status": "Sorted"
+                                                            })
+                                                          }
+                                                      }
+                                                  });
                                         },
                                         color: Color(0xffDFFED4),
                                         shape: RoundedRectangleBorder(

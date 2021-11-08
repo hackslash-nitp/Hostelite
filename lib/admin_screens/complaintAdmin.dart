@@ -2,10 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hostelite/admin_screens/alerts_admin.dart';
-import 'package:hostelite/entry-recordsAdmin.dart';
-import 'package:hostelite/home_screen_Admin.dart';
-import 'package:hostelite/pendingcomplaints_admin.dart';
-import 'package:hostelite/rejected_complaints.dart';
+import 'package:hostelite/admin_screens/entry-recordsAdmin.dart';
+import 'package:hostelite/admin_screens/home_screen_Admin.dart';
+import 'package:hostelite/admin_screens/pendingcomplaints_admin.dart';
+import 'package:hostelite/Unused_screens/rejected_complaints.dart';
 
 import 'edit_profile_Admin.dart';
 
@@ -18,6 +18,7 @@ class ViewComplaintsAdmin extends StatefulWidget {
 
 class _ViewComplaintsAdminState extends State<ViewComplaintsAdmin> {
   final now = DateTime.now();
+  var db = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -128,85 +129,104 @@ class _ViewComplaintsAdminState extends State<ViewComplaintsAdmin> {
                     itemCount: snapshots.data.size,
                     itemBuilder: (context, index) {
                       DocumentSnapshot data = snapshots.data.docs[index];
-                      return Container(
-                        child: Padding(
-                          padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15)),
-                            child: Padding(
-                              padding: EdgeInsets.all(15),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      CircleAvatar(
-                                        backgroundColor: Colors.yellow,
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            data["name"],
-                                            style: TextStyle(
-                                                color: Color(0xff565656),
-                                                fontSize: 15),
-                                          ),
-                                        ],
-                                      ),
-                                      Spacer(),
-                                      Text(
-                                        "Room No." + data["roomNumber"],
-                                        style: TextStyle(fontSize: 14),
-                                      ),
-                                    ],
-                                  ),
-                                  Divider(),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                    "Posted On " +
-                                        data["postedAt"]
-                                            .toDate()
-                                            .toString()
-                                            .substring(2, 11) +
-                                        " At " +
-                                        data["postedAt"]
-                                            .toDate()
-                                            .toString()
-                                            .substring(11, 19),
-                                    style: TextStyle(color: Color(0xff9F9F9F)),
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Image(
-                                    image: NetworkImage(data["imageUrl"]),
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                    data["issue"],
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500,
-                                      color: Color(0xff1A1919),
+                      return SingleChildScrollView(
+                        child: Container(
+                          child: Padding(
+                            padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15)),
+                              child: Padding(
+                                padding: EdgeInsets.all(15),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        StreamBuilder<QuerySnapshot>(
+                                            stream: db
+                                                .collection("displayPics")
+                                                .where("userUid",
+                                                    isEqualTo: data["userUid"])
+                                                .snapshots(),
+                                            builder: (context, snapshot) {
+                                              String dataUrl = snapshot
+                                                  .data.docs[0]["dpUrl"];
+                                              return CircleAvatar(
+                                                radius: 25,
+                                                backgroundColor:
+                                                    Colors.orange[100],
+                                                backgroundImage: dataUrl != " "
+                                                    ? NetworkImage(dataUrl)
+                                                    : AssetImage(
+                                                        'assets/nodppic.jfif'),
+                                              );
+                                            }),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              data["name"],
+                                              style: TextStyle(
+                                                  color: Color(0xff565656),
+                                                  fontSize: 15),
+                                            ),
+                                          ],
+                                        ),
+                                        Spacer(),
+                                        Text(
+                                          "Room No." + data["roomNumber"],
+                                          style: TextStyle(fontSize: 14),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(data["explanation"]),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                ],
+                                    Divider(),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      "Posted On " +
+                                          data["postedAt"]
+                                              .toDate()
+                                              .toString()
+                                              .substring(2, 11) +
+                                          " At " +
+                                          data["postedAt"]
+                                              .toDate()
+                                              .toString()
+                                              .substring(11, 19),
+                                      style:
+                                          TextStyle(color: Color(0xff9F9F9F)),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Image(
+                                      image: NetworkImage(data["imageUrl"]),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      data["issue"],
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500,
+                                        color: Color(0xff1A1919),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(data["explanation"]),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),

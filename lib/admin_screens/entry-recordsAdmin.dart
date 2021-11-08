@@ -3,10 +3,10 @@ import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import 'package:hostelite/admin_screens/alerts_admin.dart';
 import 'package:hostelite/admin_screens/edit_profile_Admin.dart';
-import 'package:hostelite/exit-recordsAdmin.dart';
-import 'package:hostelite/home_screen_Admin.dart';
+import 'package:hostelite/admin_screens/exit-recordsAdmin.dart';
+import 'package:hostelite/admin_screens/home_screen_Admin.dart';
 import 'package:hostelite/student_screens/home_screen_Student.dart';
-import 'package:hostelite/rejected_complaints.dart';
+import 'package:hostelite/Unused_screens/rejected_complaints.dart';
 import 'package:hostelite/shared_files/decoration.dart';
 
 class EntryListAdmin extends StatefulWidget {

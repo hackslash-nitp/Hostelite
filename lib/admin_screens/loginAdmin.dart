@@ -2,15 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hostelite/admin_screens/createAccountAdmin.dart';
-import 'package:hostelite/loading.dart';
+import 'package:hostelite/Unused_screens/loading.dart';
 import 'package:hostelite/main.dart';
 import 'package:flutter/material.dart';
 import 'package:hostelite/student_screens/createAccountStudent.dart';
-import 'package:hostelite/home_screen_Admin.dart';
+import 'package:hostelite/admin_screens/home_screen_Admin.dart';
 // import 'package:hostelite/firebase/register_sign_in.dart';
 import 'package:hostelite/student_screens/home_screen_Student.dart';
 import 'package:hostelite/shared_files/decoration.dart';
-import 'package:hostelite/loginStudent.dart';
+import 'package:hostelite/student_screens/loginStudent.dart';
 import 'package:hostelite/starting_pages/home.dart';
 
 class LoginAdmin extends StatefulWidget {

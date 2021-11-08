@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hostelite/student_screens/createAccountStudent.dart';
-import 'package:hostelite/loginStudent.dart';
+import 'package:hostelite/student_screens/loginStudent.dart';
 
 class KeepTrack extends StatefulWidget {
   const KeepTrack({Key key}) : super(key: key);

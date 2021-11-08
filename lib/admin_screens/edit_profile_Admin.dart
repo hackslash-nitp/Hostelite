@@ -6,8 +6,8 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:hostelite/admin_screens/alerts_admin.dart';
-import 'package:hostelite/exit-recordsAdmin.dart';
-import 'package:hostelite/home_screen_Admin.dart';
+import 'package:hostelite/admin_screens/exit-recordsAdmin.dart';
+import 'package:hostelite/admin_screens/home_screen_Admin.dart';
 import 'package:image_picker/image_picker.dart';
 // import 'package:hostelite/models/user_model.dart';
 

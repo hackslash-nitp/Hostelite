@@ -6,7 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:hostelite/student_screens/edit_profile_Student.dart';
 import 'package:hostelite/student_screens/home_screen_Student.dart';
 import 'package:hostelite/models/user_model.dart';
-import 'package:hostelite/studentexitrecords.dart';
+import 'package:hostelite/student_screens/studentexitrecords.dart';
 
 class StudentComplaintList extends StatefulWidget {
   const StudentComplaintList({Key key}) : super(key: key);
