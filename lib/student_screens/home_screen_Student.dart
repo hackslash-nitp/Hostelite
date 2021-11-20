@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hostelite/student_screens/complaintStudent.dart';
 import 'package:hostelite/student_screens/drawer.dart';
@@ -369,11 +370,14 @@ class _HomeScreenStudentState extends State<HomeScreenStudent> {
             title: Text('Warning'),
             content: Text('Do you really want to exit'),
             actions: [
-              FlatButton(
-                child: Text('Yes'),
-                onPressed: () => Navigator.pop(c, true),
-              ),
-              FlatButton(
+              TextButton(
+                  child: Text('Yes'),
+                  // onPressed: () => Navigator.pop(c, true),
+                  onPressed: () {
+                    FirebaseAuth.instance.signOut();
+                    Navigator.pop(c, true);
+                  }),
+              TextButton(
                 child: Text('No'),
                 onPressed: () => Navigator.pop(c, false),
               ),

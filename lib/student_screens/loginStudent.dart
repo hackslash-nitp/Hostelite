@@ -182,7 +182,7 @@ class _LoginStudentState extends State<LoginStudent> {
                                   title: Text("Error logging in"),
                                   content: Text(err.message),
                                   actions: [
-                                    FlatButton(
+                                    TextButton(
                                       child: Text("Ok"),
                                       onPressed: () {
                                         Navigator.of(context).pop();
