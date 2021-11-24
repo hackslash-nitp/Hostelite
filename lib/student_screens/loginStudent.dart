@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ class LoginStudent extends StatefulWidget {
 class _LoginStudentState extends State<LoginStudent> {
   String _email, _password;
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final db = FirebaseFirestore.instance.collection('studentUsers');
 
   @override
   Future<void> resetPassword(String email) async {
@@ -167,22 +169,26 @@ class _LoginStudentState extends State<LoginStudent> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0)),
                       onPressed: () async {
-                        await _auth
-                            .signInWithEmailAndPassword(
-                                email: _email, password: _password)
-                            .then((user) {
-                          Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                  builder: (context) => HomeScreenStudent()));
-                        }).catchError((err) {
+                        try {
+                          await _auth.signInWithEmailAndPassword(
+                              email: _email, password: _password);
+
+                          var uid = _auth.currentUser.uid;
+                          // db.doc(uid).get().then((value) => {
+                          //       if (value.exists)
+                          //         {
+                          Navigator.of(context).pushNamed('/homescreenstudent');
+                          //     }
+                          // });
+                        } catch (e) {
                           showDialog(
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
                                   title: Text("Error logging in"),
-                                  content: Text(err.message),
+                                  content: Text(e.message),
                                   actions: [
-                                    TextButton(
+                                    FlatButton(
                                       child: Text("Ok"),
                                       onPressed: () {
                                         Navigator.of(context).pop();
@@ -191,7 +197,7 @@ class _LoginStudentState extends State<LoginStudent> {
                                   ],
                                 );
                               });
-                        });
+                        }
                       },
                     ),
                   ),

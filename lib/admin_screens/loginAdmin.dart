@@ -23,6 +23,7 @@ class LoginAdmin extends StatefulWidget {
 class _LoginAdminState extends State<LoginAdmin> {
   String _email, _password;
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final db = FirebaseFirestore.instance.collection('adminUsers');
 
   @override
   Future<void> resetPassword(String email) async {
@@ -170,20 +171,33 @@ class _LoginAdminState extends State<LoginAdmin> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0)),
                       onPressed: () async {
-                        await _auth
-                            .signInWithEmailAndPassword(
-                                email: _email, password: _password)
-                            .then((user) {
-                          Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                  builder: (context) => HomeScreenAdmin()));
-                        }).catchError((err) {
+                        try {
+                          await _auth.signInWithEmailAndPassword(
+                              email: _email, password: _password);
+
+                          var uid = _auth.currentUser.uid;
+                          print("-----------------1");
+                          db.doc(uid).get().then((value) => {
+                                if (value.exists)
+                                  {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) {
+                                        return HomeScreenAdmin();
+                                      }),
+                                    )
+                                  }
+                                else
+                                  {print(value)}
+                              });
+                        } catch (e) {
+                          print("-----------------2");
                           showDialog(
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
                                   title: Text("Error logging in"),
-                                  content: Text(err.message),
+                                  content: Text(e.message),
                                   actions: [
                                     FlatButton(
                                       child: Text("Ok"),
@@ -194,7 +208,7 @@ class _LoginAdminState extends State<LoginAdmin> {
                                   ],
                                 );
                               });
-                        });
+                        }
                       },
                     ),
                   ),
