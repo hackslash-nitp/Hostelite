@@ -79,8 +79,8 @@ class _CreateAccountAdminState extends State<CreateAccountAdmin> {
         padding: const EdgeInsets.fromLTRB(30, 60, 30, 0),
         child: SingleChildScrollView(
           child: Form(
+            autovalidateMode: AutovalidateMode.always,
             key: _formKey,
-            autovalidate: true,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
@@ -203,26 +203,6 @@ class _CreateAccountAdminState extends State<CreateAccountAdmin> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0)),
                       onPressed: () async {
-                        // if (username.isEmpty || email.isEmpty ||
-                        //     password.isEmpty || confirmPassword.isEmpty || mobileNumber.isEmpty){
-                        //   showDialog(
-                        //       context: context,
-                        //       builder: (BuildContext context) {
-                        //         return AlertDialog(
-                        //           title: Text("Error signing up"),
-                        //           content: Text("Please fill all the fields"),
-                        //           actions: [
-                        //             FlatButton(
-                        //               child: Text("Ok"),
-                        //               onPressed: () {
-                        //                 Navigator.of(context).pop();
-                        //               },
-                        //             )
-                        //           ],
-                        //         );
-                        //       });
-                        //
-                        // }
                         if (password != confirmPassword) {
                           showDialog(
                               context: context,
@@ -231,7 +211,7 @@ class _CreateAccountAdminState extends State<CreateAccountAdmin> {
                                   title: Text("Error signing up"),
                                   content: Text("Passwords don't match"),
                                   actions: [
-                                    FlatButton(
+                                    TextButton(
                                       child: Text("Ok"),
                                       onPressed: () {
                                         Navigator.of(context).pop();
@@ -253,8 +233,6 @@ class _CreateAccountAdminState extends State<CreateAccountAdmin> {
                         FirebaseFirestore.instance
                             .collection("adminUsers")
                             .doc(FirebaseAuth.instance.currentUser.uid)
-                            .collection("profile")
-                            .doc(FirebaseAuth.instance.currentUser.uid)
                             .set({
                           "username": username,
                           "mobileNumber": mobileNumber,
@@ -268,7 +246,7 @@ class _CreateAccountAdminState extends State<CreateAccountAdmin> {
                                   title: Text("Error signing up"),
                                   content: Text(err.message),
                                   actions: [
-                                    FlatButton(
+                                    TextButton(
                                       child: Text("Ok"),
                                       onPressed: () {
                                         Navigator.of(context).pop();
@@ -293,7 +271,7 @@ class _CreateAccountAdminState extends State<CreateAccountAdmin> {
                                   title: Text("Error signing up"),
                                   content: Text(err.message),
                                   actions: [
-                                    FlatButton(
+                                    TextButton(
                                       child: Text("Ok"),
                                       onPressed: () {
                                         Navigator.of(context).pop();

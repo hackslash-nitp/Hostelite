@@ -52,8 +52,6 @@ class _EditProfileAdminState extends State<EditProfileAdmin> {
     FirebaseFirestore.instance
         .collection("adminUsers")
         .doc(FirebaseAuth.instance.currentUser.uid)
-        .collection("profile")
-        .doc(FirebaseAuth.instance.currentUser.uid)
         .update({
       "username": username.text,
       "mobileNumber": mobileNumber.text,

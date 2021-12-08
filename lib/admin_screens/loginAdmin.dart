@@ -2,14 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hostelite/admin_screens/createAccountAdmin.dart';
-import 'package:hostelite/Unused_screens/loading.dart';
-import 'package:hostelite/main.dart';
 import 'package:flutter/material.dart';
 import 'package:hostelite/student_screens/createAccountStudent.dart';
 import 'package:hostelite/admin_screens/home_screen_Admin.dart';
-// import 'package:hostelite/firebase/register_sign_in.dart';
+
 import 'package:hostelite/student_screens/home_screen_Student.dart';
-import 'package:hostelite/shared_files/decoration.dart';
+
 import 'package:hostelite/student_screens/loginStudent.dart';
 import 'package:hostelite/starting_pages/home.dart';
 
@@ -25,7 +23,6 @@ class _LoginAdminState extends State<LoginAdmin> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final db = FirebaseFirestore.instance.collection('adminUsers');
 
-  @override
   Future<void> resetPassword(String email) async {
     await _auth.sendPasswordResetEmail(email: email);
   }
@@ -180,15 +177,16 @@ class _LoginAdminState extends State<LoginAdmin> {
                           db.doc(uid).get().then((value) => {
                                 if (value.exists)
                                   {
-                                    Navigator.push(
+                                    Navigator.pushAndRemoveUntil(
                                       context,
                                       MaterialPageRoute(builder: (context) {
                                         return HomeScreenAdmin();
                                       }),
+                                      (route) => false,
                                     )
                                   }
                                 else
-                                  {print(value)}
+                                  {print(value.data())}
                               });
                         } catch (e) {
                           print("-----------------2");
@@ -199,7 +197,7 @@ class _LoginAdminState extends State<LoginAdmin> {
                                   title: Text("Error logging in"),
                                   content: Text(e.message),
                                   actions: [
-                                    FlatButton(
+                                    TextButton(
                                       child: Text("Ok"),
                                       onPressed: () {
                                         Navigator.of(context).pop();
