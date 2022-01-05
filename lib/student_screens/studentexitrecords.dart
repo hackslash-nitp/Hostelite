@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:hostelite/student_screens/edit_profile_Student.dart';
 import 'package:hostelite/student_screens/home_screen_Student.dart';
 import 'package:hostelite/student_screens/students_complaint_list.dart';
-import 'package:hostelite/Unused_screens/studentsentryrecords.dart';
 
 class StudentExitRecordList extends StatefulWidget {
   const StudentExitRecordList({Key key}) : super(key: key);

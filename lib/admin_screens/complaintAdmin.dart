@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:hostelite/admin_screens/alerts_admin.dart';
-import 'package:hostelite/admin_screens/entry-recordsAdmin.dart';
+import 'package:hostelite/admin_screens/exit-recordsAdmin.dart';
+
 import 'package:hostelite/admin_screens/home_screen_Admin.dart';
 import 'package:hostelite/admin_screens/pendingcomplaints_admin.dart';
-import 'package:hostelite/Unused_screens/rejected_complaints.dart';
 
 import 'edit_profile_Admin.dart';
 
@@ -273,7 +273,7 @@ class _ViewComplaintsAdminState extends State<ViewComplaintsAdmin> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) {
-                    return EntryListAdmin();
+                    return ExitListAdmin();
                   }),
                 );
               },
