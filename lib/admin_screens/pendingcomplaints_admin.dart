@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:hostelite/admin_screens/alerts_admin.dart';
 import 'package:hostelite/admin_screens/complaintAdmin.dart';
 import 'package:hostelite/admin_screens/edit_profile_Admin.dart';
-import 'package:hostelite/admin_screens/entry-recordsAdmin.dart';
+
+import 'package:hostelite/admin_screens/exit-recordsAdmin.dart';
 import 'package:hostelite/admin_screens/home_screen_Admin.dart';
 
 class PendingComplaints extends StatefulWidget {
@@ -333,7 +334,7 @@ class _PendingComplaintsState extends State<PendingComplaints> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) {
-                    return EntryListAdmin();
+                    return ExitListAdmin();
                   }),
                 );
               },

@@ -7,8 +7,6 @@ import 'package:hostelite/student_screens/mark_exit.dart';
 import 'package:hostelite/student_screens/exit_entryStudent.dart';
 import 'package:hostelite/student_screens/studentexitrecords.dart';
 import 'package:hostelite/student_screens/students_complaint_list.dart';
-import 'package:hostelite/Unused_screens/studentsentryrecords.dart';
-import 'package:table_calendar/table_calendar.dart';
 
 class HomeScreenStudent extends StatefulWidget {
   const HomeScreenStudent({Key key}) : super(key: key);
@@ -333,7 +331,7 @@ class _HomeScreenStudentState extends State<HomeScreenStudent> {
                 //SizedBox(width: 10),
                 MaterialButton(
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(builder: (context) {
                         return StudentComplaintList();

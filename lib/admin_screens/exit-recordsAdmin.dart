@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hostelite/admin_screens/alerts_admin.dart';
 import 'package:hostelite/admin_screens/edit_profile_Admin.dart';
-import 'package:hostelite/admin_screens/entry-recordsAdmin.dart';
+
 import 'package:hostelite/admin_screens/home_screen_Admin.dart';
 
 class ExitListAdmin extends StatefulWidget {
