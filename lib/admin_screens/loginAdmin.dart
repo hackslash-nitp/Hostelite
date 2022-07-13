@@ -1,25 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:hostelite/admin_screens/createAccountAdmin.dart';
 import 'package:flutter/material.dart';
-import 'package:hostelite/student_screens/createAccountStudent.dart';
 import 'package:hostelite/admin_screens/home_screen_Admin.dart';
-
-import 'package:hostelite/student_screens/home_screen_Student.dart';
-
 import 'package:hostelite/student_screens/loginStudent.dart';
-import 'package:hostelite/starting_pages/home.dart';
 
 class LoginAdmin extends StatefulWidget {
-  const LoginAdmin({Key key}) : super(key: key);
+  const LoginAdmin({Key? key}) : super(key: key);
 
   @override
   _LoginAdminState createState() => _LoginAdminState();
 }
 
 class _LoginAdminState extends State<LoginAdmin> {
-  String _email, _password;
+  String? _email, _password;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final db = FirebaseFirestore.instance.collection('adminUsers');
 
@@ -147,7 +141,7 @@ class _LoginAdminState extends State<LoginAdmin> {
                               fontWeight: FontWeight.bold),
                         ),
                         onPressed: () {
-                          resetPassword(_email);
+                          resetPassword(_email!);
                         },
                       )
                     ],
@@ -170,9 +164,9 @@ class _LoginAdminState extends State<LoginAdmin> {
                       onPressed: () async {
                         try {
                           await _auth.signInWithEmailAndPassword(
-                              email: _email, password: _password);
+                              email: _email!, password: _password!);
 
-                          var uid = _auth.currentUser.uid;
+                          var uid = _auth.currentUser!.uid;
                           print("-----------------1");
                           db.doc(uid).get().then((value) => {
                                 if (value.exists)
@@ -195,7 +189,7 @@ class _LoginAdminState extends State<LoginAdmin> {
                               builder: (BuildContext context) {
                                 return AlertDialog(
                                   title: Text("Error logging in"),
-                                  content: Text(e.message),
+                                  content: Text(e.toString()),
                                   actions: [
                                     TextButton(
                                       child: Text("Ok"),

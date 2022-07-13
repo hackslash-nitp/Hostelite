@@ -9,7 +9,7 @@ import 'package:hostelite/student_screens/studentexitrecords.dart';
 import 'package:hostelite/student_screens/students_complaint_list.dart';
 
 class HomeScreenStudent extends StatefulWidget {
-  const HomeScreenStudent({Key key}) : super(key: key);
+  const HomeScreenStudent({Key? key}) : super(key: key);
 
   @override
   _HomeScreenStudentState createState() => _HomeScreenStudentState();
@@ -38,7 +38,7 @@ class _HomeScreenStudentState extends State<HomeScreenStudent> {
                         minWidth: 30,
                         splashColor: Colors.pink,
                         onPressed: () {
-                          _scaffoldkey.currentState.openDrawer();
+                          _scaffoldkey.currentState!.openDrawer();
                         },
                         child: Image(
                           image: AssetImage(
@@ -297,7 +297,7 @@ class _HomeScreenStudentState extends State<HomeScreenStudent> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
               border: Border.all(
-                color: Colors.grey[300],
+                color: Colors.grey[300]!,
               ),
             ),
             height: 45,
@@ -362,26 +362,26 @@ class _HomeScreenStudentState extends State<HomeScreenStudent> {
             ),
           ),
         ),
-        onWillPop: () => showDialog<bool>(
-          context: context,
-          builder: (c) => AlertDialog(
-            title: Text('Warning'),
-            content: Text('Do you really want to exit'),
-            actions: [
-              TextButton(
-                  child: Text('Yes'),
-                  // onPressed: () => Navigator.pop(c, true),
-                  onPressed: () {
-                    FirebaseAuth.instance.signOut();
-                    Navigator.pop(c, true);
-                  }),
-              TextButton(
-                child: Text('No'),
-                onPressed: () => Navigator.pop(c, false),
+        onWillPop: (() => showDialog<bool>(
+              context: context,
+              builder: (c) => AlertDialog(
+                title: Text('Warning'),
+                content: Text('Do you really want to exit'),
+                actions: [
+                  TextButton(
+                      child: Text('Yes'),
+                      // onPressed: () => Navigator.pop(c, true),
+                      onPressed: () {
+                        FirebaseAuth.instance.signOut();
+                        Navigator.pop(c, true);
+                      }),
+                  TextButton(
+                    child: Text('No'),
+                    onPressed: () => Navigator.pop(c, false),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
+            ).then((value) => value!)),
       ),
     );
   }

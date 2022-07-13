@@ -10,7 +10,7 @@ import 'package:hostelite/admin_screens/pendingcomplaints_admin.dart';
 import 'edit_profile_Admin.dart';
 
 class ViewComplaintsAdmin extends StatefulWidget {
-  const ViewComplaintsAdmin({Key key}) : super(key: key);
+  const ViewComplaintsAdmin({Key? key}) : super(key: key);
 
   @override
   _ViewComplaintsAdminState createState() => _ViewComplaintsAdminState();
@@ -126,9 +126,9 @@ class _ViewComplaintsAdminState extends State<ViewComplaintsAdmin> {
                 return ListView.builder(
                     physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: snapshots.data.size,
+                    itemCount: snapshots.data!.size,
                     itemBuilder: (context, index) {
-                      DocumentSnapshot data = snapshots.data.docs[index];
+                      DocumentSnapshot data = snapshots.data!.docs[index];
                       return SingleChildScrollView(
                         child: Container(
                           child: Padding(
@@ -149,16 +149,16 @@ class _ViewComplaintsAdminState extends State<ViewComplaintsAdmin> {
                                                     isEqualTo: data["userUid"])
                                                 .snapshots(),
                                             builder: (context, snapshot) {
-                                              String dataUrl = snapshot
-                                                  .data.docs[0]["dpUrl"];
+                                              String? dataUrl = snapshot
+                                                  .data!.docs[0]["dpUrl"];
                                               return CircleAvatar(
                                                 radius: 25,
                                                 backgroundColor:
                                                     Colors.orange[100],
-                                                backgroundImage: dataUrl != " "
-                                                    ? NetworkImage(dataUrl)
+                                                backgroundImage: (dataUrl != " "
+                                                    ? NetworkImage(dataUrl!)
                                                     : AssetImage(
-                                                        'assets/nodppic.jfif'),
+                                                        'assets/nodppic.jfif')) as ImageProvider<Object>?,
                                               );
                                             }),
                                         SizedBox(
@@ -245,7 +245,7 @@ class _ViewComplaintsAdminState extends State<ViewComplaintsAdmin> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           border: Border.all(
-            color: Colors.grey[300],
+            color: Colors.grey[300]!,
           ),
         ),
         height: 45,

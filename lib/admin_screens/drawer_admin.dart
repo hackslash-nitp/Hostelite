@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hostelite/admin_screens/alerts_admin.dart';
 import 'package:hostelite/admin_screens/edit_profile_Admin.dart';
-import 'package:hostelite/admin_screens/home_screen_Admin.dart';
 import 'package:hostelite/admin_screens/loginAdmin.dart';
 
 class NavDrawerAdmin extends StatelessWidget {
@@ -11,7 +10,7 @@ class NavDrawerAdmin extends StatelessWidget {
 
   final db = FirebaseFirestore.instance
       .collection("adminUsers")
-      .doc(FirebaseAuth.instance.currentUser.uid)
+      .doc(FirebaseAuth.instance.currentUser!.uid)
       .collection("profile")
       .snapshots();
 
@@ -33,29 +32,30 @@ class NavDrawerAdmin extends StatelessWidget {
                   stream: FirebaseFirestore.instance
                       .collection('displayPics')
                       .where("userUid",
-                          isEqualTo: FirebaseAuth.instance.currentUser.uid)
+                          isEqualTo: FirebaseAuth.instance.currentUser!.uid)
                       .snapshots(),
                   builder: (context, snapshot) {
-                    String dataUrl = snapshot.data.docs[0]["dpUrl"];
+                    String? dataUrl = snapshot.data!.docs[0]["dpUrl"];
                     return CircleAvatar(
                       radius: 85,
                       backgroundColor: Colors.orange[100],
-                      backgroundImage: dataUrl != " "
-                          ? NetworkImage(dataUrl)
-                          : AssetImage('assets/nodppic.jfif'),
+                      backgroundImage: (dataUrl != " "
+                              ? NetworkImage(dataUrl!)
+                              : AssetImage('assets/nodppic.jfif'))
+                          as ImageProvider<Object>?,
                     );
                   }),
             ),
             StreamBuilder<Object>(
                 stream: FirebaseFirestore.instance
                     .collection("adminUsers")
-                    .doc(FirebaseAuth.instance.currentUser.uid)
+                    .doc(FirebaseAuth.instance.currentUser!.uid)
                     .collection("profile")
                     .snapshots(),
                 builder: (context, snapshot) {
                   return ListTile(
                     title: Text(
-                      _auth.currentUser.displayName,
+                      _auth.currentUser!.displayName!,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 24,

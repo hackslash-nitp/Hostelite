@@ -5,7 +5,7 @@ import 'package:hostelite/student_screens/loginStudent.dart';
 import 'package:hostelite/shared_files/decoration.dart';
 
 class CreateAccountStudent extends StatefulWidget {
-  const CreateAccountStudent({Key key}) : super(key: key);
+  const CreateAccountStudent({Key? key}) : super(key: key);
 
   @override
   _CreateAccountStudentState createState() => _CreateAccountStudentState();
@@ -41,21 +41,22 @@ Dialog leadDialog = Dialog(
         Container(
           width: 150.0,
           height: 40.0,
-          child: MaterialButton(
-            child: Text(
-              'Done',
-              style: TextStyle(color: Colors.white, fontSize: 17.0),
-            ),
-            color: Colors.pinkAccent[100],
-            minWidth: 100.0,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)),
-            onPressed: () {
-              BuildContext context;
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => LoginStudent()));
-            },
-          ),
+          child: Builder(builder: (context) {
+            return MaterialButton(
+              child: Text(
+                'Done',
+                style: TextStyle(color: Colors.white, fontSize: 17.0),
+              ),
+              color: Colors.pinkAccent[100],
+              minWidth: 100.0,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginStudent()));
+              },
+            );
+          }),
         ),
       ],
     ),
@@ -63,15 +64,15 @@ Dialog leadDialog = Dialog(
 );
 
 class _CreateAccountStudentState extends State<CreateAccountStudent> {
-  UserCredential userCredential;
+  late UserCredential userCredential;
 
-  String username;
-  String roomNumber;
-  String email;
-  String rollNumber;
-  String mobileNumber;
-  String password;
-  String confirmPassword;
+  String? username;
+  String? roomNumber;
+  String? email;
+  String? rollNumber;
+  String? mobileNumber;
+  String? password;
+  String? confirmPassword;
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -233,7 +234,7 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
                               title: Text("Error signing up"),
                               content: Text("Passwords don't match"),
                               actions: [
-                                FlatButton(
+                                TextButton(
                                   child: Text("Ok"),
                                   onPressed: () {
                                     Navigator.of(context).pop();
@@ -245,24 +246,24 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
                       return;
                     }
                     userCredential = await _auth.createUserWithEmailAndPassword(
-                        email: email, password: password);
-                    User user = userCredential.user;
+                        email: email!, password: password!);
+                    User user = userCredential.user!;
                     user.updateDisplayName(username);
                     // user.updatePhoneNumber(mobileNumber);
 
                     //Sending user data
                     FirebaseFirestore.instance
                         .collection("studentUsers")
-                        .doc(userCredential.user.uid)
+                        .doc(userCredential.user!.uid)
                         .collection("profile")
-                        .doc(userCredential.user.uid)
+                        .doc(userCredential.user!.uid)
                         .set({
                       "username": username,
                       "mobileNumber": mobileNumber,
                       "emailAddress": email,
                       "rollNumber": rollNumber,
                       "roomNumber": roomNumber,
-                      "userUid": userCredential.user.uid,
+                      "userUid": userCredential.user!.uid,
                       "dpUrl": ""
                     }).catchError((err) {
                       showDialog(
@@ -272,7 +273,7 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
                               title: Text("Error signing up"),
                               content: Text(err.message),
                               actions: [
-                                FlatButton(
+                                TextButton(
                                   child: Text("Ok"),
                                   onPressed: () {
                                     Navigator.of(context).pop();
@@ -285,9 +286,9 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
 
                     FirebaseFirestore.instance
                         .collection("adminUsers")
-                        .doc(FirebaseAuth.instance.currentUser.uid)
+                        .doc(FirebaseAuth.instance.currentUser!.uid)
                         .set({
-                      "userUid": userCredential.user.uid,
+                      "userUid": userCredential.user!.uid,
                       "dpUrl": " "
                     }).catchError((err) {
                       showDialog(
@@ -297,7 +298,7 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
                               title: Text("Error signing up"),
                               content: Text(err.message),
                               actions: [
-                                FlatButton(
+                                TextButton(
                                   child: Text("Ok"),
                                   onPressed: () {
                                     Navigator.of(context).pop();
@@ -307,7 +308,6 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
                             );
                           });
                     });
-                    ;
 
                     showDialog(
                         context: context,

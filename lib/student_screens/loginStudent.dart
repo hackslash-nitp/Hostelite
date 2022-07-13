@@ -1,26 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hostelite/student_screens/createAccountStudent.dart';
 //import 'package:hostelite/firebase/register_sign_in.dart';
-import 'package:hostelite/student_screens/home_screen_Student.dart';
-import 'package:hostelite/shared_files/decoration.dart';
 import 'package:hostelite/admin_screens/loginAdmin.dart';
 
 class LoginStudent extends StatefulWidget {
-  const LoginStudent({Key key}) : super(key: key);
+  const LoginStudent({Key? key}) : super(key: key);
 
   @override
   _LoginStudentState createState() => _LoginStudentState();
 }
 
 class _LoginStudentState extends State<LoginStudent> {
-  String _email, _password;
+  String? _email, _password;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final db = FirebaseFirestore.instance.collection('studentUsers');
 
-  @override
   Future<void> resetPassword(String email) async {
     await _auth.sendPasswordResetEmail(email: email);
   }
@@ -85,7 +81,7 @@ class _LoginStudentState extends State<LoginStudent> {
                   SizedBox(height: 20),
                   TextFormField(
                     validator: (value) {
-                      if (value.isEmpty || !value.contains('@'))
+                      if (value!.isEmpty || !value.contains('@'))
                         return 'Please enter a valid Email address';
                       return null;
                     },
@@ -148,7 +144,7 @@ class _LoginStudentState extends State<LoginStudent> {
                               fontWeight: FontWeight.bold),
                         ),
                         onPressed: () {
-                          resetPassword(_email);
+                          resetPassword(_email!);
                         },
                       )
                     ],
@@ -171,9 +167,9 @@ class _LoginStudentState extends State<LoginStudent> {
                       onPressed: () async {
                         try {
                           await _auth.signInWithEmailAndPassword(
-                              email: _email, password: _password);
+                              email: _email!, password: _password!);
 
-                          var uid = _auth.currentUser.uid;
+                          var uid = _auth.currentUser!.uid;
                           // db.doc(uid).get().then((value) => {
                           //       if (value.exists)
                           //         {
@@ -186,9 +182,9 @@ class _LoginStudentState extends State<LoginStudent> {
                               builder: (BuildContext context) {
                                 return AlertDialog(
                                   title: Text("Error logging in"),
-                                  content: Text(e.message),
+                                  content: Text(e.toString()),
                                   actions: [
-                                    FlatButton(
+                                    TextButton(
                                       child: Text("Ok"),
                                       onPressed: () {
                                         Navigator.of(context).pop();

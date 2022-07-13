@@ -1,15 +1,13 @@
-import 'dart:developer';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hostelite/student_screens/home_screen_Student.dart';
 import 'package:image_picker/image_picker.dart';
 
 class StudentComplaint extends StatefulWidget {
-  const StudentComplaint({Key key}) : super(key: key);
+  const StudentComplaint({Key? key}) : super(key: key);
 
   @override
   _StudentComplaintState createState() => _StudentComplaintState();
@@ -50,22 +48,23 @@ Dialog leadDialog = Dialog(
         Container(
           width: 150.0,
           height: 40.0,
-          child: MaterialButton(
-            child: Text(
-              'Done',
-              style: TextStyle(color: Colors.white, fontSize: 17.0),
-            ),
-            color: Color(0xffFE96FA),
-            minWidth: 100.0,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)),
-            onPressed: () {
-              BuildContext context;
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return HomeScreenStudent();
-              }));
-            },
-          ),
+          child: Builder(builder: (context) {
+            return MaterialButton(
+              child: Text(
+                'Done',
+                style: TextStyle(color: Colors.white, fontSize: 17.0),
+              ),
+              color: Color(0xffFE96FA),
+              minWidth: 100.0,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return HomeScreenStudent();
+                }));
+              },
+            );
+          }),
         ),
       ],
     ),
@@ -75,10 +74,10 @@ Dialog leadDialog = Dialog(
 class _StudentComplaintState extends State<StudentComplaint> {
   var imageUrl = 'str';
 
-  File img;
+  File? img;
   getImage() async {
     ImagePicker _picker = ImagePicker();
-    final XFile image = await _picker.pickImage(source: ImageSource.camera);
+    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
     if (image != null) {
       setState(() {
         img = File(image.path);
@@ -86,9 +85,9 @@ class _StudentComplaintState extends State<StudentComplaint> {
     }
   }
 
-  String roomNumber;
-  String issue;
-  String explanation;
+  String? roomNumber;
+  String? issue;
+  String? explanation;
   String status = "pending";
 
   @override
@@ -194,7 +193,7 @@ class _StudentComplaintState extends State<StudentComplaint> {
                 height: 20,
               ),
               Container(
-                child: (img != null) ? Image.file(img) : Text(''),
+                child: (img != null) ? Image.file(img!) : Text(''),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -207,7 +206,7 @@ class _StudentComplaintState extends State<StudentComplaint> {
                               ".png";
                       ref = ref.child(imgPath);
                       firebase_storage.UploadTask uploadedImg =
-                          ref.putFile(img);
+                          ref.putFile(img!);
                       await uploadedImg.whenComplete(() => null);
                       print("storage");
 
@@ -216,23 +215,22 @@ class _StudentComplaintState extends State<StudentComplaint> {
                       await ref.getDownloadURL().then((value) {
                         url = value;
                       });
-                      if (roomNumber.isEmpty ||
-                          issue.isEmpty ||
-                          explanation.isEmpty ||
+                      if (roomNumber!.isEmpty ||
+                          issue!.isEmpty ||
+                          explanation!.isEmpty ||
                           url.isEmpty) {
-                        return SnackBar(
-                            content: Text("Please enter all fields"));
+                        SnackBar(content: Text("Please enter all fields"));
                       }
                       print("abc o......");
                       FirebaseFirestore.instance
                           .collection("studentUsers")
-                          .doc(FirebaseAuth.instance.currentUser.uid)
+                          .doc(FirebaseAuth.instance.currentUser!.uid)
                           .collection("complaint")
                           .add({
                         "issue": issue,
                         "roomNumber": roomNumber,
                         "explanation": explanation,
-                        "userUid": FirebaseAuth.instance.currentUser.uid,
+                        "userUid": FirebaseAuth.instance.currentUser!.uid,
                         "imageUrl": url,
                         "status": "Pending",
                         "postedAt": DateTime.now().toLocal()
@@ -244,10 +242,10 @@ class _StudentComplaintState extends State<StudentComplaint> {
                         "issue": issue,
                         "roomNumber": roomNumber,
                         "explanation": explanation,
-                        "userUid": FirebaseAuth.instance.currentUser.uid,
+                        "userUid": FirebaseAuth.instance.currentUser!.uid,
                         "imageUrl": url,
                         "status": "Pending",
-                        "name": FirebaseAuth.instance.currentUser.displayName,
+                        "name": FirebaseAuth.instance.currentUser!.displayName,
                         "postedAt": DateTime.now().toLocal()
                       });
                       print("abc o...... done");
