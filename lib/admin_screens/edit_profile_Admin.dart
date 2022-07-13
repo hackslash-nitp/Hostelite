@@ -12,7 +12,7 @@ import 'package:image_picker/image_picker.dart';
 // import 'package:hostelite/models/user_model.dart';
 
 class EditProfileAdmin extends StatefulWidget {
-  const EditProfileAdmin({Key key}) : super(key: key);
+  const EditProfileAdmin({Key? key}) : super(key: key);
 
   @override
   _EditProfileAdminState createState() => _EditProfileAdminState();
@@ -25,16 +25,16 @@ firebase_storage.Reference ref = storage.ref().child('dps');
 
 class _EditProfileAdminState extends State<EditProfileAdmin> {
   var imageUrl = 'str';
-  File _pickedImage;
+  late File _pickedImage;
   var picsdb = FirebaseFirestore.instance
       .collection('displayPics')
-      .doc(FirebaseAuth.instance.currentUser.uid);
-  String ImgUrl = "";
+      .doc(FirebaseAuth.instance.currentUser!.uid);
+  String imgUrl = "";
 
-  File img;
+  late File img;
   getImage() async {
     ImagePicker _picker = ImagePicker();
-    final XFile image = await _picker.pickImage(source: ImageSource.camera);
+    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
     if (image != null) {
       setState(() {
         img = File(image.path);
@@ -51,7 +51,7 @@ class _EditProfileAdminState extends State<EditProfileAdmin> {
   Future buildUpdateProfile() async {
     FirebaseFirestore.instance
         .collection("adminUsers")
-        .doc(FirebaseAuth.instance.currentUser.uid)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .update({
       "username": username.text,
       "mobileNumber": mobileNumber.text,
@@ -98,7 +98,7 @@ class _EditProfileAdminState extends State<EditProfileAdmin> {
                     });
                     db
                         .collection('dps')
-                        .doc(_auth.currentUser.uid)
+                        .doc(_auth.currentUser!.uid)
                         .set({"dpUrl": url});
                   },
                   child: Container(
@@ -107,7 +107,7 @@ class _EditProfileAdminState extends State<EditProfileAdmin> {
                         ImagePicker()
                             .pickImage(source: ImageSource.gallery)
                             .then((value) async {
-                          _pickedImage = File(value.path);
+                          _pickedImage = File(value!.path);
                           Reference reference = FirebaseStorage.instance
                               .ref()
                               .child('images')
@@ -120,13 +120,14 @@ class _EditProfileAdminState extends State<EditProfileAdmin> {
                           task.whenComplete(() {
                             reference.getDownloadURL().then((url) {
                               setState(() {
-                                ImgUrl = url;
+                                imgUrl = url;
                               });
                               print(url);
 
                               picsdb.set({
                                 'dpUrl': url,
-                                'userUid': FirebaseAuth.instance.currentUser.uid
+                                'userUid':
+                                    FirebaseAuth.instance.currentUser!.uid
                               });
                             });
                           });
@@ -137,18 +138,19 @@ class _EditProfileAdminState extends State<EditProfileAdmin> {
                               .collection('displayPics')
                               .where("userUid",
                                   isEqualTo:
-                                      FirebaseAuth.instance.currentUser.uid)
+                                      FirebaseAuth.instance.currentUser!.uid)
                               .snapshots(),
                           builder: (context, snapshot) {
-                            String dataUrl = snapshot.data.docs[0]["dpUrl"];
+                            String? dataUrl = snapshot.data!.docs[0]["dpUrl"];
                             return !snapshot.hasData
                                 ? CircularProgressIndicator()
                                 : CircleAvatar(
                                     radius: 85,
                                     backgroundColor: Colors.orange[100],
-                                    backgroundImage: dataUrl != " "
-                                        ? NetworkImage(dataUrl)
-                                        : AssetImage('assets/nodppic.jfif'),
+                                    backgroundImage: (dataUrl != " "
+                                            ? NetworkImage(dataUrl!)
+                                            : AssetImage('assets/nodppic.jfif'))
+                                        as ImageProvider<Object>?,
                                   );
                           }),
                     ),
@@ -160,7 +162,7 @@ class _EditProfileAdminState extends State<EditProfileAdmin> {
                 TextFormField(
                   controller: username,
                   decoration: InputDecoration(
-                    hintText: _auth.currentUser.displayName,
+                    hintText: _auth.currentUser!.displayName,
                     labelText: 'Name',
                     fillColor: Colors.white,
                     filled: true,
@@ -177,7 +179,7 @@ class _EditProfileAdminState extends State<EditProfileAdmin> {
                 TextFormField(
                   controller: email,
                   decoration: InputDecoration(
-                    hintText: _auth.currentUser.email,
+                    hintText: _auth.currentUser!.email,
                     labelText: 'Email',
                     fillColor: Colors.white,
                     filled: true,
@@ -194,7 +196,7 @@ class _EditProfileAdminState extends State<EditProfileAdmin> {
                 TextFormField(
                   controller: mobileNumber,
                   decoration: InputDecoration(
-                    hintText: _auth.currentUser.phoneNumber,
+                    hintText: _auth.currentUser!.phoneNumber,
                     labelText: 'Mobile number',
                     fillColor: Colors.white,
                     filled: true,
@@ -229,7 +231,7 @@ class _EditProfileAdminState extends State<EditProfileAdmin> {
                                   title: Text("Error updating profile"),
                                   content: Text("Please fill all fields"),
                                   actions: [
-                                    FlatButton(
+                                    TextButton(
                                       child: Text("Ok"),
                                       onPressed: () {
                                         Navigator.of(context).pop();
@@ -245,7 +247,7 @@ class _EditProfileAdminState extends State<EditProfileAdmin> {
                         print("1.-------------------");
                         //code to update email in firebase auth
 
-                        User firebaseUser = FirebaseAuth.instance.currentUser;
+                        User firebaseUser = FirebaseAuth.instance.currentUser!;
                         firebaseUser.updateDisplayName(username.text);
                         await firebaseUser.updateEmail(email.text);
                         print("2.-------------------");
@@ -262,7 +264,7 @@ class _EditProfileAdminState extends State<EditProfileAdmin> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           border: Border.all(
-            color: Colors.grey[300],
+            color: Colors.grey[300]!,
           ),
         ),
         height: 45,

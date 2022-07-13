@@ -10,26 +10,26 @@ import 'package:hostelite/student_screens/students_complaint_list.dart';
 import 'package:image_picker/image_picker.dart';
 
 class EditProfileStudent extends StatefulWidget {
-  const EditProfileStudent({Key key}) : super(key: key);
+  const EditProfileStudent({Key? key}) : super(key: key);
 
   @override
   _EditProfileStudentState createState() => _EditProfileStudentState();
 }
 
 class _EditProfileStudentState extends State<EditProfileStudent> {
-  File _pickedImage;
+  late File _pickedImage;
 
   var db = FirebaseFirestore.instance
       .collection('studentUsers')
-      .doc(FirebaseAuth.instance.currentUser.uid)
+      .doc(FirebaseAuth.instance.currentUser!.uid)
       .collection('profile')
-      .doc(FirebaseAuth.instance.currentUser.uid);
+      .doc(FirebaseAuth.instance.currentUser!.uid);
 
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  FirebaseAuth? _auth = FirebaseAuth.instance;
 
-  var picsdb = FirebaseFirestore.instance
+  dynamic picsdb = FirebaseFirestore.instance
       .collection('displayPics')
-      .doc(FirebaseAuth.instance.currentUser.uid);
+      .doc(FirebaseAuth.instance.currentUser!.uid);
 
   final TextEditingController username = TextEditingController();
   final TextEditingController mobileNumber = TextEditingController();
@@ -40,9 +40,9 @@ class _EditProfileStudentState extends State<EditProfileStudent> {
   Future buildUpdateProfile() async {
     await FirebaseFirestore.instance
         .collection("studentUsers")
-        .doc(FirebaseAuth.instance.currentUser.uid)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("profile")
-        .doc(FirebaseAuth.instance.currentUser.uid)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .update({
       "username": username.text,
       "mobileNumber": mobileNumber.text,
@@ -52,11 +52,11 @@ class _EditProfileStudentState extends State<EditProfileStudent> {
     });
   }
 
-  String ImgUrl = "";
+  String imgUrl = "";
 
   @override
   Widget build(BuildContext context) {
-    return (picsdb == null || _auth == null)
+    return ((picsdb == null || _auth == null)
         ? CircularProgressIndicator
         : SafeArea(
             child: Scaffold(
@@ -85,7 +85,7 @@ class _EditProfileStudentState extends State<EditProfileStudent> {
                         ImagePicker()
                             .pickImage(source: ImageSource.gallery)
                             .then((value) async {
-                          _pickedImage = File(value.path);
+                          _pickedImage = File(value!.path);
                           Reference reference = FirebaseStorage.instance
                               .ref()
                               .child('images')
@@ -98,13 +98,14 @@ class _EditProfileStudentState extends State<EditProfileStudent> {
                           task.whenComplete(() {
                             reference.getDownloadURL().then((url) {
                               setState(() {
-                                ImgUrl = url;
+                                imgUrl = url;
                               });
                               print(url);
-                              print(ImgUrl);
+                              print(imgUrl);
                               picsdb.set({
                                 'dpUrl': url,
-                                'userUid': FirebaseAuth.instance.currentUser.uid
+                                'userUid':
+                                    FirebaseAuth.instance.currentUser!.uid
                               });
                             });
                           });
@@ -115,18 +116,19 @@ class _EditProfileStudentState extends State<EditProfileStudent> {
                               .collection('displayPics')
                               .where("userUid",
                                   isEqualTo:
-                                      FirebaseAuth.instance.currentUser.uid)
+                                      FirebaseAuth.instance.currentUser!.uid)
                               .snapshots(),
                           builder: (context, snapshot) {
-                            String dataUrl = snapshot.data.docs[0]["dpUrl"];
+                            String? dataUrl = snapshot.data!.docs[0]["dpUrl"];
                             return !snapshot.hasData
                                 ? CircularProgressIndicator()
                                 : CircleAvatar(
                                     radius: 85,
                                     backgroundColor: Colors.orange[100],
-                                    backgroundImage: dataUrl != " "
-                                        ? NetworkImage(dataUrl)
-                                        : AssetImage('assets/nodppic.jfif'),
+                                    backgroundImage: (dataUrl != " "
+                                            ? NetworkImage(dataUrl!)
+                                            : AssetImage('assets/nodppic.jfif'))
+                                        as ImageProvider<Object>?,
                                   );
                           }),
                     ),
@@ -136,7 +138,7 @@ class _EditProfileStudentState extends State<EditProfileStudent> {
                     TextFormField(
                       controller: username,
                       decoration: InputDecoration(
-                        hintText: _auth.currentUser.displayName,
+                        hintText: _auth!.currentUser!.displayName,
                         labelText: 'Name',
                         fillColor: Colors.white,
                         filled: true,
@@ -155,7 +157,7 @@ class _EditProfileStudentState extends State<EditProfileStudent> {
                     TextFormField(
                       controller: email,
                       decoration: InputDecoration(
-                        hintText: _auth.currentUser.email,
+                        hintText: _auth!.currentUser!.email,
                         labelText: 'Email',
                         fillColor: Colors.white,
                         filled: true,
@@ -174,7 +176,7 @@ class _EditProfileStudentState extends State<EditProfileStudent> {
                     TextFormField(
                       controller: mobileNumber,
                       decoration: InputDecoration(
-                        hintText: _auth.currentUser.phoneNumber,
+                        hintText: _auth!.currentUser!.phoneNumber,
                         labelText: 'Mobile number',
                         fillColor: Colors.white,
                         filled: true,
@@ -249,7 +251,7 @@ class _EditProfileStudentState extends State<EditProfileStudent> {
                                     title: Text("Error updating profile"),
                                     content: Text("Please fill all fields"),
                                     actions: [
-                                      FlatButton(
+                                      TextButton(
                                         child: Text("Ok"),
                                         onPressed: () {
                                           Navigator.of(context).pop();
@@ -264,7 +266,8 @@ class _EditProfileStudentState extends State<EditProfileStudent> {
                           print("1.-------------------");
                           //code to update email in firebase auth
 
-                          User firebaseUser = FirebaseAuth.instance.currentUser;
+                          User firebaseUser =
+                              FirebaseAuth.instance.currentUser!;
                           firebaseUser.updateDisplayName(username.text);
                           await firebaseUser.updateEmail(email.text);
                           print("2.-------------------");
@@ -283,7 +286,7 @@ class _EditProfileStudentState extends State<EditProfileStudent> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
                 border: Border.all(
-                  color: Colors.grey[300],
+                  color: Colors.grey[300]!,
                 ),
               ),
               height: 45,
@@ -350,6 +353,6 @@ class _EditProfileStudentState extends State<EditProfileStudent> {
                 ],
               ),
             ),
-          ));
+          ))) as Widget;
   }
 }

@@ -1,15 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
-import 'package:hostelite/admin_screens/home_screen_Admin.dart';
 import 'package:hostelite/student_screens/home_screen_Student.dart';
-import 'package:hostelite/models/user_model.dart';
-import 'package:hostelite/shared_files/decoration.dart';
 import 'package:geolocator/geolocator.dart';
 
 class MarkingEntry extends StatefulWidget {
-  const MarkingEntry({Key key}) : super(key: key);
+  const MarkingEntry({Key? key}) : super(key: key);
 
   @override
   _MarkingEntryState createState() => _MarkingEntryState();
@@ -45,22 +41,23 @@ Dialog leadDialog = Dialog(
         Container(
           width: 150.0,
           height: 40.0,
-          child: MaterialButton(
-            child: Text(
-              'Done',
-              style: TextStyle(color: Colors.white, fontSize: 17.0),
-            ),
-            color: Colors.pinkAccent[100],
-            minWidth: 100.0,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)),
-            onPressed: () {
-              BuildContext context;
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return HomeScreenStudent();
-              }));
-            },
-          ),
+          child: Builder(builder: (context) {
+            return MaterialButton(
+              child: Text(
+                'Done',
+                style: TextStyle(color: Colors.white, fontSize: 17.0),
+              ),
+              color: Colors.pinkAccent[100],
+              minWidth: 100.0,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return HomeScreenStudent();
+                }));
+              },
+            );
+          }),
         ),
       ],
     ),
@@ -97,22 +94,23 @@ Dialog leadDialogLate = Dialog(
         Container(
           width: 150.0,
           height: 40.0,
-          child: MaterialButton(
-            child: Text(
-              'Done',
-              style: TextStyle(color: Colors.white, fontSize: 17.0),
-            ),
-            color: Colors.pinkAccent[100],
-            minWidth: 100.0,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)),
-            onPressed: () {
-              BuildContext context;
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return HomeScreenStudent();
-              }));
-            },
-          ),
+          child: Builder(builder: (context) {
+            return MaterialButton(
+              child: Text(
+                'Done',
+                style: TextStyle(color: Colors.white, fontSize: 17.0),
+              ),
+              color: Colors.pinkAccent[100],
+              minWidth: 100.0,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return HomeScreenStudent();
+                }));
+              },
+            );
+          }),
         ),
       ],
     ),
@@ -122,23 +120,23 @@ Dialog leadDialogLate = Dialog(
 class _MarkingEntryState extends State<MarkingEntry> {
   var db = FirebaseFirestore.instance;
   List alerts = [];
-  int entrytoken;
-  String roomNumber;
-  String rollNumber;
-  String studentloc;
-  String hostel;
+  int? entrytoken;
+  String? roomNumber;
+  String? rollNumber;
+  String? studentloc;
+  String? hostel;
   var nowTime = DateTime.now();
   var locationMessage = '';
-  Position position;
+  late Position position;
 
   var stdentdb = FirebaseFirestore.instance
       .collection("studentUsers")
-      .doc(FirebaseAuth.instance.currentUser.uid)
+      .doc(FirebaseAuth.instance.currentUser!.uid)
       .collection("exit");
 
   var entrydbcol = FirebaseFirestore.instance
       .collection("studentUsers")
-      .doc(FirebaseAuth.instance.currentUser.uid)
+      .doc(FirebaseAuth.instance.currentUser!.uid)
       .collection("entry");
 
   var entryadmindb = FirebaseFirestore.instance.collection("Exits");
@@ -330,22 +328,22 @@ class _MarkingEntryState extends State<MarkingEntry> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0)),
                     onPressed: () async {
-                      if (roomNumber.isEmpty ||
-                          rollNumber.isEmpty ||
-                          hostel.isEmpty ||
+                      if (roomNumber!.isEmpty ||
+                          rollNumber!.isEmpty ||
+                          hostel!.isEmpty ||
                           locationMessage.isEmpty) {
-                        return SnackBar(
-                            content: Text("Please enter all fields"));
+                        SnackBar(content: Text("Please enter all fields"));
                       }
 
                       if ((nowTime.hour >= 21)) {
                         FirebaseFirestore.instance.collection('alerts').add({
                           "position": position.toString(),
-                          "name": FirebaseAuth.instance.currentUser.displayName,
+                          "name":
+                              FirebaseAuth.instance.currentUser!.displayName,
                           "rollNumber": rollNumber,
                           "roomNumber": roomNumber,
                           "hostel": hostel,
-                          "userUid": FirebaseAuth.instance.currentUser.uid,
+                          "userUid": FirebaseAuth.instance.currentUser!.uid,
                           "time": DateTime.now().toLocal(),
                         });
                         showDialog(
@@ -391,20 +389,20 @@ class _MarkingEntryState extends State<MarkingEntry> {
                                     }
                                 });
                         entrydbcol.add({
-                          "name": FirebaseAuth.instance.currentUser.email,
+                          "name": FirebaseAuth.instance.currentUser!.email,
                           "rollNumber": rollNumber,
                           "roomNumber": roomNumber,
                           "hostel": hostel,
-                          "userUid": FirebaseAuth.instance.currentUser.uid,
+                          "userUid": FirebaseAuth.instance.currentUser!.uid,
                           "time": DateTime.now().toLocal(),
                           "location": locationMessage,
                         });
                         FirebaseFirestore.instance.collection('Entries').add({
-                          "name": FirebaseAuth.instance.currentUser.email,
+                          "name": FirebaseAuth.instance.currentUser!.email,
                           "rollNumber": rollNumber,
                           "roomNumber": roomNumber,
                           "hostel": hostel,
-                          "userUid": FirebaseAuth.instance.currentUser.uid,
+                          "userUid": FirebaseAuth.instance.currentUser!.uid,
                           "time": DateTime.now().toLocal(),
                           "location": locationMessage,
                         });

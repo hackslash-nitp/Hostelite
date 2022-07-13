@@ -5,7 +5,7 @@ import 'package:hostelite/admin_screens/exit-recordsAdmin.dart';
 import 'package:hostelite/admin_screens/home_screen_Admin.dart';
 
 class Alerts extends StatefulWidget {
-  const Alerts({Key key}) : super(key: key);
+  const Alerts({Key? key}) : super(key: key);
 
   @override
   _AlertsState createState() => _AlertsState();
@@ -124,10 +124,10 @@ class _AlertsState extends State<Alerts> {
                           child: Container(
                             height: MediaQuery.of(context).size.height,
                             child: ListView.builder(
-                                itemCount: snapshots.data.docs.length,
+                                itemCount: snapshots.data!.docs.length,
                                 itemBuilder: (context, index) {
                                   DocumentSnapshot data =
-                                      snapshots.data.docs[index];
+                                      snapshots.data!.docs[index];
                                   return Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: SingleChildScrollView(
@@ -277,7 +277,7 @@ class _AlertsState extends State<Alerts> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           border: Border.all(
-            color: Colors.grey[300],
+            color: Colors.grey[300]!,
           ),
         ),
         height: 45,

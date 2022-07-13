@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:hostelite/student_screens/createAccountStudent.dart';
 import 'package:hostelite/student_screens/loginStudent.dart';
 import 'package:hostelite/starting_pages/keep_track.dart';
 
 class FastAndEasy extends StatefulWidget {
-  const FastAndEasy({Key key}) : super(key: key);
+  const FastAndEasy({Key? key}) : super(key: key);
 
   @override
   _FastAndEasyState createState() => _FastAndEasyState();
@@ -18,7 +17,7 @@ class _FastAndEasyState extends State<FastAndEasy> {
           Widget>[
         Padding(
           padding: const EdgeInsets.only(top: 50.0, left: 290.0),
-          child: FlatButton(
+          child: TextButton(
             child: Text(
               'Skip',
               textAlign: TextAlign.end,
@@ -72,10 +71,17 @@ class _FastAndEasyState extends State<FastAndEasy> {
         Center(
           child: Padding(
             padding: const EdgeInsets.only(left: 245.0),
-            child: FlatButton(
-              splashColor: Colors.deepPurpleAccent,
-              focusColor: Colors.cyanAccent,
-              highlightColor: Colors.amberAccent,
+            child: TextButton(
+              style: ButtonStyle(
+                  overlayColor:
+                      MaterialStateProperty.all(Colors.deepPurpleAccent),
+                  foregroundColor: MaterialStateProperty.resolveWith<Color>(
+                      (Set<MaterialState> states) {
+                    if (states.contains(MaterialState.focused)) {
+                      return Colors.cyanAccent;
+                    }
+                    return Colors.amberAccent;
+                  })),
               child: Image(
                 image: AssetImage('assets/Group 33653.png'),
                 width: 50,

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:hostelite/student_screens/createAccountStudent.dart';
 import 'package:hostelite/student_screens/loginStudent.dart';
 import 'package:hostelite/starting_pages/fast_and_easy.dart';
 
 class SolveYourIssues extends StatefulWidget {
-  const SolveYourIssues({Key key}) : super(key: key);
+  const SolveYourIssues({Key? key}) : super(key: key);
 
   @override
   _SolveYourIssuesState createState() => _SolveYourIssuesState();
@@ -20,7 +19,7 @@ class _SolveYourIssuesState extends State<SolveYourIssues> {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(left: 290.0, top: 50.0),
-                child: FlatButton(
+                child: TextButton(
                   child: Text(
                     'Skip',
                     textAlign: TextAlign.end,
@@ -66,10 +65,17 @@ class _SolveYourIssuesState extends State<SolveYourIssues> {
               SizedBox(height: 60),
               Padding(
                 padding: const EdgeInsets.only(left: 245.0),
-                child: FlatButton(
-                  splashColor: Colors.deepPurpleAccent,
-                  focusColor: Colors.cyanAccent,
-                  highlightColor: Colors.amberAccent,
+                child: TextButton(
+                  style: ButtonStyle(
+                      overlayColor:
+                          MaterialStateProperty.all(Colors.deepPurpleAccent),
+                      foregroundColor: MaterialStateProperty.resolveWith<Color>(
+                          (Set<MaterialState> states) {
+                        if (states.contains(MaterialState.focused)) {
+                          return Colors.cyanAccent;
+                        }
+                        return Colors.amberAccent;
+                      })),
                   child: Image(
                     image: AssetImage('assets/Group 33653.png'),
                     width: 50,

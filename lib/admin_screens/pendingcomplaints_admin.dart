@@ -10,7 +10,7 @@ import 'package:hostelite/admin_screens/exit-recordsAdmin.dart';
 import 'package:hostelite/admin_screens/home_screen_Admin.dart';
 
 class PendingComplaints extends StatefulWidget {
-  const PendingComplaints({Key key}) : super(key: key);
+  const PendingComplaints({Key? key}) : super(key: key);
 
   @override
   _PendingComplaintsState createState() => _PendingComplaintsState();
@@ -130,9 +130,9 @@ class _PendingComplaintsState extends State<PendingComplaints> {
                 return ListView.builder(
                     physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: snapshots.data.size,
+                    itemCount: snapshots.data!.size,
                     itemBuilder: (context, index) {
-                      DocumentSnapshot data = snapshots.data.docs[index];
+                      DocumentSnapshot data = snapshots.data!.docs[index];
                       return Container(
                         child: Padding(
                           padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
@@ -152,16 +152,17 @@ class _PendingComplaintsState extends State<PendingComplaints> {
                                                   isEqualTo: data["userUid"])
                                               .snapshots(),
                                           builder: (context, snapshot) {
-                                            String dataUrl =
-                                                snapshot.data.docs[0]["dpUrl"];
+                                            String? dataUrl =
+                                                snapshot.data!.docs[0]["dpUrl"];
                                             return CircleAvatar(
                                               radius: 25,
                                               backgroundColor:
                                                   Colors.orange[100],
-                                              backgroundImage: dataUrl != " "
-                                                  ? NetworkImage(dataUrl)
-                                                  : AssetImage(
-                                                      'assets/nodppic.jfif'),
+                                              backgroundImage: (dataUrl != " "
+                                                      ? NetworkImage(dataUrl!)
+                                                      : AssetImage(
+                                                          'assets/nodppic.jfif'))
+                                                  as ImageProvider<Object>?,
                                             );
                                           }),
                                       SizedBox(
@@ -239,7 +240,7 @@ class _PendingComplaintsState extends State<PendingComplaints> {
                                             "roomNumber": data["roomNumber"],
                                             "explanation": data["explanation"],
                                             "userUid": FirebaseAuth
-                                                .instance.currentUser.uid,
+                                                .instance.currentUser!.uid,
                                             "imageUrl": data["imageUrl"],
                                             "status": "Sorted",
                                             "name": data["name"],
@@ -248,8 +249,8 @@ class _PendingComplaintsState extends State<PendingComplaints> {
                                           await FirebaseFirestore.instance
                                               .runTransaction((Transaction
                                                   myTransaction) async {
-                                            await myTransaction.delete(snapshots
-                                                .data.docs[index].reference);
+                                            myTransaction.delete(snapshots
+                                                .data!.docs[index].reference);
                                           });
 
                                           await studentdb
@@ -306,7 +307,7 @@ class _PendingComplaintsState extends State<PendingComplaints> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           border: Border.all(
-            color: Colors.grey[300],
+            color: Colors.grey[300]!,
           ),
         ),
         height: 45,

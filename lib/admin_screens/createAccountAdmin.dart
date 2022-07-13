@@ -5,7 +5,7 @@ import 'package:hostelite/admin_screens/loginAdmin.dart';
 import 'package:hostelite/shared_files/decoration.dart';
 
 class CreateAccountAdmin extends StatefulWidget {
-  const CreateAccountAdmin({Key key}) : super(key: key);
+  const CreateAccountAdmin({Key? key}) : super(key: key);
 
   @override
   _CreateAccountAdminState createState() => _CreateAccountAdminState();
@@ -41,20 +41,23 @@ Dialog leadDialog = Dialog(
         Container(
           width: 150.0,
           height: 40.0,
-          child: RaisedButton(
-            child: Text(
-              'Done',
-              style: TextStyle(color: Colors.white, fontSize: 17.0),
-            ),
-            color: Colors.pinkAccent[100], // minWidth: 100.0,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)),
-            onPressed: () {
-              BuildContext context;
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => LoginAdmin()));
-            },
-          ),
+          child: Builder(builder: (context) {
+            return ElevatedButton(
+              child: Text(
+                'Done',
+                style: TextStyle(color: Colors.white, fontSize: 17.0),
+              ),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.pinkAccent[100], // minWidth: 100.0,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0)),
+              ),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginAdmin()));
+              },
+            );
+          }),
         ),
       ],
     ),
@@ -62,14 +65,14 @@ Dialog leadDialog = Dialog(
 );
 
 class _CreateAccountAdminState extends State<CreateAccountAdmin> {
-  UserCredential userCredential;
+  late UserCredential userCredential;
 
   final _formKey = GlobalKey<FormState>();
-  String username;
-  String email;
-  String mobileNumber;
-  String confirmPassword;
-  String password;
+  String? username;
+  String? email;
+  String? mobileNumber;
+  String? confirmPassword;
+  String? password;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
@@ -110,7 +113,7 @@ class _CreateAccountAdminState extends State<CreateAccountAdmin> {
                   width: 280,
                   child: TextFormField(
                       validator: (value) {
-                        if (value.isEmpty) {
+                        if (value!.isEmpty) {
                           return 'Please enter name';
                         }
                         return null;
@@ -225,19 +228,19 @@ class _CreateAccountAdminState extends State<CreateAccountAdmin> {
 
                         userCredential =
                             await _auth.createUserWithEmailAndPassword(
-                                email: email, password: password);
-                        User user = userCredential.user;
+                                email: email!, password: password!);
+                        User user = userCredential.user!;
                         user.updateDisplayName(username);
 
                         //Sending user data
                         FirebaseFirestore.instance
                             .collection("adminUsers")
-                            .doc(FirebaseAuth.instance.currentUser.uid)
+                            .doc(FirebaseAuth.instance.currentUser!.uid)
                             .set({
                           "username": username,
                           "mobileNumber": mobileNumber,
                           "emailAddress": email,
-                          "userUid": userCredential.user.uid
+                          "userUid": userCredential.user!.uid
                         }).catchError((err) {
                           showDialog(
                               context: context,
@@ -259,9 +262,9 @@ class _CreateAccountAdminState extends State<CreateAccountAdmin> {
 
                         FirebaseFirestore.instance
                             .collection("displayPics")
-                            .doc(FirebaseAuth.instance.currentUser.uid)
+                            .doc(FirebaseAuth.instance.currentUser!.uid)
                             .set({
-                          "userUid": userCredential.user.uid,
+                          "userUid": userCredential.user!.uid,
                           "dpUrl": " "
                         }).catchError((err) {
                           showDialog(
@@ -281,7 +284,6 @@ class _CreateAccountAdminState extends State<CreateAccountAdmin> {
                                 );
                               });
                         });
-                        ;
 
                         showDialog(
                             context: context,

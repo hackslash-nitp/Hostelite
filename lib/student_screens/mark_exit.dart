@@ -1,14 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
-import 'package:hostelite/admin_screens/home_screen_Admin.dart';
 import 'package:hostelite/student_screens/home_screen_Student.dart';
-import 'package:hostelite/models/user_model.dart';
-import 'package:hostelite/shared_files/decoration.dart';
 
 class MarkingExit extends StatefulWidget {
-  const MarkingExit({Key key}) : super(key: key);
+  const MarkingExit({Key? key}) : super(key: key);
 
   @override
   _MarkingExitState createState() => _MarkingExitState();
@@ -44,22 +40,23 @@ Dialog leadDialog = Dialog(
         Container(
           width: 150.0,
           height: 40.0,
-          child: MaterialButton(
-            child: Text(
-              'Done',
-              style: TextStyle(color: Colors.white, fontSize: 17.0),
-            ),
-            color: Colors.pinkAccent[100],
-            minWidth: 100.0,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)),
-            onPressed: () {
-              BuildContext context;
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return HomeScreenStudent();
-              }));
-            },
-          ),
+          child: Builder(builder: (context) {
+            return MaterialButton(
+              child: Text(
+                'Done',
+                style: TextStyle(color: Colors.white, fontSize: 17.0),
+              ),
+              color: Colors.pinkAccent[100],
+              minWidth: 100.0,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return HomeScreenStudent();
+                }));
+              },
+            );
+          }),
         ),
       ],
     ),
@@ -67,22 +64,22 @@ Dialog leadDialog = Dialog(
 );
 
 class _MarkingExitState extends State<MarkingExit> {
-  String roomNumber;
-  String rollNumber;
-  String purpose;
-  String hostelName;
+  String? roomNumber;
+  String? rollNumber;
+  String? purpose;
+  String? hostelName;
 
   var exitdb = FirebaseFirestore.instance
       .collection("studentUsers")
-      .doc(FirebaseAuth.instance.currentUser.uid)
+      .doc(FirebaseAuth.instance.currentUser!.uid)
       .collection("exit");
 
-  int exitdbsize;
-  int entrydbsize;
+  int? exitdbsize;
+  int? entrydbsize;
 
   var entrydb = FirebaseFirestore.instance
       .collection("studentUsers")
-      .doc(FirebaseAuth.instance.currentUser.uid)
+      .doc(FirebaseAuth.instance.currentUser!.uid)
       .collection("entry");
 
   @override
@@ -224,12 +221,11 @@ class _MarkingExitState extends State<MarkingExit> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0)),
                     onPressed: () async {
-                      if (roomNumber.isEmpty ||
-                          rollNumber.isEmpty ||
-                          hostelName.isEmpty ||
-                          purpose.isEmpty) {
-                        return SnackBar(
-                            content: Text("Please enter all fields"));
+                      if (roomNumber!.isEmpty ||
+                          rollNumber!.isEmpty ||
+                          hostelName!.isEmpty ||
+                          purpose!.isEmpty) {
+                        SnackBar(content: Text("Please enter all fields"));
                       }
                       exitdb.get().then(
                           (snapshots) => {exitdbsize = snapshots.docs.length});
@@ -243,9 +239,10 @@ class _MarkingExitState extends State<MarkingExit> {
                           "rollNumber": rollNumber,
                           "roomNumber": roomNumber,
                           "purpose": purpose,
-                          "userUid": FirebaseAuth.instance.currentUser.uid,
+                          "userUid": FirebaseAuth.instance.currentUser!.uid,
                           "exitTime": DateTime.now().toLocal(),
-                          "name": FirebaseAuth.instance.currentUser.displayName,
+                          "name":
+                              FirebaseAuth.instance.currentUser!.displayName,
                           "entryTime": null,
                           "token": token
                         });
@@ -254,9 +251,10 @@ class _MarkingExitState extends State<MarkingExit> {
                           "rollNumber": rollNumber,
                           "roomNumber": roomNumber,
                           "purpose": purpose,
-                          "userUid": FirebaseAuth.instance.currentUser.uid,
+                          "userUid": FirebaseAuth.instance.currentUser!.uid,
                           "exitTime": DateTime.now().toLocal(),
-                          "name": FirebaseAuth.instance.currentUser.displayName,
+                          "name":
+                              FirebaseAuth.instance.currentUser!.displayName,
                           "entryTime": null,
                           "token": token
                         });
@@ -264,7 +262,7 @@ class _MarkingExitState extends State<MarkingExit> {
                             context: context,
                             // ignore: non_constant_identifier_names
                             builder: (BuildContext) => leadDialog);
-                        return "";
+                        return null;
                       }
                     },
                   ),
@@ -275,6 +273,5 @@ class _MarkingExitState extends State<MarkingExit> {
         ),
       ),
     );
-    ;
   }
 }

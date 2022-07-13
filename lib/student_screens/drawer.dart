@@ -30,16 +30,16 @@ class _NavDrawerState extends State<NavDrawer> {
                   stream: FirebaseFirestore.instance
                       .collection('displayPics')
                       .where("userUid",
-                          isEqualTo: FirebaseAuth.instance.currentUser.uid)
+                          isEqualTo: FirebaseAuth.instance.currentUser!.uid)
                       .snapshots(),
                   builder: (context, snapshot) {
-                    String dataUrl = snapshot.data.docs[0]["dpUrl"];
+                    String? dataUrl = snapshot.data!.docs[0]["dpUrl"];
                     return CircleAvatar(
                       radius: 85,
                       backgroundColor: Colors.orange[100],
-                      backgroundImage: dataUrl != " "
-                          ? NetworkImage(dataUrl)
-                          : AssetImage('assets/nodppic.jfif'),
+                      backgroundImage: (dataUrl != " "
+                          ? NetworkImage(dataUrl!)
+                          : AssetImage('assets/nodppic.jfif')) as ImageProvider<Object>?,
                     );
                   }),
             ),
@@ -48,7 +48,7 @@ class _NavDrawerState extends State<NavDrawer> {
             ),
             ListTile(
               title: Text(
-                _auth.currentUser.displayName,
+                _auth.currentUser!.displayName!,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 18,

@@ -12,10 +12,10 @@ import 'package:hostelite/admin_screens/exit-recordsAdmin.dart';
 import 'package:hostelite/models/user_model.dart';
 import 'package:hostelite/admin_screens/pendingcomplaints_admin.dart';
 
-UserModel userModel;
+UserModel? userModel;
 
-Future<void> saveTokenToDatabase(String token) async {
-  String userId = FirebaseAuth.instance.currentUser.uid;
+Future<void> saveTokenToDatabase(String? token) async {
+  String userId = FirebaseAuth.instance.currentUser!.uid;
 
   await FirebaseFirestore.instance.collection("adminUsers").doc(userId).update({
     'tokens': FieldValue.arrayUnion([token]),
@@ -23,7 +23,7 @@ Future<void> saveTokenToDatabase(String token) async {
 }
 
 class HomeScreenAdmin extends StatefulWidget {
-  const HomeScreenAdmin({Key key}) : super(key: key);
+  const HomeScreenAdmin({Key? key}) : super(key: key);
 
   @override
   _HomeScreenAdminState createState() => _HomeScreenAdminState();
@@ -35,7 +35,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
   Future getCurrentUserDataFunction() async {
     await FirebaseFirestore.instance
         .collection("adminUsers")
-        .doc(FirebaseAuth.instance.currentUser.uid)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .get()
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
@@ -47,11 +47,11 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
   }
 
   var db = FirebaseFirestore.instance
-      .collection(FirebaseAuth.instance.currentUser.uid)
+      .collection(FirebaseAuth.instance.currentUser!.uid)
       .get();
 
   void startTokenWork() async {
-    String token = await FirebaseMessaging.instance.getToken();
+    String? token = await FirebaseMessaging.instance.getToken();
     await saveTokenToDatabase(token);
     FirebaseMessaging.instance.onTokenRefresh.listen(saveTokenToDatabase);
   }
@@ -83,7 +83,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                         minWidth: 30,
                         splashColor: Colors.pink,
                         onPressed: () {
-                          _scaffoldkey.currentState.openDrawer();
+                          _scaffoldkey.currentState!.openDrawer();
                         },
                         child: Image(
                           image: AssetImage(
@@ -301,7 +301,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
               border: Border.all(
-                color: Colors.grey[300],
+                color: Colors.grey[300]!,
               ),
             ),
             height: 45,
@@ -367,24 +367,24 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
           ),
         ),
       ),
-      onWillPop: () => showDialog<bool>(
-        context: context,
-        builder: (c) => AlertDialog(
-          title: Text('Warning'),
-          content: Text('Do you really want to exit'),
-          actions: [
-            TextButton(
-                child: Text('Yes'),
-                onPressed: () {
-                  Navigator.pop(c, true);
-                }),
-            TextButton(
-              child: Text('No'),
-              onPressed: () => Navigator.pop(c, false),
+      onWillPop: (() => showDialog<bool>(
+            context: context,
+            builder: (c) => AlertDialog(
+              title: Text('Warning'),
+              content: Text('Do you really want to exit'),
+              actions: [
+                TextButton(
+                    child: Text('Yes'),
+                    onPressed: () {
+                      Navigator.pop(c, true);
+                    }),
+                TextButton(
+                  child: Text('No'),
+                  onPressed: () => Navigator.pop(c, false),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ).then((value) => value!)),
     );
   }
 }

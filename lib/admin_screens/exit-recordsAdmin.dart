@@ -6,7 +6,7 @@ import 'package:hostelite/admin_screens/edit_profile_Admin.dart';
 import 'package:hostelite/admin_screens/home_screen_Admin.dart';
 
 class ExitListAdmin extends StatefulWidget {
-  const ExitListAdmin({Key key}) : super(key: key);
+  const ExitListAdmin({Key? key}) : super(key: key);
 
   @override
   _ExitListAdminState createState() => _ExitListAdminState();
@@ -107,7 +107,7 @@ class _ExitListAdminState extends State<ExitListAdmin> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           border: Border.all(
-            color: Colors.grey[300],
+            color: Colors.grey[300]!,
           ),
         ),
         height: 45,

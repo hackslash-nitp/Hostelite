@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class StudentUserModel{
-  final String username;
-  final String roomNumber;
-  final String rollNumber;
-  final String mobileNumber;
-  final String email;
-  final String userUid;
+  final String? username;
+  final String? roomNumber;
+  final String? rollNumber;
+  final String? mobileNumber;
+  final String? email;
+  final String? userUid;
   StudentUserModel({
     this.rollNumber,
     this.roomNumber,

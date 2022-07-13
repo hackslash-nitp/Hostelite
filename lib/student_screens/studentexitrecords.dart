@@ -6,19 +6,19 @@ import 'package:hostelite/student_screens/home_screen_Student.dart';
 import 'package:hostelite/student_screens/students_complaint_list.dart';
 
 class StudentExitRecordList extends StatefulWidget {
-  const StudentExitRecordList({Key key}) : super(key: key);
+  const StudentExitRecordList({Key? key}) : super(key: key);
 
   @override
   _StudentEntryRecordListState createState() => _StudentEntryRecordListState();
 }
 
 class _StudentEntryRecordListState extends State<StudentExitRecordList> {
-  List my_exits = [];
-  String userId = FirebaseAuth.instance.currentUser.uid;
+  List myExits = [];
+  String userId = FirebaseAuth.instance.currentUser!.uid;
   var db = FirebaseFirestore.instance;
   var entry = FirebaseFirestore.instance
       .collection('studentUsers')
-      .doc(FirebaseAuth.instance.currentUser.uid)
+      .doc(FirebaseAuth.instance.currentUser!.uid)
       .collection('exit')
       .orderBy("time", descending: true);
 
@@ -32,9 +32,9 @@ class _StudentEntryRecordListState extends State<StudentExitRecordList> {
         .get()
         .then((value) {
       setState(() {
-        my_exits = value.docs;
+        myExits = value.docs;
       });
-      my_exits.sort((b, a) => a["time"].compareTo(b["time"]));
+      myExits.sort((b, a) => a["time"].compareTo(b["time"]));
     });
   }
 
@@ -94,7 +94,7 @@ class _StudentEntryRecordListState extends State<StudentExitRecordList> {
             //     ),
             //   )),
             // ),
-            my_exits.length == 0
+            myExits.length == 0
                 ? Center(child: Text('No records yet'))
                 : SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
@@ -112,7 +112,7 @@ class _StudentEntryRecordListState extends State<StudentExitRecordList> {
                           DataColumn(label: Text('Hostel')),
                           DataColumn(label: Text('Room No.')),
                         ],
-                        rows: my_exits
+                        rows: myExits
                             .map((element) => DataRow(
                                   cells: <DataCell>[
                                     DataCell(Text(element["exitTime"]
@@ -155,7 +155,7 @@ class _StudentEntryRecordListState extends State<StudentExitRecordList> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           border: Border.all(
-            color: Colors.grey[300],
+            color: Colors.grey[300]!,
           ),
         ),
         height: 45,
