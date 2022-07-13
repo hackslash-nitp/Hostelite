@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hostelite/admin_screens/edit_profile_Admin.dart';
 import 'package:hostelite/admin_screens/exit-recordsAdmin.dart';
