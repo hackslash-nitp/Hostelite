@@ -210,16 +210,17 @@ class _StudentComplaintState extends State<StudentComplaint> {
                       await uploadedImg.whenComplete(() => null);
                       print("storage");
 
-                      String url = "fjjfjfjfjfj";
+                      String? url = "fjjfjfjfjfj";
 
                       await ref.getDownloadURL().then((value) {
                         url = value;
                       });
-                      if (roomNumber!.isEmpty ||
-                          issue!.isEmpty ||
-                          explanation!.isEmpty ||
-                          url.isEmpty) {
-                        SnackBar(content: Text("Please enter all fields"));
+                      if (roomNumber == "" ||
+                          issue == "" ||
+                          explanation == "" ||
+                          url == "") {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("Please enter all fields")));
                       }
                       print("abc o......");
                       FirebaseFirestore.instance

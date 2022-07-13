@@ -142,6 +142,15 @@ class _MarkingEntryState extends State<MarkingEntry> {
   var entryadmindb = FirebaseFirestore.instance.collection("Exits");
 
   void getCurrentLocation() async {
+    LocationPermission permission = await Geolocator.requestPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.deniedForever) {
+        setState(() {
+          locationMessage = 'Location Not Available!';
+        });
+      }
+    }
     position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
     setState(() {
@@ -328,11 +337,13 @@ class _MarkingEntryState extends State<MarkingEntry> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0)),
                     onPressed: () async {
-                      if (roomNumber!.isEmpty ||
-                          rollNumber!.isEmpty ||
-                          hostel!.isEmpty ||
-                          locationMessage.isEmpty) {
-                        SnackBar(content: Text("Please enter all fields"));
+                      if (roomNumber == null ||
+                          rollNumber == null ||
+                          hostel == null ||
+                          locationMessage == '') {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("Please enter all fields")));
+                        return;
                       }
 
                       if ((nowTime.hour >= 21)) {

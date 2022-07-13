@@ -13,7 +13,7 @@ class StudentExitRecordList extends StatefulWidget {
 }
 
 class _StudentEntryRecordListState extends State<StudentExitRecordList> {
-  List myExits = [];
+  List<dynamic> myExits = [];
   String userId = FirebaseAuth.instance.currentUser!.uid;
   var db = FirebaseFirestore.instance;
   var entry = FirebaseFirestore.instance

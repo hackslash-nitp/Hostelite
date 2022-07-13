@@ -10,7 +10,7 @@ class MarkingExit extends StatefulWidget {
   _MarkingExitState createState() => _MarkingExitState();
 }
 
-Dialog leadDialog = Dialog(
+Dialog leadExitDialog = Dialog(
   child: Container(
     height: 300,
     width: 360,
@@ -24,7 +24,7 @@ Dialog leadDialog = Dialog(
           ),
         ),
         Text(
-          'Entry Marked',
+          'Exit Marked',
           style: TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.bold,
@@ -221,11 +221,13 @@ class _MarkingExitState extends State<MarkingExit> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0)),
                     onPressed: () async {
-                      if (roomNumber!.isEmpty ||
-                          rollNumber!.isEmpty ||
-                          hostelName!.isEmpty ||
-                          purpose!.isEmpty) {
-                        SnackBar(content: Text("Please enter all fields"));
+                      if (roomNumber == null ||
+                          rollNumber == null ||
+                          hostelName == null ||
+                          purpose == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("Please enter all fields")));
+                        return;
                       }
                       exitdb.get().then(
                           (snapshots) => {exitdbsize = snapshots.docs.length});
@@ -261,7 +263,7 @@ class _MarkingExitState extends State<MarkingExit> {
                         showDialog(
                             context: context,
                             // ignore: non_constant_identifier_names
-                            builder: (BuildContext) => leadDialog);
+                            builder: (BuildContext) => leadExitDialog);
                         return null;
                       }
                     },
