@@ -125,7 +125,11 @@ class _StudentEntryRecordListState extends State<StudentExitRecordList> {
                                         .toString()
                                         .substring(11,
                                             19))), //Extracting from Map element the value
-                                    DataCell(Text(element["purpose"])),
+                                    DataCell(
+                                      element["purpose"] != null
+                                          ? Text(element["purpose"].toString())
+                                          : Text("     "),
+                                    ),
                                     DataCell(Text(element["token"].toString())),
                                     DataCell(element["entryTime"] != null
                                         ? Text(element["entryTime"]
@@ -140,8 +144,18 @@ class _StudentEntryRecordListState extends State<StudentExitRecordList> {
                                             .substring(11, 19))
                                         : Text("     ")),
 
-                                    DataCell(Text(element["hostelName"])),
-                                    DataCell(Text(element["roomNumber"])),
+                                    DataCell(
+                                      element["hostelName"] != null
+                                          ? Text(
+                                              element["hostelName"].toString())
+                                          : Text("     "),
+                                    ),
+                                    DataCell(
+                                      element["roomNumber"] != null
+                                          ? Text(
+                                              element["roomNumber"].toString())
+                                          : Text("     "),
+                                    ),
                                   ],
                                 ))
                             .toList(),
