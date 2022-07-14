@@ -215,6 +215,7 @@ class _StudentComplaintState extends State<StudentComplaint> {
                       await ref.getDownloadURL().then((value) {
                         url = value;
                       });
+
                       if (roomNumber == "" ||
                           issue == "" ||
                           explanation == "" ||

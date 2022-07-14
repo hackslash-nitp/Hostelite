@@ -221,6 +221,7 @@ class _MarkingExitState extends State<MarkingExit> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0)),
                     onPressed: () async {
+
                       if (roomNumber == null ||
                           rollNumber == null ||
                           hostelName == null ||
@@ -263,7 +264,9 @@ class _MarkingExitState extends State<MarkingExit> {
                         showDialog(
                             context: context,
                             // ignore: non_constant_identifier_names
+
                             builder: (BuildContext) => leadExitDialog);
+
                         return null;
                       }
                     },

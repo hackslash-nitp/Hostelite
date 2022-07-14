@@ -337,6 +337,7 @@ class _MarkingEntryState extends State<MarkingEntry> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0)),
                     onPressed: () async {
+
                       if (roomNumber == null ||
                           rollNumber == null ||
                           hostel == null ||
@@ -344,7 +345,6 @@ class _MarkingEntryState extends State<MarkingEntry> {
                         ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text("Please enter all fields")));
                         return;
-                      }
 
                       if ((nowTime.hour >= 21)) {
                         FirebaseFirestore.instance.collection('alerts').add({
