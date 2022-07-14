@@ -6,7 +6,6 @@ A hostel management app using flutter where the complains of students and their 
 [![GitHub stars](https://img.shields.io/github/stars/hackslash-nitp/Hostelite?style=for-the-badge)](https://github.com/hackslash-nitp/Hostelite/stargazers) 
 [![My stars](https://img.shields.io/github/stars/SrijanShovit?affiliations=OWNER%2CCOLLABORATOR&style=for-the-badge&label=My%20stars)](https://github.com/hackslash-nitp/Hostelite/stargazers) 
 [![GitHub forks](https://img.shields.io/github/forks/hackslash-nitp/Hostelite?style=for-the-badge&logo=git)](https://github.com/hackslash-nitp/Hostelite/network)
-[![Code size](https://img.shields.io/github/languages/code-size/hackslash-nitp/Hostelite?style=for-the-badge)](https://github.com/hackslash-nitp/Hostelite)
 [![Languages](https://img.shields.io/github/languages/count/hackslash-nitp/Hostelite?style=for-the-badge)](https://github.com/hackslash-nitp/Hostelite)
 [![Top](https://img.shields.io/github/languages/top/hackslash-nitp/Hostelite?style=for-the-badge&label=Top%20Languages)](https://github.com/hackslash-nitp/Hostelite)
 [![Issues](https://img.shields.io/github/issues/hackslash-nitp/Hostelite?style=for-the-badge&label=Issues)](https://github.com/hackslash-nitp/Hostelite)
