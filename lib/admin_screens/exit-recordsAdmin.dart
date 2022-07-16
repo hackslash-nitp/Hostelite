@@ -77,10 +77,26 @@ class _ExitListAdminState extends State<ExitListAdmin> {
                                 .toDate()
                                 .toString()
                                 .substring(11, 19))),
-                            DataCell(Text(element["name"])),
-                            DataCell(Text(element["rollNumber"])),
-                            DataCell(Text(element["purpose"])),
-                            DataCell(Text(element["token"].toString())),
+                            DataCell(
+                              element["name"] != null
+                                  ? Text(element["name"].toString())
+                                  : Text("     "),
+                            ),
+                            DataCell(
+                              element["rollNumber"] != null
+                                  ? Text(element["rollNumber"].toString())
+                                  : Text("     "),
+                            ),
+                            DataCell(
+                              element["purpose"] != null
+                                  ? Text(element["purpose"].toString())
+                                  : Text("     "),
+                            ),
+                            DataCell(
+                              element["token"] != null
+                                  ? Text(element["token"].toString())
+                                  : Text("     "),
+                            ),
                             DataCell(element["entryTime"] != null
                                 ? Text(element["entryTime"]
                                     .toDate()
@@ -93,8 +109,16 @@ class _ExitListAdminState extends State<ExitListAdmin> {
                                     .toString()
                                     .substring(11, 19))
                                 : Text("   ")),
-                            DataCell(Text(element["hostelName"])),
-                            DataCell(Text(element["roomNumber"])),
+                            DataCell(
+                              element["hostelName"] != null
+                                  ? Text(element["hostelName"].toString())
+                                  : Text("     "),
+                            ),
+                            DataCell(
+                              element["roomNumber"] != null
+                                  ? Text(element["roomNumber"].toString())
+                                  : Text("     "),
+                            ),
                           ],
                         ))
                     .toList(),

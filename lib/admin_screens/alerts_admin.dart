@@ -165,7 +165,10 @@ class _AlertsState extends State<Alerts> {
                                                               FontWeight.w500),
                                                     ),
                                                     Text(
-                                                      data['rollNumber'],
+                                                      (data['rollNumber'] !=
+                                                              null)
+                                                          ? data['rollNumber']
+                                                          : " ",
                                                       style: TextStyle(
                                                         fontSize: 16,
                                                       ),
@@ -181,7 +184,10 @@ class _AlertsState extends State<Alerts> {
                                                               FontWeight.w500),
                                                     ),
                                                     Text(
-                                                      data['roomNumber'],
+                                                      (data['roomNumber'] !=
+                                                              null)
+                                                          ? data['roomNumber']
+                                                          : " ",
                                                       style: TextStyle(
                                                         fontSize: 16,
                                                       ),
@@ -197,7 +203,9 @@ class _AlertsState extends State<Alerts> {
                                                               FontWeight.w500),
                                                     ),
                                                     Text(
-                                                      data['hostel'],
+                                                      (data['hostel'] != null)
+                                                          ? data['hostel']
+                                                          : " ",
                                                       style: TextStyle(
                                                         fontSize: 16,
                                                       ),

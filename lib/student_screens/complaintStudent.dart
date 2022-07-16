@@ -200,29 +200,35 @@ class _StudentComplaintState extends State<StudentComplaint> {
                 children: [
                   MaterialButton(
                     onPressed: () async {
-                      print("ffffff");
                       var imgPath =
                           DateTime.now().millisecondsSinceEpoch.toString() +
                               ".png";
                       ref = ref.child(imgPath);
-                      firebase_storage.UploadTask uploadedImg =
-                          ref.putFile(img!);
-                      await uploadedImg.whenComplete(() => null);
-                      print("storage");
+                      firebase_storage.UploadTask uploadedImg;
+                      String? url;
 
-                      String? url = "fjjfjfjfjfj";
+                      if (img != null) {
+                        uploadedImg = ref.putFile(img!);
+                        await uploadedImg.whenComplete(() => null);
+                        print("storage");
 
-                      await ref.getDownloadURL().then((value) {
-                        url = value;
-                      });
+                        await ref.getDownloadURL().then((value) {
+                          url = value;
+                        });
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("No image uploaded")),
+                        );
+                        return;
+                      }
+
                       if (roomNumber == "" ||
                           issue == "" ||
-                          explanation == "" ||
-                          url == "") {
+                          explanation == "") {
                         ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text("Please enter all fields")));
                       }
-                      print("abc o......");
+
                       FirebaseFirestore.instance
                           .collection("studentUsers")
                           .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -236,7 +242,7 @@ class _StudentComplaintState extends State<StudentComplaint> {
                         "status": "Pending",
                         "postedAt": DateTime.now().toLocal()
                       });
-                      print("abc o......");
+
                       FirebaseFirestore.instance
                           .collection('pendingComplaints')
                           .add({
@@ -249,7 +255,6 @@ class _StudentComplaintState extends State<StudentComplaint> {
                         "name": FirebaseAuth.instance.currentUser!.displayName,
                         "postedAt": DateTime.now().toLocal()
                       });
-                      print("abc o...... done");
 
                       showDialog(
                           context: context,

@@ -119,14 +119,21 @@ class _EditProfileStudentState extends State<EditProfileStudent> {
                                       FirebaseAuth.instance.currentUser!.uid)
                               .snapshots(),
                           builder: (context, snapshot) {
-                            String? dataUrl = snapshot.data!.docs[0]["dpUrl"];
+                            String? dataUrl;
+                            if (snapshot.data != null &&
+                                !snapshot.data!.docs.isEmpty &&
+                                !snapshot.hasError) {
+                              print(snapshot.data!.docs);
+                              dataUrl = snapshot.data!.docs[0]["dpUrl"];
+                            }
+
                             return !snapshot.hasData
                                 ? CircularProgressIndicator()
                                 : CircleAvatar(
                                     radius: 85,
                                     backgroundColor: Colors.orange[100],
-                                    backgroundImage: (dataUrl != " "
-                                            ? NetworkImage(dataUrl!)
+                                    backgroundImage: (dataUrl != null
+                                            ? NetworkImage(dataUrl)
                                             : AssetImage('assets/nodppic.jfif'))
                                         as ImageProvider<Object>?,
                                   );

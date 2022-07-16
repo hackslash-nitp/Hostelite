@@ -17,7 +17,12 @@ class _LoginAdminState extends State<LoginAdmin> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final db = FirebaseFirestore.instance.collection('adminUsers');
 
-  Future<void> resetPassword(String email) async {
+  Future<void> resetPassword(String? email) async {
+    if (email == null) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Please enter the email-id")));
+      return;
+    }
     await _auth.sendPasswordResetEmail(email: email);
   }
 
@@ -141,7 +146,7 @@ class _LoginAdminState extends State<LoginAdmin> {
                               fontWeight: FontWeight.bold),
                         ),
                         onPressed: () {
-                          resetPassword(_email!);
+                          resetPassword(_email);
                         },
                       )
                     ],
@@ -189,7 +194,7 @@ class _LoginAdminState extends State<LoginAdmin> {
                               builder: (BuildContext context) {
                                 return AlertDialog(
                                   title: Text("Error logging in"),
-                                  content: Text(e.toString()),
+                                  content: Text("Incorrect email or password!"),
                                   actions: [
                                     TextButton(
                                       child: Text("Ok"),

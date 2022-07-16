@@ -244,6 +244,16 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
                             );
                           });
                       return;
+                    } else if (email == null ||
+                        password == null ||
+                        mobileNumber == null ||
+                        roomNumber == null ||
+                        username == null ||
+                        rollNumber == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("Please fill all the fields!")),
+                      );
+                      return;
                     }
                     userCredential = await _auth.createUserWithEmailAndPassword(
                         email: email!, password: password!);
