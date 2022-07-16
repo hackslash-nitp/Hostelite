@@ -68,6 +68,7 @@ class _MarkingExitState extends State<MarkingExit> {
   String? rollNumber;
   String? purpose;
   String? hostelName;
+  bool isLoading = false;
 
   var exitdb = FirebaseFirestore.instance
       .collection("studentUsers")
@@ -211,20 +212,37 @@ class _MarkingExitState extends State<MarkingExit> {
                   width: 130,
                   height: 50,
                   child: MaterialButton(
-                    child: Text(
-                      'Mark Exit',
-                      style: TextStyle(color: Color(0xff33004A), fontSize: 15),
-                    ),
+                    child: isLoading
+                        ? SizedBox(
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 3.0,
+                            ),
+                            height: 15,
+                            width: 15,
+                          )
+                        : Text(
+                            'Mark Exit',
+                            style: TextStyle(
+                                color: Color(0xff33004A), fontSize: 15),
+                          ),
                     color: Color(0xffFE96FA),
                     minWidth: 100,
                     elevation: 10,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0)),
                     onPressed: () async {
+                      if (isLoading) return;
+                      setState(() {
+                        isLoading = true;
+                      });
                       if (roomNumber == null ||
                           rollNumber == null ||
                           hostelName == null ||
                           purpose == null) {
+                        setState(() {
+                          isLoading = false;
+                        });
                         ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text("Please enter all fields")));
                         return;
@@ -259,6 +277,10 @@ class _MarkingExitState extends State<MarkingExit> {
                               FirebaseAuth.instance.currentUser!.displayName,
                           "entryTime": null,
                           "token": token
+                        });
+
+                        setState(() {
+                          isLoading = false;
                         });
                         showDialog(
                             context: context,

@@ -18,6 +18,7 @@ class EditProfileStudent extends StatefulWidget {
 
 class _EditProfileStudentState extends State<EditProfileStudent> {
   late File _pickedImage;
+  bool isLoading = false;
 
   var db = FirebaseFirestore.instance
       .collection('studentUsers')
@@ -239,18 +240,31 @@ class _EditProfileStudentState extends State<EditProfileStudent> {
                       width: 130,
                       height: 50,
                       child: MaterialButton(
-                        child: Text(
-                          'Save',
-                          style: TextStyle(color: Colors.white, fontSize: 15),
-                        ),
+                        child: isLoading
+                            ? CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 3.0,
+                              )
+                            : Text(
+                                'Save',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 15),
+                              ),
                         color: Colors.purple,
                         minWidth: 100,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0)),
                         onPressed: () async {
+                          if (isLoading) return;
+                          setState(() {
+                            isLoading = true;
+                          });
                           if (username.text.isEmpty ||
                               email.text.isEmpty ||
                               mobileNumber.text.isEmpty) {
+                            setState(() {
+                              isLoading = false;
+                            });
                             showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -279,6 +293,9 @@ class _EditProfileStudentState extends State<EditProfileStudent> {
                           await firebaseUser.updateEmail(email.text);
                           print("2.-------------------");
 
+                          setState(() {
+                            isLoading = false;
+                          });
                           Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
                                   builder: (context) => HomeScreenStudent()));

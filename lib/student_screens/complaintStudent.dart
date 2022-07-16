@@ -73,6 +73,7 @@ Dialog leadDialog = Dialog(
 
 class _StudentComplaintState extends State<StudentComplaint> {
   var imageUrl = 'str';
+  bool isLoading = false;
 
   File? img;
   getImage() async {
@@ -200,6 +201,10 @@ class _StudentComplaintState extends State<StudentComplaint> {
                 children: [
                   MaterialButton(
                     onPressed: () async {
+                      if (isLoading) return;
+                      setState(() {
+                        isLoading = true;
+                      });
                       var imgPath =
                           DateTime.now().millisecondsSinceEpoch.toString() +
                               ".png";
@@ -219,12 +224,18 @@ class _StudentComplaintState extends State<StudentComplaint> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text("No image uploaded")),
                         );
+                        setState(() {
+                          isLoading = false;
+                        });
                         return;
                       }
 
                       if (roomNumber == "" ||
                           issue == "" ||
                           explanation == "") {
+                        setState(() {
+                          isLoading = false;
+                        });
                         ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text("Please enter all fields")));
                       }
@@ -256,16 +267,29 @@ class _StudentComplaintState extends State<StudentComplaint> {
                         "postedAt": DateTime.now().toLocal()
                       });
 
+                      setState(() {
+                        isLoading = false;
+                      });
                       showDialog(
                           context: context,
                           builder: (BuildContext context) => leadDialog);
                     },
                     color: Color(0xffFE96FA),
                     elevation: 10,
-                    child: Text(
-                      'Send',
-                      style: TextStyle(fontSize: 16, color: Color(0xff33004A)),
-                    ),
+                    child: isLoading
+                        ? SizedBox(
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 2.0,
+                            ),
+                            height: 20,
+                            width: 20,
+                          )
+                        : Text(
+                            'Send',
+                            style: TextStyle(
+                                fontSize: 16, color: Color(0xff33004A)),
+                          ),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                         side: BorderSide(color: Color(0xff1C48E7))),

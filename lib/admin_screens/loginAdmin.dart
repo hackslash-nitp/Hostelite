@@ -14,6 +14,7 @@ class LoginAdmin extends StatefulWidget {
 
 class _LoginAdminState extends State<LoginAdmin> {
   String? _email, _password;
+  bool isLoading = false;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final db = FirebaseFirestore.instance.collection('adminUsers');
 
@@ -158,15 +159,25 @@ class _LoginAdminState extends State<LoginAdmin> {
                     width: 130,
                     height: 50,
                     child: MaterialButton(
-                      child: Text(
-                        'Login',
-                        style: TextStyle(color: Colors.white, fontSize: 15),
-                      ),
+                      child: isLoading
+                          ? CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 3.0,
+                            )
+                          : Text(
+                              'Login',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 15),
+                            ),
                       color: Colors.purple,
                       minWidth: 100,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0)),
                       onPressed: () async {
+                        if (isLoading) return;
+                        setState(() {
+                          isLoading = true;
+                        });
                         try {
                           await _auth.signInWithEmailAndPassword(
                               email: _email!, password: _password!);
@@ -188,7 +199,9 @@ class _LoginAdminState extends State<LoginAdmin> {
                                   {print(value.data())}
                               });
                         } catch (e) {
-                          print("-----------------2");
+                          setState(() {
+                            isLoading = false;
+                          });
                           showDialog(
                               context: context,
                               builder: (BuildContext context) {

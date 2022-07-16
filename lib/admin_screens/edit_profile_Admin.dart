@@ -26,6 +26,8 @@ firebase_storage.Reference ref = storage.ref().child('dps');
 class _EditProfileAdminState extends State<EditProfileAdmin> {
   var imageUrl = 'str';
   late File _pickedImage;
+  bool isLoading = false;
+
   var picsdb = FirebaseFirestore.instance
       .collection('displayPics')
       .doc(FirebaseAuth.instance.currentUser!.uid);
@@ -217,18 +219,31 @@ class _EditProfileAdminState extends State<EditProfileAdmin> {
                   width: 130,
                   height: 50,
                   child: MaterialButton(
-                      child: Text(
-                        'Save',
-                        style: TextStyle(color: Colors.white, fontSize: 15),
-                      ),
+                      child: isLoading
+                          ? CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 3.0,
+                            )
+                          : Text(
+                              'Save',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 15),
+                            ),
                       color: Colors.purple,
                       minWidth: 100,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0)),
                       onPressed: () async {
+                        if (isLoading) return;
+                        setState(() {
+                          isLoading = true;
+                        });
                         if (username.text.isEmpty ||
                             email.text.isEmpty ||
                             mobileNumber.text.isEmpty) {
+                          setState(() {
+                            isLoading = false;
+                          });
                           showDialog(
                               context: context,
                               builder: (BuildContext context) {
@@ -249,13 +264,15 @@ class _EditProfileAdminState extends State<EditProfileAdmin> {
                         }
 
                         buildUpdateProfile();
-                        print("1.-------------------");
-                        //code to update email in firebase auth
 
+                        //code to update email in firebase auth
                         User firebaseUser = FirebaseAuth.instance.currentUser!;
                         firebaseUser.updateDisplayName(username.text);
                         await firebaseUser.updateEmail(email.text);
-                        print("2.-------------------");
+                        setState(() {
+                          isLoading = false;
+                        });
+
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
                             builder: (context) => HomeScreenAdmin()));
                       }),

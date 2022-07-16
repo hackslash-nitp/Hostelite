@@ -64,6 +64,7 @@ Dialog leadDialog = Dialog(
   ),
 );
 
+//Dialog to be displayed when the user is late (after 9 pm)
 Dialog leadDialogLate = Dialog(
   child: Container(
     height: 300,
@@ -78,14 +79,14 @@ Dialog leadDialogLate = Dialog(
           ),
         ),
         Text(
-          'You are not',
+          'You are late',
           style: TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.bold,
           ),
         ),
         Text(
-          'at hostel',
+          'for entry',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 30,
@@ -117,8 +118,12 @@ Dialog leadDialogLate = Dialog(
   ),
 );
 
+//another dialog to be implemented later when the user is not at hostel
+
 class _MarkingEntryState extends State<MarkingEntry> {
   var db = FirebaseFirestore.instance;
+  bool isLocationLoading = false;
+  bool isLoading = false;
   List alerts = [];
   int? entrytoken;
   String? roomNumber;
@@ -154,6 +159,7 @@ class _MarkingEntryState extends State<MarkingEntry> {
     position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
     setState(() {
+      isLocationLoading = false;
       locationMessage =
           'Longitude: ${position.longitude} \n Latitude: ${position.latitude}';
     });
@@ -309,17 +315,30 @@ class _MarkingEntryState extends State<MarkingEntry> {
                     ),
                   ),
                 ),
-                SizedBox(height: 80),
+                SizedBox(height: 50),
                 MaterialButton(
-                  child: Text(
-                    'Get location',
-                    style: TextStyle(color: Colors.black87, fontSize: 15),
-                  ),
+                  child: isLocationLoading
+                      ? SizedBox(
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 3.0,
+                          ),
+                          height: 10,
+                          width: 10,
+                        )
+                      : Text(
+                          'Get location',
+                          style: TextStyle(color: Colors.black87, fontSize: 15),
+                        ),
                   color: Color(0xffFE96FA),
                   minWidth: 100,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0)),
                   onPressed: () {
+                    if (isLocationLoading) return;
+                    setState(() {
+                      isLocationLoading = true;
+                    });
                     getCurrentLocation();
                   },
                 ),
@@ -328,19 +347,36 @@ class _MarkingEntryState extends State<MarkingEntry> {
                   width: 130,
                   height: 50,
                   child: MaterialButton(
-                    child: Text(
-                      'Mark Entry',
-                      style: TextStyle(color: Colors.black87, fontSize: 15),
-                    ),
+                    child: isLoading
+                        ? SizedBox(
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 3.0,
+                            ),
+                            height: 25,
+                            width: 25,
+                          )
+                        : Text(
+                            'Mark Entry',
+                            style:
+                                TextStyle(color: Colors.black87, fontSize: 15),
+                          ),
                     color: Color(0xffFE96FA),
                     minWidth: 100,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0)),
                     onPressed: () async {
+                      if (isLoading) return;
+                      setState(() {
+                        isLoading = true;
+                      });
                       if (roomNumber == null ||
                           rollNumber == null ||
                           hostel == null ||
                           locationMessage == '') {
+                        setState(() {
+                          isLoading = false;
+                        });
                         ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text("Please enter all fields")));
                         return;
@@ -355,6 +391,9 @@ class _MarkingEntryState extends State<MarkingEntry> {
                           "hostel": hostel,
                           "userUid": FirebaseAuth.instance.currentUser!.uid,
                           "time": DateTime.now().toLocal(),
+                        });
+                        setState(() {
+                          isLoading = false;
                         });
                         showDialog(
                             context: context,
@@ -417,6 +456,9 @@ class _MarkingEntryState extends State<MarkingEntry> {
                           "location": locationMessage,
                         });
 
+                        setState(() {
+                          isLoading = false;
+                        });
                         showDialog(
                             context: context,
                             builder: (BuildContext context) => leadDialog);
