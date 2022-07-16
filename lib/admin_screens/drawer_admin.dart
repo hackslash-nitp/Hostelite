@@ -35,12 +35,17 @@ class NavDrawerAdmin extends StatelessWidget {
                           isEqualTo: FirebaseAuth.instance.currentUser!.uid)
                       .snapshots(),
                   builder: (context, snapshot) {
-                    String? dataUrl = snapshot.data!.docs[0]["dpUrl"];
+                    String? dataUrl;
+                    if (snapshot.data != null) {
+                      dataUrl = snapshot.data!.docs[0]["dpUrl"];
+                    } else {
+                      dataUrl = null;
+                    }
                     return CircleAvatar(
                       radius: 85,
                       backgroundColor: Colors.orange[100],
-                      backgroundImage: (dataUrl != " "
-                              ? NetworkImage(dataUrl!)
+                      backgroundImage: (dataUrl != null
+                              ? NetworkImage(dataUrl)
                               : AssetImage('assets/nodppic.jfif'))
                           as ImageProvider<Object>?,
                     );

@@ -17,8 +17,14 @@ class _LoginStudentState extends State<LoginStudent> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final db = FirebaseFirestore.instance.collection('studentUsers');
 
-  Future<void> resetPassword(String email) async {
-    await _auth.sendPasswordResetEmail(email: email);
+  Future<void> resetPassword(String? email) async {
+    if (_email == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Enter email-id")),
+      );
+      return;
+    }
+    await _auth.sendPasswordResetEmail(email: email!);
   }
 
   @override
@@ -144,7 +150,7 @@ class _LoginStudentState extends State<LoginStudent> {
                               fontWeight: FontWeight.bold),
                         ),
                         onPressed: () {
-                          resetPassword(_email!);
+                          resetPassword(_email);
                         },
                       )
                     ],
@@ -182,7 +188,7 @@ class _LoginStudentState extends State<LoginStudent> {
                               builder: (BuildContext context) {
                                 return AlertDialog(
                                   title: Text("Error logging in"),
-                                  content: Text(e.toString()),
+                                  content: Text("Incorrect email or password!"),
                                   actions: [
                                     TextButton(
                                       child: Text("Ok"),

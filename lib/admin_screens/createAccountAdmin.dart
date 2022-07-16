@@ -224,8 +224,16 @@ class _CreateAccountAdminState extends State<CreateAccountAdmin> {
                                 );
                               });
                           return;
+                        } else if (password == null ||
+                            mobileNumber == null ||
+                            username == null ||
+                            email == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                                content: Text("Please fill all the fields!")),
+                          );
+                          return;
                         }
-
                         userCredential =
                             await _auth.createUserWithEmailAndPassword(
                                 email: email!, password: password!);

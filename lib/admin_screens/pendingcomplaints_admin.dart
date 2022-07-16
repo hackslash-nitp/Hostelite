@@ -152,14 +152,22 @@ class _PendingComplaintsState extends State<PendingComplaints> {
                                                   isEqualTo: data["userUid"])
                                               .snapshots(),
                                           builder: (context, snapshot) {
-                                            String? dataUrl =
-                                                snapshot.data!.docs[0]["dpUrl"];
+                                            String? dataUrl;
+                                            if (snapshot.data == null) {
+                                              dataUrl = null;
+                                            } else if (snapshot
+                                                    .data!.docs.length !=
+                                                0) {
+                                              print(snapshot.data!.docs);
+                                              dataUrl = snapshot.data!.docs[0]
+                                                  ["dpUrl"];
+                                            }
                                             return CircleAvatar(
                                               radius: 25,
                                               backgroundColor:
                                                   Colors.orange[100],
-                                              backgroundImage: (dataUrl != " "
-                                                      ? NetworkImage(dataUrl!)
+                                              backgroundImage: (dataUrl != null
+                                                      ? NetworkImage(dataUrl)
                                                       : AssetImage(
                                                           'assets/nodppic.jfif'))
                                                   as ImageProvider<Object>?,

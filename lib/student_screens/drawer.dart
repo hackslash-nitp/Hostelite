@@ -33,13 +33,21 @@ class _NavDrawerState extends State<NavDrawer> {
                           isEqualTo: FirebaseAuth.instance.currentUser!.uid)
                       .snapshots(),
                   builder: (context, snapshot) {
-                    String? dataUrl = snapshot.data!.docs[0]["dpUrl"];
+                    String? dataUrl;
+                    if (snapshot.data != null &&
+                        !snapshot.data!.docs.isEmpty &&
+                        !snapshot.hasError) {
+                      dataUrl = snapshot.data!.docs[0]["dpUrl"];
+                    } else {
+                      dataUrl = null;
+                    }
                     return CircleAvatar(
                       radius: 85,
                       backgroundColor: Colors.orange[100],
-                      backgroundImage: (dataUrl != " "
-                          ? NetworkImage(dataUrl!)
-                          : AssetImage('assets/nodppic.jfif')) as ImageProvider<Object>?,
+                      backgroundImage: (dataUrl != null
+                              ? NetworkImage(dataUrl)
+                              : AssetImage('assets/nodppic.jfif'))
+                          as ImageProvider<Object>?,
                     );
                   }),
             ),
