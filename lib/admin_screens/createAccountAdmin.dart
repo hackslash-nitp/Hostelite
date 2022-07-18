@@ -66,6 +66,7 @@ Dialog leadDialog = Dialog(
 
 class _CreateAccountAdminState extends State<CreateAccountAdmin> {
   late UserCredential userCredential;
+  bool isLoading = false;
 
   final _formKey = GlobalKey<FormState>();
   String? username;
@@ -197,16 +198,29 @@ class _CreateAccountAdminState extends State<CreateAccountAdmin> {
                     height: 40,
                     width: 150,
                     child: MaterialButton(
-                      child: Text(
-                        'Register',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.white, fontSize: 17),
-                      ),
+                      child: isLoading
+                          ? CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 3.0,
+                            )
+                          : Text(
+                              'Register',
+                              textAlign: TextAlign.center,
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 17),
+                            ),
                       color: Colors.purple,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0)),
                       onPressed: () async {
+                        if (isLoading) return;
+                        setState(() {
+                          isLoading = true;
+                        });
                         if (password != confirmPassword) {
+                          setState(() {
+                            isLoading = false;
+                          });
                           showDialog(
                               context: context,
                               builder: (BuildContext context) {
@@ -228,6 +242,9 @@ class _CreateAccountAdminState extends State<CreateAccountAdmin> {
                             mobileNumber == null ||
                             username == null ||
                             email == null) {
+                          setState(() {
+                            isLoading = false;
+                          });
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                                 content: Text("Please fill all the fields!")),
@@ -293,6 +310,9 @@ class _CreateAccountAdminState extends State<CreateAccountAdmin> {
                               });
                         });
 
+                        setState(() {
+                          isLoading = false;
+                        });
                         showDialog(
                             context: context,
                             // ignore: non_constant_identifier_names

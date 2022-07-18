@@ -65,6 +65,7 @@ Dialog leadDialog = Dialog(
 
 class _CreateAccountStudentState extends State<CreateAccountStudent> {
   late UserCredential userCredential;
+  bool isLoading = false;
 
   String? username;
   String? roomNumber;
@@ -217,16 +218,28 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
                 height: 40,
                 width: 150,
                 child: MaterialButton(
-                  child: Text(
-                    'Register',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white, fontSize: 17),
-                  ),
+                  child: isLoading
+                      ? CircularProgressIndicator(
+                          color: Colors.white,
+                          strokeWidth: 3.0,
+                        )
+                      : Text(
+                          'Register',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.white, fontSize: 17),
+                        ),
                   color: Colors.purple,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0)),
                   onPressed: () async {
+                    if (isLoading) return;
+                    setState(() {
+                      isLoading = true;
+                    });
                     if (password != confirmPassword) {
+                      setState(() {
+                        isLoading = false;
+                      });
                       showDialog(
                           context: context,
                           builder: (BuildContext context) {
@@ -250,6 +263,9 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
                         roomNumber == null ||
                         username == null ||
                         rollNumber == null) {
+                      setState(() {
+                        isLoading = false;
+                      });
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text("Please fill all the fields!")),
                       );
@@ -319,6 +335,9 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
                           });
                     });
 
+                    setState(() {
+                      isLoading = false;
+                    });
                     showDialog(
                         context: context,
                         // ignore: non_constant_identifier_names

@@ -16,6 +16,7 @@ class _LoginStudentState extends State<LoginStudent> {
   String? _email, _password;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final db = FirebaseFirestore.instance.collection('studentUsers');
+  bool isLoading = false;
 
   Future<void> resetPassword(String? email) async {
     if (_email == null) {
@@ -25,6 +26,41 @@ class _LoginStudentState extends State<LoginStudent> {
       return;
     }
     await _auth.sendPasswordResetEmail(email: email!);
+  }
+
+  Future<void> loginUser() async {
+    try {
+      await _auth.signInWithEmailAndPassword(
+          email: _email!, password: _password!);
+
+      var uid = _auth.currentUser!.uid;
+      // db.doc(uid).get().then((value) => {
+      //       if (value.exists)
+      //         {
+      Navigator.of(context).pushNamed('/homescreenstudent');
+      //     }
+      // });
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Error logging in"),
+              content: Text("Incorrect email or password!"),
+              actions: [
+                TextButton(
+                  child: Text("Ok"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            );
+          });
+    }
   }
 
   @override
@@ -162,44 +198,26 @@ class _LoginStudentState extends State<LoginStudent> {
                     width: 130,
                     height: 50,
                     child: MaterialButton(
-                      child: Text(
-                        'Login',
-                        style: TextStyle(color: Colors.white, fontSize: 15),
-                      ),
+                      child: isLoading
+                          ? CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 2.0,
+                            )
+                          : Text(
+                              'Login',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 15),
+                            ),
                       color: Colors.purple,
                       minWidth: 100,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0)),
                       onPressed: () async {
-                        try {
-                          await _auth.signInWithEmailAndPassword(
-                              email: _email!, password: _password!);
-
-                          var uid = _auth.currentUser!.uid;
-                          // db.doc(uid).get().then((value) => {
-                          //       if (value.exists)
-                          //         {
-                          Navigator.of(context).pushNamed('/homescreenstudent');
-                          //     }
-                          // });
-                        } catch (e) {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text("Error logging in"),
-                                  content: Text("Incorrect email or password!"),
-                                  actions: [
-                                    TextButton(
-                                      child: Text("Ok"),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    )
-                                  ],
-                                );
-                              });
-                        }
+                        if (isLoading) return;
+                        setState(() {
+                          isLoading = true;
+                        });
+                        await loginUser();
                       },
                     ),
                   ),
