@@ -170,8 +170,9 @@ class _MarkingEntryState extends State<MarkingEntry> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Mark Entry'),
-        backgroundColor: Color(0xffFE96FA),
-        elevation: 0,
+        backgroundColor: Color(0xFFFE96FA),
+        foregroundColor: Color(0xFF4E4E4E),
+        elevation: 5,
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(20, 30, 20, 0),

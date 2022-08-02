@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -9,7 +9,6 @@ import 'package:hostelite/admin_screens/alerts_admin.dart';
 import 'package:hostelite/admin_screens/exit-recordsAdmin.dart';
 import 'package:hostelite/admin_screens/home_screen_Admin.dart';
 import 'package:image_picker/image_picker.dart';
-// import 'package:hostelite/models/user_model.dart';
 
 class EditProfileAdmin extends StatefulWidget {
   const EditProfileAdmin({Key? key}) : super(key: key);
@@ -63,291 +62,301 @@ class _EditProfileAdminState extends State<EditProfileAdmin> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(30, 50, 15, 15),
-              child: Column(children: [
-                Row(children: [
-                  IconButton(
-                    icon: Icon(Icons.arrow_back),
-                    onPressed: () => Navigator.of(context).pop(),
-                  ),
+    return ScreenUtilInit(
+      designSize: const Size(414, 896),
+      builder: (context, child) => Scaffold(
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Container(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 36.w, vertical: 40.h),
+                child: Column(children: [
+                  Row(children: [
+                    IconButton(
+                      icon: Icon(Icons.arrow_back),
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
+                    Text('Edit Profile',
+                        style: TextStyle(
+                            fontSize: 28.sp,
+                            color: Color(0xff747475),
+                            fontWeight: FontWeight.w700)),
+                  ]),
                   SizedBox(
-                    width: 50,
+                    height: 54.h,
                   ),
-                  Text('Edit Profile',
-                      style: TextStyle(fontSize: 24, color: Color(0xff747475))),
-                ]),
-                SizedBox(
-                  height: 35,
-                ),
-                GestureDetector(
-                  onTap: () async {
-                    firebase_storage.UploadTask uploadedImg = ref
-                        .child(
-                            DateTime.now().microsecondsSinceEpoch.toString() +
-                                '.png')
-                        .putFile(img);
-                    await uploadedImg.whenComplete(() => null);
+                  GestureDetector(
+                    onTap: () async {
+                      firebase_storage.UploadTask uploadedImg = ref
+                          .child(
+                              DateTime.now().microsecondsSinceEpoch.toString() +
+                                  '.png')
+                          .putFile(img);
+                      await uploadedImg.whenComplete(() => null);
 
-                    String url = "";
+                      String url = "";
 
-                    await ref.getDownloadURL().then((value) {
-                      url = value;
-                    });
-                    db
-                        .collection('dps')
-                        .doc(_auth.currentUser!.uid)
-                        .set({"dpUrl": url});
-                  },
-                  child: Container(
-                    child: GestureDetector(
-                      onTap: () {
-                        ImagePicker()
-                            .pickImage(source: ImageSource.gallery)
-                            .then((value) async {
-                          _pickedImage = File(value!.path);
-                          Reference reference = FirebaseStorage.instance
-                              .ref()
-                              .child('images')
-                              .child('dps')
-                              .child(DateTime.now()
-                                      .microsecondsSinceEpoch
-                                      .toString() +
-                                  '.jpg');
-                          UploadTask task = reference.putFile(_pickedImage);
-                          task.whenComplete(() {
-                            reference.getDownloadURL().then((url) {
-                              setState(() {
-                                imgUrl = url;
-                              });
-                              print(url);
+                      await ref.getDownloadURL().then((value) {
+                        url = value;
+                      });
+                      db
+                          .collection('dps')
+                          .doc(_auth.currentUser!.uid)
+                          .set({"dpUrl": url});
+                    },
+                    child: Container(
+                      child: GestureDetector(
+                        onTap: () {
+                          ImagePicker()
+                              .pickImage(source: ImageSource.gallery)
+                              .then((value) async {
+                            _pickedImage = File(value!.path);
+                            Reference reference = FirebaseStorage.instance
+                                .ref()
+                                .child('images')
+                                .child('dps')
+                                .child(DateTime.now()
+                                        .microsecondsSinceEpoch
+                                        .toString() +
+                                    '.jpg');
+                            UploadTask task = reference.putFile(_pickedImage);
+                            task.whenComplete(() {
+                              reference.getDownloadURL().then((url) {
+                                setState(() {
+                                  imgUrl = url;
+                                });
+                                print(url);
 
-                              picsdb.set({
-                                'dpUrl': url,
-                                'userUid':
-                                    FirebaseAuth.instance.currentUser!.uid
+                                picsdb.set({
+                                  'dpUrl': url,
+                                  'userUid':
+                                      FirebaseAuth.instance.currentUser!.uid
+                                });
                               });
                             });
                           });
-                        });
-                      },
-                      child: StreamBuilder<QuerySnapshot>(
-                          stream: FirebaseFirestore.instance
-                              .collection('displayPics')
-                              .where("userUid",
-                                  isEqualTo:
-                                      FirebaseAuth.instance.currentUser!.uid)
-                              .snapshots(),
-                          builder: (context, snapshot) {
-                            String? dataUrl;
-                            if (snapshot.data != null) {
-                              dataUrl = snapshot.data!.docs[0]["dpUrl"];
-                            } else {
-                              dataUrl = null;
-                            }
-                            return !snapshot.hasData
-                                ? CircularProgressIndicator()
-                                : CircleAvatar(
-                                    radius: 85,
-                                    backgroundColor: Colors.orange[100],
-                                    backgroundImage: (dataUrl != null
-                                            ? NetworkImage(dataUrl)
-                                            : AssetImage('assets/nodppic.jfif'))
-                                        as ImageProvider<Object>?,
-                                  );
-                          }),
+                        },
+                        child: StreamBuilder<QuerySnapshot>(
+                            stream: FirebaseFirestore.instance
+                                .collection('displayPics')
+                                .where("userUid",
+                                    isEqualTo:
+                                        FirebaseAuth.instance.currentUser!.uid)
+                                .snapshots(),
+                            builder: (context, snapshot) {
+                              String? dataUrl;
+                              if (snapshot.data != null) {
+                                dataUrl = snapshot.data!.docs[0]["dpUrl"];
+                              } else {
+                                dataUrl = null;
+                              }
+                              return !snapshot.hasData
+                                  ? CircularProgressIndicator()
+                                  : CircleAvatar(
+                                      radius: 85.r,
+                                      backgroundColor: Colors.grey,
+                                      backgroundImage: (dataUrl != null
+                                              ? NetworkImage(dataUrl)
+                                              : AssetImage(
+                                                  'assets/nodppic.jfif'))
+                                          as ImageProvider<Object>?,
+                                    );
+                            }),
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 35,
-                ),
-                TextFormField(
-                  controller: username,
-                  decoration: InputDecoration(
-                    hintText: _auth.currentUser!.displayName,
-                    labelText: 'Name',
-                    fillColor: Colors.white,
-                    filled: true,
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                        borderSide: BorderSide(color: Colors.grey, width: 1.0)),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.cyan, width: 1.0)),
+                  SizedBox(
+                    height: 64.h,
                   ),
-                ),
-                SizedBox(
-                  height: 28,
-                ),
-                TextFormField(
-                  controller: email,
-                  decoration: InputDecoration(
-                    hintText: _auth.currentUser!.email,
-                    labelText: 'Email',
-                    fillColor: Colors.white,
-                    filled: true,
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                        borderSide: BorderSide(color: Colors.grey, width: 1.0)),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.cyan, width: 1.0)),
+                  TextFormField(
+                    controller: username,
+                    decoration: InputDecoration(
+                      hintText: _auth.currentUser!.displayName,
+                      labelText: 'Name',
+                      fillColor: Colors.white,
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.r),
+                          borderSide:
+                              BorderSide(color: Colors.grey, width: 1.w)),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.r),
+                          borderSide:
+                              BorderSide(color: Colors.cyan, width: 1.w)),
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 28,
-                ),
-                TextFormField(
-                  controller: mobileNumber,
-                  decoration: InputDecoration(
-                    hintText: _auth.currentUser!.phoneNumber,
-                    labelText: 'Mobile number',
-                    fillColor: Colors.white,
-                    filled: true,
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                        borderSide: BorderSide(color: Colors.grey, width: 1.0)),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.cyan, width: 1.0)),
+                  SizedBox(
+                    height: 28.h,
                   ),
-                ),
-                SizedBox(height: 50),
-                Container(
-                  width: 130,
-                  height: 50,
-                  child: MaterialButton(
-                      child: isLoading
-                          ? CircularProgressIndicator(
-                              color: Colors.white,
-                              strokeWidth: 3.0,
-                            )
-                          : Text(
-                              'Save',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 15),
-                            ),
-                      color: Colors.purple,
-                      minWidth: 100,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0)),
-                      onPressed: () async {
-                        if (isLoading) return;
-                        setState(() {
-                          isLoading = true;
-                        });
-                        if (username.text.isEmpty ||
-                            email.text.isEmpty ||
-                            mobileNumber.text.isEmpty) {
+                  TextFormField(
+                    controller: email,
+                    decoration: InputDecoration(
+                      hintText: _auth.currentUser!.email,
+                      labelText: 'Email',
+                      fillColor: Colors.white,
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.r),
+                          borderSide:
+                              BorderSide(color: Colors.grey, width: 1.w)),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.r),
+                          borderSide:
+                              BorderSide(color: Colors.cyan, width: 1.w)),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 28.h,
+                  ),
+                  TextFormField(
+                    controller: mobileNumber,
+                    decoration: InputDecoration(
+                      hintText: _auth.currentUser!.phoneNumber,
+                      labelText: 'Mobile number',
+                      fillColor: Colors.white,
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.r),
+                          borderSide:
+                              BorderSide(color: Colors.grey, width: 1.w)),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.r),
+                          borderSide:
+                              BorderSide(color: Colors.cyan, width: 1.w)),
+                    ),
+                  ),
+                  SizedBox(height: 50.h),
+                  Container(
+                    width: 146.w,
+                    height: 53.h,
+                    child: MaterialButton(
+                        child: isLoading
+                            ? CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 3.w,
+                              )
+                            : Text(
+                                'Save',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 19.sp,
+                                    fontWeight: FontWeight.w700),
+                              ),
+                        color: Color(0xFFCA48D6),
+                        minWidth: 100.w,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.r)),
+                        onPressed: () async {
+                          if (isLoading) return;
+                          setState(() {
+                            isLoading = true;
+                          });
+                          if (username.text.isEmpty ||
+                              email.text.isEmpty ||
+                              mobileNumber.text.isEmpty) {
+                            setState(() {
+                              isLoading = false;
+                            });
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text("Error updating profile"),
+                                    content: Text("Please fill all fields"),
+                                    actions: [
+                                      TextButton(
+                                        child: Text("Ok"),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      )
+                                    ],
+                                  );
+                                });
+                            return;
+                          }
+
+                          buildUpdateProfile();
+
+                          //code to update email in firebase auth
+                          User firebaseUser =
+                              FirebaseAuth.instance.currentUser!;
+                          firebaseUser.updateDisplayName(username.text);
+                          await firebaseUser.updateEmail(email.text);
                           setState(() {
                             isLoading = false;
                           });
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text("Error updating profile"),
-                                  content: Text("Please fill all fields"),
-                                  actions: [
-                                    TextButton(
-                                      child: Text("Ok"),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    )
-                                  ],
-                                );
-                              });
-                          return;
-                        }
 
-                        buildUpdateProfile();
-
-                        //code to update email in firebase auth
-                        User firebaseUser = FirebaseAuth.instance.currentUser!;
-                        firebaseUser.updateDisplayName(username.text);
-                        await firebaseUser.updateEmail(email.text);
-                        setState(() {
-                          isLoading = false;
-                        });
-
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => HomeScreenAdmin()));
-                      }),
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (context) => HomeScreenAdmin()));
+                        }),
+                  ),
+                ]),
+              ),
+            ),
+          ),
+        ),
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(35.r),
+            border: Border.all(
+              color: Colors.grey[300]!,
+            ),
+          ),
+          height: 84.h,
+          width: 414.w,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              MaterialButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) {
+                      return HomeScreenAdmin();
+                    }),
+                  );
+                },
+                child: Icon(
+                  Icons.home_filled,
                 ),
-              ]),
-            ),
+              ),
+              MaterialButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) {
+                      return ExitListAdmin();
+                    }),
+                  );
+                },
+                child: Icon(
+                  Icons.graphic_eq,
+                ),
+              ),
+              MaterialButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) {
+                      return Alerts();
+                    }),
+                  );
+                },
+                child: Icon(
+                  Icons.add_alert,
+                ),
+              ),
+              MaterialButton(
+                onPressed: () {},
+                child: Icon(
+                  Icons.person,
+                  color: Color(0xffF989E7),
+                ),
+              ),
+            ],
           ),
-        ),
-      ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          border: Border.all(
-            color: Colors.grey[300]!,
-          ),
-        ),
-        height: 45,
-        width: 380,
-        child: Row(
-          children: <Widget>[
-            Spacer(),
-            MaterialButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) {
-                    return HomeScreenAdmin();
-                  }),
-                );
-              },
-              child: Icon(
-                Icons.home_filled,
-              ),
-            ),
-            Spacer(),
-            //SizedBox(width: 10),
-            MaterialButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) {
-                    return ExitListAdmin();
-                  }),
-                );
-              },
-              child: Icon(
-                Icons.graphic_eq,
-              ),
-            ),
-            Spacer(),
-            //SizedBox(width: 10),
-            MaterialButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) {
-                    return Alerts();
-                  }),
-                );
-              },
-              child: Icon(
-                Icons.add_alert,
-              ),
-            ),
-            Spacer(),
-            //SizedBox(width: 10),
-            MaterialButton(
-              onPressed: () {},
-              child: Icon(
-                Icons.person,
-                color: Color(0xffF989E7),
-              ),
-            ),
-            Spacer(),
-          ],
         ),
       ),
     );

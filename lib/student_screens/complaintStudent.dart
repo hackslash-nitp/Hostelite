@@ -97,7 +97,8 @@ class _StudentComplaintState extends State<StudentComplaint> {
       appBar: AppBar(
         title: Text('Your Complaints'),
         backgroundColor: Color(0xffFE96FA),
-        elevation: 0,
+        foregroundColor: Color(0xFF4E4E4E),
+        elevation: 5,
       ),
       body: SingleChildScrollView(
         child: Padding(

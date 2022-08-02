@@ -1,16 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-
 import 'package:flutter/material.dart';
-
 import 'package:hostelite/admin_screens/drawer_admin.dart';
 import 'package:hostelite/admin_screens/edit_profile_Admin.dart';
-
 import 'package:hostelite/admin_screens/alerts_admin.dart';
 import 'package:hostelite/admin_screens/exit-recordsAdmin.dart';
 import 'package:hostelite/models/user_model.dart';
 import 'package:hostelite/admin_screens/pendingcomplaints_admin.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 UserModel? userModel;
 
@@ -65,326 +63,281 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
   @override
   Widget build(BuildContext context) {
     // getCurrentUserDataFunction();
-    return WillPopScope(
-      child: SafeArea(
-        child: Scaffold(
-          key: _scaffoldkey,
-          drawer: NavDrawerAdmin(),
-          body: Padding(
-            padding: const EdgeInsets.fromLTRB(4, 25, 4, 0),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      MaterialButton(
-                        height: 35,
-                        minWidth: 30,
-                        splashColor: Colors.pink,
-                        onPressed: () {
-                          _scaffoldkey.currentState!.openDrawer();
-                        },
-                        child: Image(
-                          image: AssetImage(
-                              'assets/home_Screen_Student/Group 33636.png'),
-                          width: 30,
-                          height: 30,
-                        ),
-                      ),
-                      SizedBox(width: 30),
-                      Column(
-                        children: [
-                          Center(
-                              child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Image(
-                                image: AssetImage('assets/H_of_Hostelite.jpg'),
-                                width: 50,
-                                height: 50,
-                              ),
-                              Image(
-                                image: AssetImage('assets/ostellite.png'),
-                                width: 100,
-                                height: 50,
-                              ),
-                            ],
-                          )),
-                          Center(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Image(
-                                  image: AssetImage('assets/Rectangle 368.png'),
-                                  width: 50,
-                                  height: 10,
-                                ),
-                                SizedBox(width: 5),
-                                Image(
-                                  image: AssetImage(
-                                      'assets/Your Hostel Companion.png'),
-                                  width: 100,
-                                  height: 10,
-                                ),
-                              ],
-                            ),
+    return ScreenUtilInit(
+      designSize: const Size(414, 896),
+      builder: (context, child) => WillPopScope(
+        child: SafeArea(
+          child: Scaffold(
+            key: _scaffoldkey,
+            drawer: NavDrawerAdmin(),
+            body: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 20.h),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        MaterialButton(
+                          height: 45.h,
+                          minWidth: 30.w,
+                          splashColor: Colors.pink,
+                          onPressed: () {
+                            _scaffoldkey.currentState!.openDrawer();
+                          },
+                          child: Image(
+                            image: AssetImage(
+                                'assets/home_Screen_Student/Group 33636.png'),
+                            height: 45.h,
+                            width: 45.w,
                           ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  Container(
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                        ),
+                        SizedBox(width: 30),
+                        Image(
+                          image: AssetImage("assets/Hostellite.png"),
+                          width: 170.w,
+                          height: 60.h,
+                        )
+                      ],
+                    ),
+                    SizedBox(height: 25.h),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.w),
                       child: Text(
                         'Hello, ',
                         textAlign: TextAlign.left,
                         style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                          fontSize: 30.sp,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                     ),
-                  ),
-                  Container(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.w),
                       child: Text(
                         "Let's manage your Hostel Things",
                         textAlign: TextAlign.left,
                         style: TextStyle(
-                          fontSize: 10,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFF858585),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(height: 20),
-                  Container(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
+                    SizedBox(height: 47.h),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.w),
                       child: Text(
                         'Quick Access',
                         textAlign: TextAlign.left,
                         style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                          fontSize: 25.sp,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(height: 20),
-                  Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0)),
-                    width: MediaQuery.of(context).size.width,
-                    height: 180,
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
-                      child: MaterialButton(
-                        color: Color(0xff51E71D),
-                        focusElevation: 0,
-                        autofocus: true,
-                        minWidth: 100,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0)),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) {
-                              return PendingComplaints();
-                            }),
-                          );
-                        },
-                        child: Row(
-                          children: <Widget>[
-                            Image(
-                              image: AssetImage(
-                                  'assets/home_Screen_Student/2720490 1.png'),
-                            ),
-                            SizedBox(
-                              width: 30,
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'View',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                  ),
-                                ),
-                                Text(
-                                  'Complaints',
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0)),
-                    width: MediaQuery.of(context).size.width,
-                    height: 180,
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
-                      child: MaterialButton(
-                        color: Color(0xffFFBCF4),
-                        focusElevation: 0,
-                        autofocus: true,
-                        minWidth: 100,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0)),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) {
-                              return ExitListAdmin();
-                            }),
-                          );
-                        },
-                        child: Row(
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.all(10),
-                              child: Column(
+                    SizedBox(height: 47.h),
+                    Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.r)),
+                      width: MediaQuery.of(context).size.width,
+                      height: 180.h,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 15.w),
+                        child: MaterialButton(
+                          color: Color(0xff51E71D),
+                          focusElevation: 0,
+                          autofocus: true,
+                          minWidth: 100.w,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.r)),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) {
+                                return PendingComplaints();
+                              }),
+                            );
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Image(
+                                image: AssetImage(
+                                    'assets/home_Screen_Student/2720490 1.png'),
+                              ),
+                              Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
+                                    'View',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 24.sp,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Complaints',
+                                    style: TextStyle(
+                                      fontSize: 24.sp,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 68.h),
+                    Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.r)),
+                      width: MediaQuery.of(context).size.width,
+                      height: 180.h,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 15.w),
+                        child: MaterialButton(
+                          color: Color(0xffFFBCF4),
+                          focusElevation: 0,
+                          autofocus: true,
+                          minWidth: 100.w,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.r)),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) {
+                                return ExitListAdmin();
+                              }),
+                            );
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
                                     'Entry/Exit',
                                     style: TextStyle(
-                                      color: Color(0xff743C7D),
-                                      fontSize: 15,
-                                    ),
+                                        color: Color(0xff743C7D),
+                                        fontSize: 24.sp,
+                                        fontWeight: FontWeight.w700),
                                   ),
                                   Text(
                                     'Reports',
                                     style: TextStyle(
                                       color: Color(0xff743C7D),
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
+                                      fontSize: 24.sp,
+                                      fontWeight: FontWeight.w700,
                                     ),
                                   ),
                                 ],
                               ),
-                            ),
-                            Spacer(),
-                            Image(
-                              image: AssetImage(
-                                'assets/home_Screen_Student/sign-in-4 1.png',
+                              Image(
+                                image: AssetImage(
+                                  'assets/home_Screen_Student/sign-in-4 1.png',
+                                ),
+                                height: 119.h,
+                                width: 170.w,
                               ),
-                            ),
-                            Spacer(),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            bottomNavigationBar: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(35.r),
+                border: Border.all(
+                  color: Colors.grey[300]!,
+                ),
+              ),
+              height: 84.h,
+              width: 414.w,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  MaterialButton(
+                    onPressed: () {},
+                    child: Icon(
+                      Icons.home_filled,
+                      color: Color(0xffF989E7),
+                    ),
+                  ),
+                  MaterialButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) {
+                          return ExitListAdmin();
+                        }),
+                      );
+                    },
+                    child: Icon(
+                      Icons.graphic_eq,
+                    ),
+                  ),
+                  MaterialButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) {
+                          return Alerts();
+                        }),
+                      );
+                    },
+                    child: Icon(
+                      Icons.add_alert,
+                    ),
+                  ),
+                  MaterialButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) {
+                          return EditProfileAdmin();
+                        }),
+                      );
+                    },
+                    child: Icon(
+                      Icons.person,
                     ),
                   ),
                 ],
               ),
             ),
           ),
-          bottomNavigationBar: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              border: Border.all(
-                color: Colors.grey[300]!,
-              ),
-            ),
-            height: 45,
-            width: 380,
-            child: Row(
-              children: <Widget>[
-                Spacer(),
-                MaterialButton(
-                  onPressed: () {},
-                  child: Icon(
-                    Icons.home_filled,
-                    color: Color(0xffF989E7),
-                  ),
-                ),
-                Spacer(),
-                //SizedBox(width: 10),
-                MaterialButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) {
-                        return ExitListAdmin();
-                      }),
-                    );
-                  },
-                  child: Icon(
-                    Icons.graphic_eq,
-                  ),
-                ),
-                Spacer(),
-                //SizedBox(width: 10),
-                MaterialButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) {
-                        return Alerts();
-                      }),
-                    );
-                  },
-                  child: Icon(
-                    Icons.add_alert,
-                  ),
-                ),
-                Spacer(),
-                //SizedBox(width: 10),
-                MaterialButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) {
-                        return EditProfileAdmin();
-                      }),
-                    );
-                  },
-                  child: Icon(
-                    Icons.person,
-                  ),
-                ),
-                Spacer(),
-              ],
-            ),
-          ),
         ),
+        onWillPop: (() => showDialog<bool>(
+              context: context,
+              builder: (c) => AlertDialog(
+                title: Text('Warning'),
+                content: Text('Do you really want to exit?'),
+                actions: [
+                  TextButton(
+                      child: Text('Yes'),
+                      onPressed: () {
+                        Navigator.pop(c, true);
+                      }),
+                  TextButton(
+                    child: Text('No'),
+                    onPressed: () => Navigator.pop(c, false),
+                  ),
+                ],
+              ),
+            ).then((value) => value!)),
       ),
-      onWillPop: (() => showDialog<bool>(
-            context: context,
-            builder: (c) => AlertDialog(
-              title: Text('Warning'),
-              content: Text('Do you really want to exit'),
-              actions: [
-                TextButton(
-                    child: Text('Yes'),
-                    onPressed: () {
-                      Navigator.pop(c, true);
-                    }),
-                TextButton(
-                  child: Text('No'),
-                  onPressed: () => Navigator.pop(c, false),
-                ),
-              ],
-            ),
-          ).then((value) => value!)),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SplashContent extends StatelessWidget {
   final String headTitle, text, imgUrl;
@@ -17,25 +18,26 @@ class SplashContent extends StatelessWidget {
         children: <Widget>[
           Image(
             image: AssetImage(imgUrl),
-            width: 300,
-            height: 250,
+            width: 238.w,
+            height: 232.h,
             fit: BoxFit.fill,
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 48.h),
           Text(
             headTitle,
             style: TextStyle(
-              fontSize: 32.0,
+              fontSize: 40.sp,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 33.h),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30.0),
+            padding: EdgeInsets.symmetric(horizontal: 30.w),
             child: Text(
               text,
               style: TextStyle(
-                fontSize: 18.0,
+                fontSize: 18.sp,
+                fontWeight: FontWeight.w400,
               ),
               textAlign: TextAlign.center,
             ),
