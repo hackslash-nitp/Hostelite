@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hostelite/student_screens/loginStudent.dart';
 import 'splash_content.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BoardingPage extends StatefulWidget {
   const BoardingPage({Key? key}) : super(key: key);
@@ -39,15 +40,15 @@ class _BoardingPageState extends State<BoardingPage> {
       super.dispose();
     }
 
-    return Scaffold(
-      body: SafeArea(
-        child: Container(
-          color: Colors.white,
+    return ScreenUtilInit(
+      designSize: const Size(414, 896),
+      builder: (BuildContext context, Widget? child) => Scaffold(
+        body: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               SizedBox(
-                height: 20,
+                height: 20.h,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -58,14 +59,17 @@ class _BoardingPageState extends State<BoardingPage> {
                       },
                       child: Text(
                         "Skip",
-                        style: TextStyle(color: Colors.grey, fontSize: 15.0),
+                        style: TextStyle(
+                            color: Color(0xFF645B5B),
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.w400),
                         softWrap: true,
                       )),
                 ],
               ),
-              SizedBox(height: 50),
+              SizedBox(height: 78.h),
               Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: PageView.builder(
                     controller: controller,
                     onPageChanged: (value) {
@@ -90,7 +94,7 @@ class _BoardingPageState extends State<BoardingPage> {
               Expanded(
                 flex: 2,
                 child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 20.0),
+                  padding: EdgeInsets.symmetric(vertical: 20.h),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
@@ -106,10 +110,10 @@ class _BoardingPageState extends State<BoardingPage> {
                             ? TextButton(
                                 style: TextButton.styleFrom(
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(100),
+                                    borderRadius: BorderRadius.circular(15.r),
                                   ),
                                   primary: Colors.white,
-                                  backgroundColor: Colors.purple,
+                                  backgroundColor: Color(0XFF9C32A6),
                                 ),
                                 onPressed: () async {
                                   Navigator.of(context)
@@ -118,11 +122,14 @@ class _BoardingPageState extends State<BoardingPage> {
                                   ));
                                 },
                                 child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 10.h, horizontal: 34.w),
                                   child: Text(
                                     "Get Started",
                                     style: TextStyle(
-                                        color: Colors.white, fontSize: 20),
+                                        color: Colors.white,
+                                        fontSize: 20.sp,
+                                        fontWeight: FontWeight.w400),
                                   ),
                                 ),
                               )
@@ -136,9 +143,9 @@ class _BoardingPageState extends State<BoardingPage> {
                                 },
                                 child: Icon(
                                   Icons.arrow_forward,
-                                  size: 45.0,
+                                  size: 45.r,
                                 ),
-                                backgroundColor: Colors.purple,
+                                backgroundColor: Color(0XFF9C32A6),
                               ),
                       ),
                       Spacer(),

@@ -98,8 +98,9 @@ class _MarkingExitState extends State<MarkingExit> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        elevation: 10,
+        elevation: 5,
         backgroundColor: Color(0xffFE96FA),
+        foregroundColor: Color(0xFF4E4E4E),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
